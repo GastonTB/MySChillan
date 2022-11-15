@@ -35,5 +35,5 @@ Route::get('/logout', [loginController::class, 'logout'])->name('salir');
 Route::get('/backoffice', [adminController::class, 'index'])->middleware('isadmin', 'auth')->name('backoffice');
 Route::get('/producto-nuevo', [productoController::class, 'create'])->middleware('isadmin', 'auth')->name('crearproducto');
 Route::post('/producto-nuevo', [productoController::class, 'store'])->middleware('isadmin', 'auth')->name('crearproducto2');
-
+Route::get('producto/{id}', [productoController::class, 'show'])->name('detalles');
 

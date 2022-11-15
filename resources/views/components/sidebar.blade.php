@@ -7,7 +7,7 @@
             <div class="grid h-screen grid-rows-10 gap-4">
                 <div class="flex row-span-1">
                     <div class="m-auto">
-                        <img class="object-scale-down h-16" src="img/logos/logo.png" alt="">
+                        <img class="object-scale-down h-16" src="{{asset('img/logos/logo.png')}}" alt="">
                     </div>
                 </div>
                 <div class="row-span-1 flex justify-center md:text-lg">
