@@ -7,7 +7,7 @@
                     @csrf
                     <div class="grid h-full grid-rows-5 gap-2"> 
                         <div class="flex justify-center py-3">
-                            <img class="object-scale-down h-16" src="img/logos/logo.png" alt="">
+                            <img class="object-scale-down h-16" src="{{asset('img/logos/logo.png')}}" alt="">
                         </div>
                         <div class="">
                             <div class="mx-3">

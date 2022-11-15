@@ -3,7 +3,7 @@
         <div class="columns-2 mb-5">
             <div class="flex justify-start">
                 <div class="content-center">
-                    <img class="object-scale-down h-16 md:h-20" src="img/logos/logo.png" alt="">
+                    <img class="object-scale-down h-16 md:h-20" src="{{asset('img/logos/logo.png')}}" alt="">
                 </div>
             </div>
             <div id="boton-menu" class="flex justify-end content-center pr-3 pt-7 md:pt-9 hover:text-green-500 md:text-xl">
@@ -80,7 +80,7 @@
         <div class="py-2">
             <div class="grid grid-cols-4 items-center">
                 <div class="flex justify-end">
-                    <img class="object-scale-down h-14" src="img/logos/logo.png" alt="">
+                    <img class="object-scale-down h-14" src="{{asset('img/logos/logo.png')}}" alt="">
                 </div>
                 <div class="grid col-span-2 justify-evenly font-black text-green-500">
                     <div class="flex @auth

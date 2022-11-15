@@ -14,7 +14,7 @@
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
        
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="{{asset('css/style.css')}}">
         @vite('resources/css/app.css')
         @vite('resources/js/app.js')
     </head>
@@ -48,7 +48,7 @@
         <footer>
             <div class="py-5 bg-gray-100">
                 <div class="flex justify-center md:justify-start pb-2">
-                    <img class="object-scale-down h-12 md:h-16" src="img/logos/logo.png" alt="">
+                    <img class="object-scale-down h-12 md:h-16" src="{{asset('img/logos/logo.png')}}" alt="">
                 </div>
                 <div class="flex justify-evenly">
                     <div class="flex justify-center md:justify-start md:ml-5">
@@ -108,7 +108,7 @@
         src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
         crossorigin="anonymous"></script>
-        <script src="js/main.js"></script>
+        <script src="{{asset('js/main.js')}}"></script>
         @yield('js')
 
         <script type="text/javascript">

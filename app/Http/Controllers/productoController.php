@@ -53,26 +53,34 @@ class productoController extends Controller
      */
     public function store(Request $request)
     {   
-        
-        $planta = 1;
-        if($request->categorias != null)
+        $planta = 0;
+        if($request->has('categorias'))
         {
-            foreach($request->categorias as $categoria)
-            {
-                if($categoria != null)
-                {
-                    $array_categorias[] = $categoria;
-                }
-            }
-            for($i = 0; $i < count($array_categorias); $i++){
-                if($array_categorias[$i] == 0 || $array_categorias[$i] == 1 || $array_categorias[$i] == 2 || $array_categorias[$i] == 3 || $array_categorias[$i] == 4)
-                {
-                    $planta = 1;
-                }else{
-                    $planta = 0;
-                }
+            if($request->categorias[0] == 1 || $request->categorias[0] == 2 || $request->categorias[0] == 3 || $request->categorias[0] == 4 || $request->categorias[0] == 5){
+                $planta = 1;
+            }else{
+                $planta = 0;
             }
         }
+                
+        // if($request->categorias != null)
+        // {
+        //     foreach($request->categorias as $categoria)
+        //     {
+        //         if($categoria != null)
+        //         {
+        //             $array_categorias[] = $categoria;
+        //         }
+        //     }
+        //     for($i = 0; $i < count($array_categorias); $i++){
+        //         if($array_categorias[$i] == 0 || $array_categorias[$i] == 1 || $array_categorias[$i] == 2 || $array_categorias[$i] == 3 || $array_categorias[$i] == 4)
+        //         {
+        //             $planta = 1;
+        //         }else{
+        //             $planta = 0;
+        //         }
+        //     }
+        // }
 
         //validar
         //si es planta
@@ -137,12 +145,9 @@ class productoController extends Controller
         $producto->precio = $request->precio;
         $producto->cantidad = $request->cantidad;
         $producto->descripcion = $descripcion;
+        $producto->categoria_id = $request->categorias[0];
         $producto->save();
 
-        if($request->has('categorias'))
-        {
-            $producto->categorias()->attach($request->categorias);
-        }
 
         $contador = 0;
         for($i = 0; $i < 4 ; $i++)
@@ -153,7 +158,7 @@ class productoController extends Controller
                 $nombre = $producto->id.'-'.$contador.'.'.$extension;
                 $nombre_array[] = $nombre;
                 $ruta = storage_path().'\app\public\imagenes/'.$nombre;
-                Image::make($request->file('imagen'.$i))->resize(null,300)->save($ruta);
+                Image::make($request->file('imagen'.$i))->resize(300,400)->save($ruta);
             }
         }
 
@@ -172,8 +177,14 @@ class productoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        return 'hola';
+    {   
+        $producto = Producto::findOrFail($id);
+        $producto->categoria();
+        $regiones = new Region;
+        $regiones = Region::all();
+        $comunas = new Comuna;
+        $comunas = Comuna::all();
+        return view('productos.show', compact('regiones', 'comunas', 'producto'));
     }
 
     /**

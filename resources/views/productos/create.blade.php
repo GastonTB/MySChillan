@@ -1,24 +1,28 @@
 @extends('layaouts.master')
 
 @section('content')
+<div class="flex justify-center">
+    <p class="text-3xl font-semibold my-3">
+        Crear Nuevo Producto
+    </p>
+</div>
 <form action="{{route('crearproducto2')}}" method="POST" enctype="multipart/form-data">
     @csrf
-    <div class="grid grid-cols-5 gap-4 pb-10">
-        {{-- <div class="bg-gradient-to-r from-green-400">adsda</div> --}}
-
-        <div class="col-start-2 col-span-3 mt-10">
-            <div class="grid grid-cols-5">
-                <div class="col-span-2">
-                    <div class="grid grid-cols-5 gap-4">                        
-                        <div class="col-start-2 col-span-3 galeria">
+    <div class="grid xl:grid-cols-5 md:grid-cols-1 gap-4 pb-10 ">
+        <div class="xl:col-start-2 xl:col-span-3 mt-10 ">
+            <div class="grid xl:grid-cols-5 md:grid-cols-2 ">
+                {{-- izquierda --}}
+                <div class="xl:col-span-2 order-2">
+                    <div class="grid xl:grid-cols-5 gap-4">                        
+                        <div class="xl:col-start-2 xl:col-span-3 galeria">
                             <div class="flex justify-center items-center">
-                                <img id="preview-imagen-0" class="object-cover" src="" alt="">
+                                <img id="preview-imagen-0" class="lg:object-cover md:object-scale-down py-15 px-5" src="" alt="">
                             </div>
                         </div>      
                     </div>
                     <div class="flex justify-center items-center mt-10">
                         <div class="flex space-x-2">
-                            <div id ="imagen-boton-0" class="btn-primary boton">
+                            <div id ="imagen-boton-0" class="btn-tienda md:btn-primary boton">
                                 SUBIR IMAGEN 1
                             </div>
                             <div id ="borrar-boton-0" class="btn-red">
@@ -26,16 +30,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-5 gap-4">                        
-                        <div class="col-start-2 col-span-3 galeria">
+                    <div class="grid xl:grid-cols-5 gap-4">                        
+                        <div class="xl:col-start-2 xl:col-span-3 galeria">
                             <div class="flex justify-center items-center">
-                                <img id="preview-imagen-1" class="object-cover mb-5 mt-10" src="" alt="">
+                                <img id="preview-imagen-1" class="lg:object-cover md:object-scale-down py-15 px-5 mb-5 mt-10" src="" alt="">
                             </div>
                         </div>      
                     </div>
                     <div class="flex justify-center items-center">
                         <div class="flex space-x-2">
-                            <div id ="imagen-boton-1" class="btn-primary boton">
+                            <div id ="imagen-boton-1" class="btn-tienda md:btn-primary boton">
                                 SUBIR IMAGEN 2
                             </div>
                             <div id ="borrar-boton-1" class="btn-red">
@@ -43,16 +47,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-5 gap-4">                        
-                        <div class="col-start-2 col-span-3 galeria">
+                    <div class="grid xl:grid-cols-5 gap-4">                        
+                        <div class="xl:col-start-2 xl:col-span-3 galeria">
                             <div class="flex justify-center items-center">
-                                <img id="preview-imagen-2" class="object-cover  mb-5 mt-10" src="" alt="">
+                                <img id="preview-imagen-2" class="lg:object-cover md:object-scale-down py-15 px-5  mb-5 mt-10" src="" alt="">
                             </div>
                         </div>      
                     </div>
                     <div class="flex justify-center items-center">
                         <div class="flex space-x-2">
-                            <div id ="imagen-boton-2" class="btn-primary boton">
+                            <div id ="imagen-boton-2" class="btn-tienda md:btn-primary boton">
                                 SUBIR IMAGEN 3
                             </div>
                             <div id ="borrar-boton-2" class="btn-red">
@@ -60,16 +64,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-5 gap-4">                        
+                    <div class="grid xl:grid-cols-5 gap-4">                        
                         <div class="col-start-2 col-span-3 galeria">
                             <div class="flex justify-center items-center">
-                                <img id="preview-imagen-3" class="object-cover mb-5 mt-10" src="" alt="">
+                                <img id="preview-imagen-3" class="lg:object-cover md:object-scale-down py-15 px-5 mb-5 mt-10" src="" alt="">
                             </div>
                         </div>      
                     </div>
                     <div class="flex justify-center items-center">
                         <div class="flex space-x-2">
-                            <div id ="imagen-boton-3" class="btn-primary boton">
+                            <div id ="imagen-boton-3" class="btn-tienda md:btn-primary boton">
                                 SUBIR IMAGEN 4
                             </div>
                             <div id ="borrar-boton-3" class="btn-red">
@@ -84,58 +88,59 @@
                         <input name="imagen3" id="imagen-3" type="file" accept="image/*">
                     </div>
                     <div class="errores flex justify-center mt-5">
-                        <span id="alerta-1" hidden class=" text-red-500"><small>Por favor suba una imagen con una proporción de 4:3 o 1:1 </small></span>
+                        <span id="alerta-1" hidden class=" text-red-500"><small>Por favor suba una imagen con una proporción de 4:3 </small></span>
                         <span id="alerta-1" class=" text-red-500"><small>{{session()->get('message')}} </small></span>
                     </div>
 
                     
                     
                 </div>
-                <div class="col-span-3">
+                {{-- derecha --}}
+                <div class="xl:col-span-3 order-1">
                     <div class="pl-10 mt-5">
-                        <label class="mb-2 font-medium text-gray-900">Nombre del Producto</label>
+                        <label class="md:text-lg mb-2 font-medium text-gray-900">Nombre del Producto</label>
                         <input value="{{old('nombre')}}" name="nombre" type="text" class=" border text-black rounded-sm block w-3/4 p-2.5 border-gray-300 placeholder-gray-400" placeholder="Nombre del Producto" >
-                        <span class="text-sm" style="color:red"><small>@error('nombre'){{$message}}@enderror</small></span>
+                        <span class="lg:text-sm md:text-md" style="color:red"><small>@error('nombre'){{$message}}@enderror</small></span>
                     </div>
                     <div class="flex">
                         <div class="pl-10 mt-5">
-                            <labelclass="mb-2 font-medium text-gray-900">Precio del Producto</label>
+                            <label class="md:text-lg mb-2 font-medium text-gray-900">Precio del Producto</label>
                             <input value="{{old('precio')}}" id="precio" name="precio" type="number" class=" border text-black rounded-sm block w-3/4 p-2.5 border-gray-300 placeholder-gray-400" placeholder="$Precio">
-                            <span class="text-sm" style="color:red"><small>@error('precio'){{$message}}@enderror</small></span>
+                            <span class="lg:text-sm md:text-md" style="color:red"><small>@error('precio'){{$message}}@enderror</small></span>
                         </div>
                         <div class="pl-10 mt-5">
-                            <labelclass="mb-2 font-medium text-gray-900">Stock</label>
+                            <label class="md:text-lg mb-2 font-medium text-gray-900">Stock</label>
                             <input value="{{old('cantidad')}}" id="cantidad" name="cantidad" type="number" class=" border text-black rounded-sm block w-3/4 p-2.5 border-gray-300 placeholder-gray-400" placeholder="Cantidad">
-                            <span class="text-sm" style="color:red"><small>@error('cantidad'){{$message}}@enderror</small></span>
+                            <span class="lg:text-sm md:text-md" style="color:red"><small>@error('cantidad'){{$message}}@enderror</small></span>
                         </div>
                     </div>
                     <div class="pl-10 mt-5">
                         @foreach ($categorias as $categoria)
                             <div>
                                 <input id="{{$categoria->id}}" name="categorias[]" value="{{$categoria->id}} " @if(is_array(old('categorias')) && in_array($categoria->id, old('categorias'))) checked @endif class="categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-green-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
-                                <label for="">{{$categoria->nombre_categoria}}</label>
+                                <label class="md:text-lg" for="">{{$categoria->nombre_categoria}}</label>
                             </div>
                         @endforeach
-                        <span class="text-sm" style="color:red"><small>@error('categorias'){{$message}}@enderror</small></span>
+                        <span class="text-sm md:text-md" style="color:red"><small>@error('categorias'){{$message}}@enderror</small></span>
                     </div>
     
                     <div class="pl-10 mt-5">
-                        <ul class="pestañas flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
-                            <li id="descripcion" class="mr-2 inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg active">
+                        <ul class="pestañas flex flex-wrap text-sm  font-medium text-center text-gray-500 border-b border-gray-200">
+                            <li id="descripcion" class="lg:mr-2 inline-block p-4 sm:p-2 text-blue-600 bg-gray-100 rounded-t-lg active">
                                 <a href="#" aria-current="page">Descripción</a>
                             </li>
-                            <li id="temporada" class="mr-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-100">
+                            <li id="temporada" class="lg:mr-2 inline-block p-4 sm:p-2 rounded-t-lg hover:text-gray-600 hover:bg-gray-100">
                                 <a href="#">Temporada</a>
                             </li>
-                            <li id="caracteristicas" class="mr-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-100">
+                            <li id="caracteristicas" class="lg:mr-2 inline-block p-4 sm:p-2 rounded-t-lg hover:text-gray-600 hover:bg-gray-100">
                                 <a href="#" >Caracteristicas</a>
                             </li>
-                            <li id="cuidados" class="mr-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-100">
+                            <li id="cuidados" class="lg:mr-2 inline-block p-4 sm:p-2 rounded-t-lg hover:text-gray-600 hover:bg-gray-100">
                                 <a href="#" >Cuidados</a>
                             </li>
                         </ul>
                         <div class="text mb-10">
-                            <textarea id="descripcion-text" class="border-2 texto" name="descripcion_text" id="" cols="70" rows="7">{{old('descripcion_text')}}</textarea>
+                            <textarea id="descripcion-text" class="border-2 texto" name="descripcion_text" id="" cols="35" rows="7">{{old('descripcion_text')}}</textarea>
                             <div id="temporada-text" class="texto hidden">
                                 <div>
                                     <input name="temporada_text[]" value="1" @if(is_array(old('temporada_text')) && in_array(1, old('temporada_text'))) checked @endif class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-green-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
@@ -154,9 +159,9 @@
                                     <label for="">Verano</label>
                                 </div>
                             </div>
-                            <textarea id="caracteristicas-text" class="border-2 texto hidden" name="caracteristicas_text" id="" cols="70" rows="7">{{old('caracteristicas_text')}}</textarea>
+                            <textarea id="caracteristicas-text" class="border-2 texto hidden" name="caracteristicas_text" id="" cols="7" rows="7">{{old('caracteristicas_text')}}</textarea>
                             
-                            <textarea id="cuidados-text" class="border-2 texto hidden" name="cuidados_text" id="" cols="70" rows="7">{{old('cuidados_text')}}</textarea>
+                            <textarea id="cuidados-text" class="border-2 texto hidden" name="cuidados_text" id="" cols="7" rows="7">{{old('cuidados_text')}}</textarea>
                             <div>
                                 <span class="text-sm" style="color:red"><small>@error('cuidados_text'){{$message}}@enderror</small></span>
                             </div>
@@ -173,7 +178,7 @@
                     </div>
                 </div>       
             </div>
-            <div class="col-span-5 mt-10">
+            <div class="xl:col-span-5 mt-10">
                 <div class="flex justify-center">
                     <button type="submit" class="btn-primary">
                         Crear Producto
@@ -183,6 +188,17 @@
         </div>
     </div>
 </form>
+<div id="mq">
+    <div class="text-white hidden md:block lg:hidden">
+        2
+    </div>
+    <div class="text-white md:hidden">
+        1
+    </div>
+    <div class="text-white hidden lg:block">
+        3
+    </div>
+</div>
     @section('js')
         <script>
             //cambiar pestañas en descripcion
@@ -194,22 +210,17 @@
                 $('#'+ id + '-text').removeClass('hidden');
             });
 
-            //ocultar ciertas pestañas de descripcion cuando no sea una planta/arbol/suculenta
+
             $('.categorias').on('change', function(){
+                if($(this).prop('checked') == true){
+                    $('.categorias').not(this).prop('checked', false);
+                }
                 if($('.categorias')[5].checked || $('.categorias')[6].checked || $('.categorias')[7].checked){
                     $('#temporada').addClass('hidden');
                     $('#cuidados').addClass('hidden');
-                    $('.categorias')[0].checked = false;
-                    $('.categorias')[1].checked = false;
-                    $('.categorias')[2].checked = false;
-                    $('.categorias')[3].checked = false;
-                    $('.categorias')[4].checked = false;
                 }else{
                     $('#temporada').removeClass('hidden');
                     $('#cuidados').removeClass('hidden');
-                    $('.categorias')[5].checked = false;
-                    $('.categorias')[6].checked = false;
-                    $('.categorias')[7].checked = false;
                 }
             });
 
@@ -286,36 +297,100 @@
                 $('#borrar-boton-3').hide();
             });
 
-             $('input:file').on('change', function(){ 
-                numero = $(this).attr('id')[7];
-                console.log(numero);
-                 var fileUpload = document.getElementById("imagen-"+numero);
-                 var reader = new FileReader();
-                //  Read the contents of Image File.
-                 reader.readAsDataURL(fileUpload.files[0]);
-                 reader.onload = function (e) {
-                //  Initiate the JavaScript Image object.
-                     var image = new Image();
-    
-                    //  Set the Base64 string return from FileReader as source.
-                     image.src = e.target.result;
-                        
-                    //  Validate the File Height and Width.
-                     image.onload = function () {
-                         var height = this.height;
-                         var width = this.width;
-                         if(((height/width).toFixed(2) > 1.3 && (height/width).toFixed(2) < 1.4) || height/width == 1){
-                             $('#alerta-1').hide();
-                         }else{
-                             $('#imagen-'+ numero).val('');
-                             $('#preview-imagen-'+ numero).removeAttr('src');
-                             $('#borrar-boton-'+ numero).hide();
-                             $('#alerta-1').show();
-                         }
-                     };
-    
-                 }
-             });
+            $('input:file').on('change', function(){ 
+            numero = $(this).attr('id')[7];
+            console.log(numero);
+                var fileUpload = document.getElementById("imagen-"+numero);
+                var reader = new FileReader();
+            //  Read the contents of Image File.
+                reader.readAsDataURL(fileUpload.files[0]);
+                reader.onload = function (e) {
+            //  Initiate the JavaScript Image object.
+                    var image = new Image();
+
+                //  Set the Base64 string return from FileReader as source.
+                    image.src = e.target.result;
+                    
+                //  Validate the File Height and Width.
+                    image.onload = function () {
+                        var height = this.height;
+                        var width = this.width;
+                        if(height/width == 4/3){
+                            $('#alerta-1').hide();
+                        }else{
+                            $('#imagen-'+ numero).val('');
+                            $('#preview-imagen-'+ numero).removeAttr('src');
+                            $('#borrar-boton-'+ numero).hide();
+                            $('#alerta-1').show();
+                        }
+                    };
+
+                }
+            });
+
+            //saber tamaño de pantalla para ancho textarea
+            $(window).on('load', function(){
+                let tamaño;
+                let mq = $('#mq');
+                let mq2 = mq.children();
+                let mq3 = mq2.length;
+                for(var i=0;i<mq3;i++){
+                    var hijo = mq2[i];
+                    if($(hijo).css('display')!='none'){
+                    tamaño = $(hijo).text();
+                    }
+                }
+                if(tamaño == 1){
+                    console.log(tamaño);
+                    $('#descripcion-text').removeAttr('cols');
+                    $('#descripcion-text').attr('cols','35');
+                }
+
+                if(tamaño == 2){
+                    console.log(tamaño);
+                    $('#descripcion-text').removeAttr('cols');
+                    $('#descripcion-text').attr('cols','40');
+                }
+                if(tamaño == 3){
+                    console.log(tamaño);
+                    $('#descripcion-text').removeAttr('cols');
+                    $('#descripcion-text').attr('cols','70');
+                }
+            });
+      
+            $(window).on('resize', function(){
+                let tamaño;
+                let mq = $('#mq');
+                let mq2 = mq.children();
+                let mq3 = mq2.length;
+                for(var i=0;i<mq3;i++){
+                    var hijo = mq2[i];
+                    if($(hijo).css('display')!='none'){
+                    tamaño = $(hijo).text();
+                    }
+                }
+
+                if(tamaño == 1){
+                    console.log(tamaño);
+                    $('#descripcion-text').removeAttr('cols');
+                    $('#descripcion-text').attr('cols','35');
+                }
+
+                if(tamaño == 2){
+                    console.log(tamaño);
+                    $('#descripcion-text').removeAttr('cols');
+                    $('#descripcion-text').attr('cols','40');
+                }
+                if(tamaño == 3){
+                    console.log(tamaño);
+                    $('#descripcion-text').removeAttr('cols');
+                    $('#descripcion-text').attr('cols','70');
+                }
+                
+
+            });
+
+            
             
            
 

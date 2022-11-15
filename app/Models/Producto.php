@@ -25,9 +25,9 @@ class Producto extends Model
 
     public $timestamps = false;
 
-    public function categorias()
+    public function categoria()
     {
-        return $this->belongsToMany(Categoria::class);
+        return $this->belongsTo(Categoria::class);
     }
 
     public function ofertas()

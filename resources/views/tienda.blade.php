@@ -125,9 +125,9 @@ $('.flecha-arriba').on('click', function(){
     $('.categoria').show();
 });
 
-$('.producto').on('click', function(){
-    console.log('dasklndasd');
-});
+
+
+
 </script>
 @endsection
 @endsection
