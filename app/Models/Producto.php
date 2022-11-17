@@ -23,7 +23,7 @@ class Producto extends Model
 
     ];
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function categoria()
     {

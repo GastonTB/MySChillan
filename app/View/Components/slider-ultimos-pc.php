@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class slider-ultimos-productos extends Component
+class slider-ultimos-pc extends Component
 {
     /**
      * Create a new component instance.
@@ -24,6 +24,6 @@ class slider-ultimos-productos extends Component
      */
     public function render()
     {
-        return view('components.slider-ultimos-productos');
+        return view('components.slider-ultimos-pc');
     }
 }

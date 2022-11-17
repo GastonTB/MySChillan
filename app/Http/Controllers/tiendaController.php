@@ -27,8 +27,15 @@ class tiendaController extends Controller
             $producto->imagenes = explode('|', $producto->imagenes);
             
         }
+        $ultimos = Producto::latest()->take(6)->get();
+        foreach($ultimos as $ultimo)
+        {
+            $ultimo->imagenes = explode('|', $ultimo->imagenes);
+            $ultimo->imagenes = $ultimo->imagenes[0];
+        }
+
         
-        return view('tienda', compact('regiones', 'comunas', 'productos'));
+        return view('tienda', compact('regiones', 'comunas', 'productos' , 'ultimos'));
     }
 
     /**

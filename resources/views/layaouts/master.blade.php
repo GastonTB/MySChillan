@@ -15,11 +15,13 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
        
         <link rel="stylesheet" href="{{asset('css/style.css')}}">
+        @yield('css')
         @vite('resources/css/app.css')
         @vite('resources/js/app.js')
     </head>
     <body>
         @include('sweetalert::alert')
+        @yield('modales')        
         {{-- sidebar --}}
         <section>
             <x-sidebar/>

@@ -73,7 +73,7 @@
                 {{-- ultimos productos --}}
                 <section>
                     <div class="mb-5">
-                        <x-slider-ultimos-productos/>
+                        <x-slider-ultimos-productos :ultimos="$ultimos"/>
                     </div>
                 </section>
             </div>
@@ -117,7 +117,7 @@
                     <x-slider-ofertas />
                 </div>
                 <div class="col-start-3 col-span-1 mt-5">
-                    <x-slider-ultimos-productos/>
+                    <x-slider-ultimos-productos :ultimos="$ultimos"/>
                 </div>
                 <div class="col-start-4 col-span-1 mt-5">
                     <x-slider-mejor-calificados/>

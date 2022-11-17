@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Region;
 use App\Models\Comuna;
+use App\Models\Producto;
+
 
 class InicioController extends Controller
 {
@@ -19,8 +21,14 @@ class InicioController extends Controller
         $regiones = Region::all();
         $comunas = new Comuna;
         $comunas = Comuna::all();
+        $ultimos = Producto::latest()->take(6)->get();
+        foreach($ultimos as $ultimo)
+        {
+            $ultimo->imagenes = explode('|', $ultimo->imagenes);
+            $ultimo->imagenes = $ultimo->imagenes[0];
+        }
        
-        return view('inicio', compact('regiones','comunas'));
+        return view('inicio', compact('regiones','comunas', 'ultimos'));
         
     }
 

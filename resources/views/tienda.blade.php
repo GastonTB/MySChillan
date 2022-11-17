@@ -1,5 +1,4 @@
 @extends('layaouts.master')
-
 @section('content')
 {{-- celular y tablet --}}
         <div class=" lg:hidden xl:hidden">
@@ -41,7 +40,7 @@
                                 <x-slider-ofertas/>
                             </div>
                             <div class="mb-5">
-                                <x-slider-ultimos-productos/>
+                                <x-slider-ultimos-productos :ultimos="$ultimos"/>
                             </div>
                     </div>
                     
@@ -78,7 +77,7 @@
 
 
 {{-- pc --}}
-    <div class="hidden lg:block xl:block">
+    {{-- <div class="hidden lg:block xl:block">
         <div class="grid xl:grid-cols-5 lg:grid-cols-7 mt-10 gap-4">
             <div class="col-start-2 flex justify-start">
                 <div class="columns-1">
@@ -89,7 +88,7 @@
                         <x-slider-ofertas/>
                     </div>
                     <div class="my-10">
-                        <x-slider-ultimos-productos/>
+                        <x-slider-ultimos-productos :ultimos="$ultimos"/>
                     </div>
                 </div>
             </div>
@@ -101,6 +100,43 @@
                     @endforeach  
                 </div> 
             </div>
+        </div>
+    </div> --}}
+    <div class="lg:block xl:block">
+        <div class="grid grid-cols-5 w-full mt-5">
+            <div class="border-2 col-start-2 col-span-1 pt-5">
+                <x-slider-ultimos-productos :ultimos="$ultimos"/>
+                <x-slider-ultimos-productos :ultimos="$ultimos"/>
+            </div>
+            <div class="lg:col-span-2">
+                <div class="grid grid-cols-3 gap-4 lg:px-5">
+                     @foreach ($productos as $producto)
+                        <x-card-producto :producto="$producto"/>
+                    @endforeach  
+                </div> 
+            </div>
+            <div class="border-2">
+                1
+            </div>
+            <div class="border-2">
+                1
+            </div>
+            <div class="border-2">
+                1
+            </div>
+            <div class="border-2">
+                1
+            </div>
+            <div class="border-2">
+                1
+            </div>
+            <div class="border-2">
+                1
+            </div>
+            <div class="border-2">
+                1
+            </div>
+
         </div>
     </div>
 {{-- fin PC --}}

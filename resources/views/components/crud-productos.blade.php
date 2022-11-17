@@ -21,7 +21,7 @@
         <div id="categoria" class="border-2 md:text-lg lg:text-md">
             <ul class="pl-2">
                 <li class="py-2 mt-2 hover:text-green-500 hover:text-xl"><a href="{{route('crearproducto')}}">Crear Productos</a></li>
-                <li class="py-2 hover:text-green-500 hover:text-xl"><a href="#">Ver Productos</a></li>
+                <li class="py-2 hover:text-green-500 hover:text-xl"><a href="{{route('listado-productos')}}">Ver Productos</a></li>
                 <li class="py-2 hover:text-green-500 hover:text-xl"><a href="#">Modificar Productos</a></li>
                 <li class="py-2 hover:text-green-500 hover:text-xl"><a href="#">Ver Productos Sin Stock</a></li>
                 <li class="py-2 hover:text-green-500 hover:text-xl"><a href="#">Eliminar Productos</a></li>
