@@ -143,37 +143,24 @@
         });
 
 
-        var swiper2 = new Swiper(".swiperOfertas", {
-          slidesPerView: 1,
-          spaceBetween: 10,
-          slidesPerGroup: 1,
-          loop: true,
-          loopFillGroupWithBlank: true,
-          navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-          },
-          autoplay: {
-              delay: 2000,
-              disableOnInteraction: false,
-          }
-        });
+        
 
-        var swiper3 = new Swiper(".swiperCalificaciones", {
+
+        var swiper5 = new Swiper("#ultimos-mobile", {
           slidesPerView: 1,
           spaceBetween: 10,
           slidesPerGroup: 1,
           loop: true,
           loopFillGroupWithBlank: true,
           navigation: {
-            nextEl: "#flecha-izquierda-2",
-            prevEl: "#flecha-derecha-2",
+          nextEl: "#ultimos-derecha",
+          prevEl: "#ultimos-izquierda",
           },
           autoplay: {
-              delay: 2000,
+              delay: 4000,
               disableOnInteraction: false,
           }
-        });
+      });
 
 
         

@@ -84,7 +84,7 @@
                 </div>
                 <div class="grid col-span-2 justify-evenly font-black text-green-500">
                     <div class="flex @auth
-                    space-x-12 
+                    space-x-12 lg:space-x-10
                     @endauth space-x-16">
                         @if(session()->get('rol')!=1)
                             <div>

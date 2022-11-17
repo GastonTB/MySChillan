@@ -14,6 +14,7 @@ use App\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use RealRashid\SweetAlert\Facades\Alert;
+use Carbon\Carbon;
 
 
 
@@ -26,7 +27,19 @@ class productoController extends Controller
      */
     public function index()
     {
-        //
+        $regiones = new Region;
+        $regiones = Region::all();
+        $comunas = new Comuna;
+        $comunas = Comuna::all();
+        $productos = new Producto;
+        $productos = Producto::all();
+
+        foreach($productos as $producto)
+        {
+            $producto->precio = number_format($producto->precio, 0, ",", ".");
+        }
+
+        return view('productos.index', compact('regiones','comunas', 'productos'));
     }
 
     /**
@@ -53,7 +66,8 @@ class productoController extends Controller
      */
     public function store(Request $request)
     {   
-        $planta = 0;
+
+        $planta = 1;
         if($request->has('categorias'))
         {
             if($request->categorias[0] == 1 || $request->categorias[0] == 2 || $request->categorias[0] == 3 || $request->categorias[0] == 4 || $request->categorias[0] == 5){
@@ -63,24 +77,6 @@ class productoController extends Controller
             }
         }
                 
-        // if($request->categorias != null)
-        // {
-        //     foreach($request->categorias as $categoria)
-        //     {
-        //         if($categoria != null)
-        //         {
-        //             $array_categorias[] = $categoria;
-        //         }
-        //     }
-        //     for($i = 0; $i < count($array_categorias); $i++){
-        //         if($array_categorias[$i] == 0 || $array_categorias[$i] == 1 || $array_categorias[$i] == 2 || $array_categorias[$i] == 3 || $array_categorias[$i] == 4)
-        //         {
-        //             $planta = 1;
-        //         }else{
-        //             $planta = 0;
-        //         }
-        //     }
-        // }
 
         //validar
         //si es planta
@@ -122,8 +118,35 @@ class productoController extends Controller
             }
         }
         
+        if($request->has('temporada_text'))
+        {
+            $tamaño =  count($request->temporada_text);
+            for($i = 0; $i < $tamaño; $i++)
+            {   
+    
+                $temp[$i] = $request->temporada_text[$i];
+    
+                switch ($temp[$i]) {
+                    case 1:
+                        $temp[$i] = 'Otoño';
+                        break;
+                    case 2:
+                        $temp[$i] = 'Invierno';
+                        break;
+                    case 3:
+                        $temp[$i] = 'Primavera';
+                        break;
+                    case 4:
+                        $temp[$i] = 'Verano';
+                        break;
+                }
+            }
+        }
+        
+
         if($planta == 1){
-            $temporada = implode('--', $request->temporada_text);
+            
+            $temporada = implode('--', $temp);
             $descripcion_array =
                 [
                     $request->descripcion_text,
@@ -138,7 +161,9 @@ class productoController extends Controller
                     $request->caracteristicas_text,
                 ];
         }
+        
 
+        
         $descripcion = implode('||', $descripcion_array);
         $producto = new Producto;
         $producto->nombre_producto = $request->nombre;
@@ -146,6 +171,9 @@ class productoController extends Controller
         $producto->cantidad = $request->cantidad;
         $producto->descripcion = $descripcion;
         $producto->categoria_id = $request->categorias[0];
+        $producto->created_at = date('Y-m-d H:i:s');
+
+        
         $producto->save();
 
 
@@ -180,6 +208,9 @@ class productoController extends Controller
     {   
         $producto = Producto::findOrFail($id);
         $producto->categoria();
+        
+        $producto->imagenes =  explode('|', $producto->imagenes);
+        $producto->descripcion = explode ('||', $producto->descripcion);    
         $regiones = new Region;
         $regiones = Region::all();
         $comunas = new Comuna;
