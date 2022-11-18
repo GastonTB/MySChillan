@@ -7,6 +7,7 @@ use App\Http\Controllers\registroController;
 use App\Http\Controllers\inicioController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\productoController;
+use App\Http\Controllers\ofertaController;
 
 
 
@@ -37,3 +38,4 @@ Route::get('/producto-nuevo', [productoController::class, 'create'])->middleware
 Route::post('/producto-nuevo', [productoController::class, 'store'])->middleware('isadmin', 'auth')->name('crearproducto2');
 Route::get('/producto/{id}', [productoController::class, 'show'])->name('detalles');
 Route::get('/productos',[productoController::class , 'index'])->name('listado-productos');
+Route::post('/oferta', [ofertaController::class, 'store'])->name('crear-oferta');

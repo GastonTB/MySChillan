@@ -28,7 +28,7 @@
                     </ul>
                 </div>
                 <div class="px-5">
-                    @for ($i = 0; $i < count($producto->descripcion); $i++)
+                    @for ($i = 0; $i < $cantidad; $i++)
                         <div class="mt-5">
                             <div>
                                 <p class="font-semibold cursor-pointer titulo" id="titulo-{{$i}}">
@@ -53,14 +53,11 @@
                             </div>
                             <div class="text-sm">
                                 @if ($i==3)
-                                @php
-                                    $temporada = explode('--', $producto->descripcion[3])
-                                @endphp
                                 <div id="contenido-{{$i}}">
                                     <ul class="ml-5 space-y-1">
-                                        @for($i=0; $i< count($temporada); $i++)
+                                        @for($j=0; $j< $cantidad_temp; $j++)
                                             <li class="list-disc">
-                                                {{$temporada[$i]}}
+                                                {{$temporada[$j]}}
                                             </li>
                                         @endfor
                                     </ul>
