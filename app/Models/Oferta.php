@@ -15,17 +15,17 @@ class Oferta extends Model
 
     protected $fillable = 
     [
-        'nombre_oferta',
         'fecha_inicio',
         'fecha_fin',
         'estado_oferta',
         'precio_oferta',
-        'producto_id'
     ];
+
+    public $timestamps = true;
 
     public function producto()
     {
-        return $this->belongsTo(Producto::class);
+        return $this->hasOne(Producto::class);
     }
 
 }

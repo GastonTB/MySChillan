@@ -19,7 +19,8 @@ class Producto extends Model
         'precio',
         'cantidad',
         'descripcion',
-        'imagenes'
+        'imagenes',
+        'oferta_id'
 
     ];
 
@@ -30,9 +31,9 @@ class Producto extends Model
         return $this->belongsTo(Categoria::class);
     }
 
-    public function ofertas()
+    public function oferta()
     {
-        return $this->hasMany(Oferta::class);
+        return $this->belongsTo(Oferta::class);
     }
 
 }

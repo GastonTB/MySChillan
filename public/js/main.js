@@ -3,10 +3,6 @@
 
 (function ($) {
 
-
-    
- 
-
     //dropdown carrito
     $('#carrito').hover(function(){
       $('#opciones-carrito').show();
@@ -162,8 +158,25 @@
           }
       });
 
+      var swiper5 = new Swiper("#ofertas-slider", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        slidesPerGroup: 1,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+        nextEl: "#oferta-derecha",
+        prevEl: "#oferta-izquierda",
+        },
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+        }
+    });
 
-        
+
+
+      
 
 
   

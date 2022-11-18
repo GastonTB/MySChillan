@@ -11,9 +11,10 @@ class slider-ofertas extends Component
      *
      * @return void
      */
-    public function __construct()
+    public $ofertas;
+    public function __construct($ofertas)
     {
-        //
+        $this->ofertas = $ofertas;
     }
 
     /**

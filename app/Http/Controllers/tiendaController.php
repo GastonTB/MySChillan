@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Region;
 use App\Models\Comuna;
 use App\Models\Producto;
+use App\Models\Oferta;
 
 class tiendaController extends Controller
 {
@@ -27,15 +28,17 @@ class tiendaController extends Controller
             $producto->imagenes = explode('|', $producto->imagenes);
             
         }
-        $ultimos = Producto::latest()->take(6)->get();
+
+        $ultimos = Producto::latest()->take(7)->get();
         foreach($ultimos as $ultimo)
         {
             $ultimo->imagenes = explode('|', $ultimo->imagenes);
             $ultimo->imagenes = $ultimo->imagenes[0];
         }
 
+        $ofertas = Producto::where('oferta_id', '!=','0')->take(7)->get();
         
-        return view('tienda', compact('regiones', 'comunas', 'productos' , 'ultimos'));
+        return view('tienda', compact('regiones', 'comunas', 'productos' , 'ultimos', 'ofertas'));
     }
 
     /**

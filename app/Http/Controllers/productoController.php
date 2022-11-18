@@ -205,17 +205,25 @@ class productoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+{       
         $producto = Producto::findOrFail($id);
         $producto->categoria();
-        
-        $producto->imagenes =  explode('|', $producto->imagenes);
-        $producto->descripcion = explode ('||', $producto->descripcion);    
         $regiones = new Region;
         $regiones = Region::all();
         $comunas = new Comuna;
         $comunas = Comuna::all();
-        return view('productos.show', compact('regiones', 'comunas', 'producto'));
+        $producto->imagenes =  explode('|', $producto->imagenes);
+        $producto->descripcion = explode ('||', $producto->descripcion); 
+        $cantidad = count($producto->descripcion);
+        if($producto->categoria_id >0 && $producto->categoria_id < 6){
+            $temporada = explode('--', $producto->descripcion[3]);
+            $cantidad_temp = sizeof($temporada);
+            return view('productos.show', compact('cantidad','regiones', 'comunas', 'producto', 'temporada', 'cantidad_temp'));
+        }else{
+            return view('productos.show', compact('cantidad','regiones', 'comunas', 'producto'));
+        }
+        
+        
     }
 
     /**

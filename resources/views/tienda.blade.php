@@ -37,7 +37,7 @@
                                 <x-filtro-categorias/>                               
                             </div>
                             <div class="mb-5">
-                                <x-slider-ofertas/>
+                                <x-slider-ofertas :ofertas="$ofertas"/>
                             </div>
                             <div class="mb-5">
                                 <x-slider-ultimos-productos :ultimos="$ultimos"/>
@@ -74,39 +74,16 @@
             </section>
         </div>
 {{-- celular y tablet fin --}}
-
-
-{{-- pc --}}
-    {{-- <div class="hidden lg:block xl:block">
-        <div class="grid xl:grid-cols-5 lg:grid-cols-7 mt-10 gap-4">
-            <div class="col-start-2 flex justify-start">
-                <div class="columns-1">
-                    <div class="my-10">
-                        <x-filtro-categorias/>
-                    </div>
-                    <div class="my-10">
-                        <x-slider-ofertas/>
-                    </div>
-                    <div class="my-10">
-                        <x-slider-ultimos-productos :ultimos="$ultimos"/>
-                    </div>
-                </div>
-            </div>
-
-            <div class="xl:col-span-2 lg:col-span-4 p-4">
-                <div class="grid grid-cols-3  gap-4">
-                     @foreach ($productos as $producto)
-                        <x-card-producto :producto="$producto"/>
-                    @endforeach  
-                </div> 
-            </div>
-        </div>
-    </div> --}}
     <div class="lg:block xl:block">
         <div class="grid grid-cols-5 w-full mt-5">
             <div class="border-2 col-start-2 col-span-1 pt-5">
-                <x-slider-ultimos-productos :ultimos="$ultimos"/>
-                <x-slider-ultimos-productos :ultimos="$ultimos"/>
+                <div>
+                        <x-slider-ofertas :ofertas="$ofertas"/>
+                </div>
+                <div class="mt-10">
+                    <x-slider-ultimos-productos :ultimos="$ultimos"/>
+                </div>
+                
             </div>
             <div class="lg:col-span-2">
                 <div class="grid grid-cols-3 gap-4 lg:px-5">
@@ -115,28 +92,7 @@
                     @endforeach  
                 </div> 
             </div>
-            <div class="border-2">
-                1
-            </div>
-            <div class="border-2">
-                1
-            </div>
-            <div class="border-2">
-                1
-            </div>
-            <div class="border-2">
-                1
-            </div>
-            <div class="border-2">
-                1
-            </div>
-            <div class="border-2">
-                1
-            </div>
-            <div class="border-2">
-                1
-            </div>
-
+        
         </div>
     </div>
 {{-- fin PC --}}
