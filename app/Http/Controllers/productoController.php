@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
+use App\Models\Oferta;
 
 
 
@@ -213,14 +214,20 @@ class productoController extends Controller
         $comunas = new Comuna;
         $comunas = Comuna::all();
         $producto->imagenes =  explode('|', $producto->imagenes);
-        $producto->descripcion = explode ('||', $producto->descripcion); 
+        $producto->descripcion = explode ('||', $producto->descripcion);
+        $oferta = Oferta::where('id', $producto->oferta_id)->
+        where('estado_oferta', '!=', 0)->first();
+        //oferta fecha_fin en formato d/m/Y
+        if($oferta != null){
+            $oferta->fecha_fin = date('d/m/Y', strtotime($oferta->fecha_fin));
+        }
         $cantidad = count($producto->descripcion);
         if($producto->categoria_id >0 && $producto->categoria_id < 6){
             $temporada = explode('--', $producto->descripcion[3]);
             $cantidad_temp = sizeof($temporada);
-            return view('productos.show', compact('cantidad','regiones', 'comunas', 'producto', 'temporada', 'cantidad_temp'));
+            return view('productos.show', compact('cantidad', 'oferta', 'producto', 'temporada', 'cantidad_temp'));
         }else{
-            return view('productos.show', compact('cantidad','regiones', 'comunas', 'producto'));
+            return view('productos.show', compact('cantidad', 'oferta', 'producto'));
         }
         
         

@@ -6,7 +6,7 @@
                     <img class="object-scale-down h-16 md:h-20" src="{{asset('img/logos/logo.png')}}" alt="">
                 </div>
             </div>
-            <div id="boton-menu" class="flex justify-end content-center pr-3 pt-7 md:pt-9 hover:text-green-500 md:text-xl">
+            <div id="boton-menu" class="flex justify-end content-center pr-3 pt-7 md:pt-9 hover:text-lime-500 md:text-xl">
                 <i class="fa fa-bars fa-2xl"></i>
             </div>
         </div>
@@ -26,17 +26,17 @@
                         </p>
                 </div>
                 <div class="flex justify-end pr-5 border-r-2">    
-                    <div class="mr-3 hover:text-green-500">
+                    <div class="mr-3 hover:text-lime-500">
                         <a href=""><i class="fa fa-instagram fa-lg"></i></a>
                     </div>
-                    <div class="hover:text-green-500">
+                    <div class="hover:text-lime-500">
                         <a href="#"><i class="fa fa-facebook fa-lg"></i></a>
                     </div>         
                 </div>
                 <div class="ml-5">
                     <div class="flex">
                         <div class="mr-4">
-                            <div class="flex hover:text-green-500">
+                            <div class="flex hover:text-lime-500">
                                 @guest
                                     <div class="mr-2">
                                         <i class="fa fa-user"></i>
@@ -55,12 +55,12 @@
                                 @endauth
                             </div>
                         </div>
-                        <div class="flex hover:text-green-500">
+                        <div class="flex hover:text-lime-500">
                             @guest
                                 <div class="mr-2">
                                     <i class="fa fa-user-plus"></i>
                                 </div>
-                                <p class="hover:text-green-500">
+                                <p class="hover:text-lime-500">
                                     <a id="registrarse2" href="#">Registrarse</a>
                                 </p>
                             @endguest
@@ -82,7 +82,7 @@
                 <div class="flex justify-end">
                     <img class="object-scale-down h-14" src="{{asset('img/logos/logo.png')}}" alt="">
                 </div>
-                <div class="grid col-span-2 justify-evenly font-black text-green-500">
+                <div class="grid col-span-2 justify-evenly font-black text-lime-500">
                     <div class="flex @auth
                     space-x-12 lg:space-x-10
                     @endauth space-x-16">
@@ -166,12 +166,7 @@
                     </div>
                 </div>
                 <div class="grid-cols-1">
-                    <div class="flex space-x-2">
-                        <div>
-                            <i class="fa fa-shopping-cart fa-lg hover:text-green-500"></i>
-                        </div>
-                        <p class="font-bold">$123.456</p>
-                    </div>
+                    <x-carrito/>
                 </div>
             </div>
         </div>

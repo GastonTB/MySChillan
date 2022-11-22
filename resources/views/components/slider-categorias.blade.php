@@ -36,8 +36,8 @@
             </div>
         </div>
         </div>
-        <div class="text-green-500 swiper-button-next"></div>
-        <div class="text-green-500 swiper-button-prev"></div>
-        <div class="text-green-500 swiper-pagination"></div>
+        <div class="text-lime-500 swiper-button-next"></div>
+        <div class="text-lime-500 swiper-button-prev"></div>
+        <div class="text-lime-500 swiper-pagination"></div>
     </div>
 </div>

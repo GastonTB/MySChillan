@@ -13,8 +13,9 @@ class navbar extends Component
      */
     public function __construct()
     {
-        //
+       
     }
+
 
     /**
      * Get the view / contents that represent the component.

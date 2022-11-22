@@ -1,10 +1,16 @@
 @extends('layaouts.master')
+@section('css')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
+@endsection
 @section('content')
+{{-- {{dd($carrito)}} --}}
 {{-- celular y tablet --}}
         <div class=" lg:hidden xl:hidden">
             <section>
                 <div class="flex justify-center items-center py-5">
-                    <x-carrito />
+                    <x-carrito/>
                 </div>
             </section>
             <section>
@@ -18,23 +24,23 @@
                 </div>
             </section>
             <section>
-                <div class="mb-5">
-                    <div class="relative bg-black bg-opacity-50">
-                        <img class="object-cover w-full" src="img/banner/banner-1.jpg" alt="">
-                        <div class="absolute top-1/6 left-1/3">
-                            <p class="font-black text-4xl md:text-6xl text-yellow-500" style="text-shadow: #E5E9F0 1px 0px 0px, #E5E9F0 0.540302px 0.841471px 0px, #E5E9F0 -0.416147px 0.909297px 0px, rgb(255, 255, 255) -0.989992px 0.14112px 0px, rgb(255, 255, 255) -0.653644px -0.756802px 0px, rgb(255, 255, 255) 0.283662px -0.958924px 0px, rgb(255, 255, 255) 0.96017px -0.279415px 0px;">
-                                Tienda
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <div class="my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
+                    <p class="titulo font-black uppercase text-black bg-white text-5xl mix-blend-lighten">
+                        @if(isset($titulo))
+                            {{$titulo}}
+                        @else
+                            Tienda
+                        @endif
+                    </p>          
+            </div>
             </section>
             <section>
                 <div class="md:grid md:grid-cols-7 gap-1">
                     <div class="col-span-3 lg:col-span-2">
                             
                             <div class="mb-5">
-                                <x-filtro-categorias/>                               
+                                <x-filtro-categorias :categoria="$categoria"/> 
+                                <span class="text-sm" style="color:red"><small>@error('categorias'){{$message}}@enderror</small></span>                              
                             </div>
                             <div class="mb-5">
                                 <x-slider-ofertas :ofertas="$ofertas"/>
@@ -74,11 +80,26 @@
             </section>
         </div>
 {{-- celular y tablet fin --}}
-    <div class="lg:block xl:block">
+{{-- pc inicio --}}
+    <div class="hidden lg:block xl:block mb-10">
+        <div class="my-5 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
+            
+                <p class="font-black uppercase text-black bg-white text-8xl mix-blend-lighten">
+                    @if(isset($titulo))
+                            {{$titulo}}
+                        @else
+                            Tienda
+                        @endif
+                </p>
+            
+        </div>
         <div class="grid grid-cols-5 w-full mt-5">
-            <div class="border-2 col-start-2 col-span-1 pt-5">
+            <div class="col-start-2 col-span-1 pt-5">
                 <div>
-                        <x-slider-ofertas :ofertas="$ofertas"/>
+                    <x-filtro-categorias :categoria="$categoria"/>
+                </div>
+                <div class="mt-10">
+                    <x-slider-ofertas :ofertas="$ofertas"/>
                 </div>
                 <div class="mt-10">
                     <x-slider-ultimos-productos :ultimos="$ultimos"/>
@@ -86,7 +107,8 @@
                 
             </div>
             <div class="lg:col-span-2">
-                <div class="grid grid-cols-3 gap-4 lg:px-5">
+                <div class="grid xl:grid-cols-3 p-5 lg:grid-cols-2 gap-4 lg:px-5">
+                    
                      @foreach ($productos as $producto)
                         <x-card-producto :producto="$producto"/>
                     @endforeach  
@@ -95,6 +117,7 @@
         
         </div>
     </div>
+    {{-- {{dd(session()->all());}} --}}
 {{-- fin PC --}}
 
 
@@ -102,21 +125,57 @@
 
 @section('js')
 <script>
-    $('.flecha-arriba').hide();
-    $('.categoria').hide();
 
-$('.flecha-abajo').on('click', function(){
-    $('.flecha-arriba').show();
-    $('.flecha-abajo').hide();
-    $('.categoria').hide();
-});
+    $('.categorias').on('change', function(){
+        if($(this).prop('checked') == true){
+            $('.categorias').not(this).prop('checked', false);
+        }
+    });
 
-$('.flecha-arriba').on('click', function(){
-    $('.flecha-arriba').hide();
-    $('.flecha-abajo').show();
-    $('.categoria').show();
-});
+var swiper5 = new Swiper("#ultimos-mobile", {
+          slidesPerView: 1,
+          spaceBetween: 10,
+          slidesPerGroup: 1,
+          loop: true,
+          loopFillGroupWithBlank: true,
+          navigation: {
+          nextEl: "#ultimos-derecha",
+          prevEl: "#ultimos-izquierda",
+          },
+          autoplay: {
+              delay: 4000,
+              disableOnInteraction: false,
+          }
+      });
 
+      var swiper5 = new Swiper("#ofertas-slider", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        slidesPerGroup: 1,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+        nextEl: "#oferta-derecha",
+        prevEl: "#oferta-izquierda",
+        },
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+        }
+    });
+
+    $('.carrito').on('click', function(){
+          $('#sidebar-carro').removeClass('hidden');
+          console.log('gola');
+        });
+        $('.circulo').on('click', function(){
+          $('#sidebar-carro').removeClass('hidden');
+          console.log('gola');
+        });
+        
+        $('#overlay-carro').on('click', function(){
+          $('#sidebar-carro').addClass('hidden');
+        });
 
 
 

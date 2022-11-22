@@ -8,6 +8,7 @@ use App\Http\Controllers\inicioController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\productoController;
 use App\Http\Controllers\ofertaController;
+use App\Http\Controllers\carritoController;
 
 
 
@@ -37,5 +38,8 @@ Route::get('/backoffice', [adminController::class, 'index'])->middleware('isadmi
 Route::get('/producto-nuevo', [productoController::class, 'create'])->middleware('isadmin', 'auth')->name('crearproducto');
 Route::post('/producto-nuevo', [productoController::class, 'store'])->middleware('isadmin', 'auth')->name('crearproducto2');
 Route::get('/producto/{id}', [productoController::class, 'show'])->name('detalles');
-Route::get('/productos',[productoController::class , 'index'])->name('listado-productos');
+Route::get('/productos',[productoController::class , 'index'])->middleware('isadmin', 'auth')->name('listado-productos');
 Route::post('/oferta', [ofertaController::class, 'store'])->name('crear-oferta');
+Route::post('/tienda', [tiendaController::class, 'filtrar'])->name('filtrar');
+Route::get('/tienda/{id}', [tiendaController::class, 'filtrados'])->name('filtrados');
+Route::post('/carrito', [carritoController::class, 'store'])->name('carrito');

@@ -7,6 +7,13 @@ use App\Models\Region;
 use App\Models\Comuna;
 use App\Models\Producto;
 use App\Models\Oferta;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use App\Models\Categoria;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Carrito;
+use Illuminate\Support\Collection;
+
 
 class tiendaController extends Controller
 {
@@ -16,17 +23,39 @@ class tiendaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
+
+        if(Auth::check()){
+            $id = Auth::user()->id;
+            $carrito = Carrito::where('user_id',$id)->first();
+            if($carrito == null){
+                $contador = 0;
+            }else{
+                $contador = count($carrito->productos);
+                if($contador >= 10){
+                    $contador = '9+';
+                }
+            }
+
+        }
+        else{
+            $contador = 0;
+        }
+
         $regiones = new Region;
         $regiones = Region::all();
         $comunas = new Comuna;
         $comunas = Comuna::all();
         $productos = new Producto;
         $productos = Producto::all();
+        $categoria = 0;
         foreach($productos as $producto)
         {
             $producto->imagenes = explode('|', $producto->imagenes);
-            
+            if($producto->oferta_id != 0){
+                $producto->precio = $producto->oferta->precio_oferta;
+            }
+
         }
 
         $ultimos = Producto::latest()->take(7)->get();
@@ -36,9 +65,13 @@ class tiendaController extends Controller
             $ultimo->imagenes = $ultimo->imagenes[0];
         }
 
-        $ofertas = Producto::where('oferta_id', '!=','0')->take(7)->get();
-        
-        return view('tienda', compact('regiones', 'comunas', 'productos' , 'ultimos', 'ofertas'));
+        $ofertas = Producto::where('oferta_id', '!=','0')->orderBy('oferta_id', 'desc')->take(7)->get();
+        foreach($ofertas as $oferta)
+        {
+            $oferta->imagenes = explode('|', $oferta->imagenes);
+        }
+
+        return view('tienda', compact('productos' , 'ultimos', 'ofertas', 'categoria' ,'contador'));
     }
 
     /**
@@ -48,10 +81,10 @@ class tiendaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
-        
-       
-        
+    {
+
+
+
     }
 
     /**
@@ -62,7 +95,7 @@ class tiendaController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
     /**
@@ -87,4 +120,107 @@ class tiendaController extends Controller
     {
         //
     }
+
+    public function filtrar(Request $request)
+{
+        
+        $reglas = array(
+            'categorias' => 'required || max:1 || min:1',
+        );
+
+        $validador = Validator::make($request->all(), $reglas);
+        if($validador->fails()){
+            return Redirect::back()
+            ->withErrors($validador);
+        }
+        
+        $categoria = $request->categorias;
+        $categoria = implode(',', $categoria);
+
+        if($categoria == 9){
+            $categoria = 9;
+            $titulo =  'TIENDA';
+            $productos = Producto::all();
+        }else{
+            $categoria = Categoria::findOrFail($request->categorias)->first();
+            $titulo = $categoria->nombre_categoria;
+            $categoria = $categoria->id;
+        }
+
+        $regiones = new Region;
+        $regiones = Region::all();
+        $comunas = new Comuna;
+        $comunas = Comuna::all();
+        $productos = new Producto;
+
+        if($categoria == 9)
+        {
+            $productos = Producto::all();
+        }else{
+            $productos = Producto::where('categoria_id', $categoria)->get();
+        }
+
+        foreach($productos as $producto)
+        {
+            $producto->imagenes = explode('|', $producto->imagenes);
+            if($producto->oferta_id != 0){
+                $producto->precio = $producto->oferta->precio_oferta;
+            }
+
+        }
+
+
+        $ofertas = Producto::where('oferta_id', '!=','0')->orderBy('oferta_id', 'desc')->take(7)->get();
+        foreach($ofertas as $oferta)
+        {
+            $oferta->imagenes = explode('|', $oferta->imagenes);
+        }
+        $ultimos = Producto::latest()->take(7)->get();
+        foreach($ultimos as $ultimo)
+        {
+            $ultimo->imagenes = explode('|', $ultimo->imagenes);
+            $ultimo->imagenes = $ultimo->imagenes[0];
+        }
+
+        return view('tienda', compact('productos', 'regiones', 'comunas', 'ultimos', 'ofertas', 'categoria', 'titulo'));
+
+    }
+
+    public function filtrados($categoria)
+    {   
+
+        $categoria = Categoria::findOrFail($categoria);
+        $titulo = $categoria->nombre_categoria;
+        $categoria = $categoria->id;
+
+        $regiones = new Region;
+        $regiones = Region::all();
+        $comunas = new Comuna;
+        $comunas = Comuna::all();
+        $productos = Producto::where('categoria_id', $categoria)->get();
+        $ofertas = Producto::where('oferta_id', '!=','0')->orderBy('oferta_id', 'desc')->take(7)->get();
+        foreach($ofertas as $oferta)
+        {
+            $oferta->imagenes = explode('|', $oferta->imagenes);
+        }
+        $ultimos = Producto::latest()->take(7)->get();
+        foreach($ultimos as $ultimo)
+        {
+            $ultimo->imagenes = explode('|', $ultimo->imagenes);
+            $ultimo->imagenes = $ultimo->imagenes[0];
+        }
+
+        foreach($productos as $producto)
+        {
+            $producto->imagenes = explode('|', $producto->imagenes);
+            if($producto->oferta_id != 0){
+                $producto->precio = $producto->oferta->precio_oferta;
+            }
+
+        }
+
+        return view('tienda', compact('productos', 'categoria', 'ofertas', 'ultimos', 'titulo'));
+
+    }
+
 }

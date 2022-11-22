@@ -1,11 +1,25 @@
 <div>
     
         <div class="flex items-center">
-            <div class="grid items-center mx-1">
-                <i class="fa fa-lg fa-shopping-cart" aria-hidden="true"></i>
+            <div id="carrito" class="hover:cursor-pointer carro grid items-center mx-1 relative">
+                <i class="hover:text-lime-500 carrito absolute top-0 right-0 fa fa-xl fa-shopping-cart" aria-hidden="true"></i>
+                <div class="circulo hover:bg-black absolute bottom-0 left-0 rounded-full py-1
+                    @if($carro < 10)
+                    px-2
+                    @else
+                    px-1
+                    @endif
+                bg-lime-500 text-xs">
+                    <p class="contador hover:text-white">
+                        {{$carro}}
+                    </p>
+                </div>
             </div>
-            <div class="grid items-center mx-1">
-            <p class="font-black">$123.456</p>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <div class="items-center mx-1">
+            <p class="font-black"> $123.456</p>
             </div>
         </div>
     

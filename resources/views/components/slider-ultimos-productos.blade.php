@@ -1,15 +1,15 @@
 <div>
-    <div class="flex ml-5 mb-5 space-x-5">
-        <div class="justify-start">
+    <div class="flex ml-5 mb-5 space-x-1">
+        <div class="">
             <p class="text-2xl lg:text-xl font-black">
                 Ultimos Productos
             </p>
         </div>
-        <div class="flex justify-end">
-            <div class="cursor-pointer py-1 mx-1 px-1 bg-gray-200">
+        <div class="flex">
+            <div class="cursor-pointer py-1 mx-1 px-1 bg-gray-200 rounded-md shadow-sm hover:bg-lime-500">
                 <i id="ultimos-izquierda" class="fa fa-chevron-left"></i>
             </div>
-            <div class="cursor-pointer py-1 px-1 bg-gray-200">
+            <div class="cursor-pointer py-1 px-1 bg-gray-200 rounded-md shadow-sm hover:bg-lime-500">
                 <i id ="ultimos-derecha" class="fa fa-chevron-right"></i>
             </div>
         </div>
@@ -25,20 +25,24 @@
                         @if($contador == 3)
                             @break
                         @endif
-                        <div class="flex">
-                            <img class="h-32" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}"  alt="">
-                            <ul>
-                                <li>
-                                    <p class="ml-3">
-                                        {{$ultimo->nombre_producto}}
-                                    </p>
-                                </li>
-                                <li>
-                                    <p class="ml-3 font-semibold">
-                                        ${{ number_format($ultimo->precio, 0, ",", ".")}}
-                                    </p>
-                                </li>
-                            </ul>
+                        <div>
+                            <a href="{{route('detalles', $ultimo->id)}}">
+                                <div class="flex">
+                                    <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}"  alt="">
+                                    <ul>
+                                        <li>
+                                            <p class="ml-3">
+                                                {{$ultimo->nombre_producto}}
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="ml-3 font-semibold">
+                                                ${{ number_format($ultimo->precio, 0, ",", ".")}}
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </a>
                         </div>
                         @php
                             $contador++;
@@ -48,20 +52,24 @@
             <div class="swiper-slide space-y-3">  
                 @foreach ($ultimos as $ultimo) 
                         @if($contador2 > 3)
-                        <div class="flex">
-                            <img class="h-32" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}"  alt="">
-                            <ul>
-                                <li>
-                                    <p class="ml-3">
-                                        {{$ultimo->nombre_producto}}
-                                    </p>
-                                </li>
-                                <li>
-                                    <p class="ml-3 font-semibold">
-                                        ${{ number_format($ultimo->precio, 0, ",", ".")}}
-                                    </p>
-                                </li>
-                            </ul>
+                        <div>
+                            <a href="{{route('detalles', $ultimo->id)}}">
+                                <div class="flex">
+                                    <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}"  alt="">
+                                    <ul>
+                                        <li>
+                                            <p class="ml-3">
+                                                {{$ultimo->nombre_producto}}
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="ml-3 font-semibold">
+                                                ${{ number_format($ultimo->precio, 0, ",", ".")}}
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </a>
                         </div>
                         @endif
                         

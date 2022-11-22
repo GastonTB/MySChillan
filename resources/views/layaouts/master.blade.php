@@ -24,6 +24,9 @@
         @yield('modales')        
         {{-- sidebar --}}
         <section>
+            <x-sidebar-carro :carrito="$carrito"/>
+        </section>
+        <section>
             <x-sidebar/>
         </section>
         {{-- modal login --}}
@@ -32,7 +35,7 @@
         </section>
         {{-- modal registro --}}
         <section>
-                <x-modal-registro :regiones="$regiones" :comunas="$comunas"/>
+            <x-modal-registro :regiones="$regiones" :comunas="$comunas"/>
         </section>
         {{-- navbar --}}
         <nav>
@@ -84,14 +87,14 @@
                         <div>
                             <ul class="flex justify-evenly">
                                 <li>
-                                    <p class="text-green-500">
+                                    <p class="text-lime-500">
                                         <a href="#">
                                             <i class="fa fa-facebook"></i>
                                         </a>
                                     </p>  
                                 </li>
                                 <li>
-                                    <p class="text-green-500">
+                                    <p class="text-lime-500">
                                         <a href="#">
                                             <i class="fa fa-instagram"></i>
                                         </a>
