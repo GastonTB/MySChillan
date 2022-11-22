@@ -138,41 +138,30 @@
           },
         });
 
+        
+        //when click on id carrito console log hola
+        $('.carrito').on('click', function(){
+          $('#sidebar-carro').removeClass('hidden');
+          console.log('gola');
+        });
+        $('.circulo').on('click', function(){
+          $('#sidebar-carro').removeClass('hidden');
+          console.log('gola');
+        });
+        
+        $('#overlay-carro').on('click', function(){
+          $('#sidebar-carro').addClass('hidden');
+        });
+
+
+
+        
 
         
 
 
-        var swiper5 = new Swiper("#ultimos-mobile", {
-          slidesPerView: 1,
-          spaceBetween: 10,
-          slidesPerGroup: 1,
-          loop: true,
-          loopFillGroupWithBlank: true,
-          navigation: {
-          nextEl: "#ultimos-derecha",
-          prevEl: "#ultimos-izquierda",
-          },
-          autoplay: {
-              delay: 4000,
-              disableOnInteraction: false,
-          }
-      });
+    
 
-      var swiper5 = new Swiper("#ofertas-slider", {
-        slidesPerView: 1,
-        spaceBetween: 10,
-        slidesPerGroup: 1,
-        loop: true,
-        loopFillGroupWithBlank: true,
-        navigation: {
-        nextEl: "#oferta-derecha",
-        prevEl: "#oferta-izquierda",
-        },
-        autoplay: {
-            delay: 4000,
-            disableOnInteraction: false,
-        }
-    });
 
 
 

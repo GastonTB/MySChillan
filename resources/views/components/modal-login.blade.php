@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="mx-auto">
-                            <button type="submit" class="text-lg font-bold px-6 py-2.5 bg-green-500 text-white rounded hover:bg-white hover:text-green-500 hover:shadow-lg ">Ingresar</button>
+                            <button type="submit" class="text-lg font-bold px-6 py-2.5 bg-lime-500 text-white rounded hover:bg-white hover:text-lime-500 hover:shadow-lg ">Ingresar</button>
                         </div>
                     </div>
                 </form>     

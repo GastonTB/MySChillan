@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Region;
 use App\Models\Comuna;
 use App\Models\Producto;
+use App\Models\Carrito;
+use Illuminate\Support\Facades\Auth;
 
 
 class InicioController extends Controller
@@ -17,18 +19,39 @@ class InicioController extends Controller
      */
     public function index()
     {   
-        $regiones = new Region;
-        $regiones = Region::all();
+        // $regiones = new Region;
+        // $regiones = Region::all();
         $comunas = new Comuna;
         $comunas = Comuna::all();
-        $ultimos = Producto::latest()->take(6)->get();
+        $ultimos = Producto::latest()->take(7)->get();
         foreach($ultimos as $ultimo)
         {
             $ultimo->imagenes = explode('|', $ultimo->imagenes);
             $ultimo->imagenes = $ultimo->imagenes[0];
         }
+        $ofertas = Producto::where('oferta_id', '!=','0')->orderBy('oferta_id', 'desc')->take(7)->get();
+        foreach($ofertas as $oferta)
+        {
+            $oferta->imagenes = explode('|', $oferta->imagenes);
+        }
+
+        // if(Auth::check()){
+        //     $id = Auth::user()->id;
+        //     $carrito = Carrito::where('user_id',$id)->first();
+        //     if($carrito == null){
+        //         $contador = 0;
+        //     }else{
+        //         $contador = count($carrito->productos);
+        //         if($contador > 10){
+        //             $contador = '9+';
+        //         }
+        //     }
+        // }
+        // else{
+        //     $contador = 0;
+        // }
        
-        return view('inicio', compact('regiones','comunas', 'ultimos'));
+        return view('inicio', compact('ultimos' , 'ofertas'));
         
     }
 

@@ -2,7 +2,7 @@
 @section('content')
 
     <section>
-        <div class="md:grid md:grid-cols-4 xl:grid-cols-7 mt-10">
+        <div class="md:grid md:grid-cols-4 xl:grid-cols-7 mt-10 mb-10 select-none">
             <div class="md:col-span-2 xl:col-start-2">
                 <div>
                     <div class="xl:grid xl:grid-cols-5">
@@ -16,15 +16,29 @@
             <div class="md:col-span-2 xl:col-span-2 xl:col-start-4">
                 <div class="md:mt-0 mt-10 mb-5 flex justify-start pl-5">
                     <p>
-                        <a class="text-green-500" href="{{route('inicio')}}">Inicio</a> / 
-                        <a class="text-green-500" href="#">{{$producto->categoria->nombre_categoria}}</a> /
+                        <a class="text-lime-500" href="{{route('tienda')}}">Tienda</a> / 
+                        <a class="text-lime-500" href="{{route('filtrados', $producto->categoria_id)}}">{{$producto->categoria->nombre_categoria}}</a> /
                         {{$producto->nombre_producto}}
                     </p>
                 </div>
-                <div class="justify-start pl-5 flex mb-5">
+                <div class="justify-start pl-5 flex mb-3">
                     <ul>
-                        <li class="text-2xl font-bold">{{$producto->nombre_producto}}</li>
-                        <li class="text-green-700 text-xl font-semibold flex">${{ number_format($producto->precio, 0, ",", ".")}}</li>
+                        <li class="text-2xl font-bold mb-3">{{$producto->nombre_producto}}</li>
+                        <li class="">
+                            @if($oferta!=null)
+                            <li class="block text-green-700 text-xl font-semibold flex">
+                                ${{ number_format($oferta->precio_oferta, 0, ",", ".")}}
+                            </li>
+                            <li class="text-gray-700 line-through block mt-1">
+                                ${{ number_format($producto->precio, 0, ",", ".")}}
+                            </li>
+                            <li class="text-sm text-gray-700">
+                                Oferta valida hasta {{$oferta->fecha_fin}}
+                            </li>
+                            @else
+                            ${{ number_format($producto->precio, 0, ",", ".")}}
+                            @endif
+                        </li>
                     </ul>
                 </div>
                 <div class="px-5">
@@ -71,14 +85,17 @@
                         </div>
                     @endfor
                     <div class="my-10">
+                        @if($producto->cantidad == 0)
+                            <p class="text-red-500 font-semibold">Producto agotado</p>
+                        @else
                         <div class="grid grid-cols-12 w-full space-x-2">
-                            <div id="menos" class="flex boton items-center justify-end text-green-500 font-black cursor-pointer">
+                            <div id="menos" class="flex boton items-center justify-end text-lime-500 font-black cursor-pointer">
                                 <i class="fa fa-minus"></i>
                             </div>
                             <div class="border-2 col-span-3 xl:col-span-2">
-                                <input id="cantidad"  placeholder="1" type="number" name="" id="" class="border-2 text-gray-500 text-center" style="width: 100%; height:100%">
+                                <input id="cantidad" min="1" max="{{$producto->cantidad}}" placeholder="1" type="number" name="" id="" class="border-2 text-gray-500 text-center" style="width: 100%; height:100%">
                             </div>
-                            <div id="mas" class="flex boton items-center text-green-500 font-black cursor-pointer">
+                            <div id="mas" class="flex boton items-center text-lime-500 font-black cursor-pointer">
                                 <i class="fa fa-plus"></i>
                             </div>
                             <div class="col-span-5">
@@ -89,10 +106,12 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
+
     </section>
 
     @section('js')
@@ -132,6 +151,7 @@
             $('.boton').on('click', function(){
                 var id = $(this).attr('id');
                 var val = $('#cantidad').val();
+                val = parseInt(val);
                 if(id == 'mas'){
                     val++;
                     $('#cantidad').val(val);
@@ -140,36 +160,28 @@
                     val--;
                     $('#cantidad').val(val);
                 }
-                if($('#cantidad').val()<1)
-                {   var val = 1;
-                    $('#cantidad').val(val);
-                }
-                if($('#cantidad').val()>max)
-                {
-                    $('#cantidad').val(max);
-                }
+                 if($('#cantidad').val()<1)
+                 {   var val = 1;
+                     $('#cantidad').val(val);
+                 }
+                 if($('#cantidad').val()>max)
+                 {
+                     $('#cantidad').val(max);
+                 }
             });
 
-        //    $('#cantidad').keypress(function(){
-        //        if($(this).val()<1)
-        //        {   
-        //            $(this).val(1);
-        //        }
-        //        if($(this).val2>max){
-        //            $(this).val(max);
-        //        }
-        //    });
-    $("#cantidad").keyup(function(){
-        var valor = $(this).val();
-        valor = parseInt(valor);
-        if(valor>max){
-            $(this).val(max);
-        }
-        if(valor<1){
-            $(this).val(1);
-        }
-        
-    });
+
+            $("#cantidad").keyup(function(){
+                var valor = $(this).val();
+                valor = parseInt(valor);
+                if(valor>max){
+                    $(this).val(max);
+                }
+                if(valor<1){
+                    $(this).val(1);
+                }
+                
+            });
             
 
         </script>

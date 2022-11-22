@@ -3,16 +3,17 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\View;
 use App\Models\Region;
 use App\Models\Comuna;
+use App\Models\User;
+use App\Models\Carrito;
+use App\Models\Producto;
+use App\Models\Oferta;
 use Illuminate\Support\Facades\Auth;
-use App\Helpers\Helpers;
 
 
 
-
-class AppServiceProvider extends ServiceProvider
+class HelpersServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -21,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        require_once app_path().'/Helpers/Helpers.php';
     }
 
     /**
@@ -31,17 +32,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {   
-        $regiones = Helpers::getRegiones();
-   
-        View::share('regiones', $regiones );
-
-        $comunas = Helpers::getComunas();
-
-        View::share('comunas', $comunas );
-
-        $carro = Helpers::getCarro();
-
-        $carrito = Helpers::getCarrito();
+       
 
     }
 

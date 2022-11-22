@@ -14,9 +14,9 @@
                 {{-- izquierda --}}
                 <div class="xl:col-span-2 lg:order-2">
                     <div class="grid xl:grid-cols-5 gap-4">                        
-                        <div class=":col-start-2 xl:col-span-3 galeria">
+                        <div class="xl:col-start-2 xl:col-span-3 galeria">
                             <div class="flex justify-center items-center">
-                                <img id="preview-imagen-0" class="xl:object-cover md:object-scale-down py-15 px-5" src="" alt="">
+                                <img id="preview-imagen-0" class="xl:object-cover md:object-scale-down py-15 px-5 mb-5 mt-10" src="" alt="">
                             </div>
                         </div>      
                     </div>
@@ -117,7 +117,7 @@
                     <div class="pl-10 mt-5">
                         @foreach ($categorias as $categoria)
                             <div>
-                                <input id="{{$categoria->id}}" name="categorias[]" value="{{$categoria->id}} " @if(is_array(old('categorias')) && in_array($categoria->id, old('categorias'))) checked @endif class="categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-green-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
+                                <input id="{{$categoria->id}}" name="categorias[]" value="{{$categoria->id}} " @if(is_array(old('categorias')) && in_array($categoria->id, old('categorias'))) checked @endif class="categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
                                 <label class="md:text-xl" for="">{{$categoria->nombre_categoria}}</label>
                             </div>
                         @endforeach
@@ -143,19 +143,19 @@
                             <textarea id="descripcion-text" class="border-2 texto" name="descripcion_text" id="" cols="35" rows="7">{{old('descripcion_text')}}</textarea>
                             <div id="temporada-text" class="texto hidden">
                                 <div>
-                                    <input name="temporada_text[]" value="1" @if(is_array(old('temporada_text')) && in_array(1, old('temporada_text'))) checked @endif class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-green-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
+                                    <input name="temporada_text[]" value="1" @if(is_array(old('temporada_text')) && in_array(1, old('temporada_text'))) checked @endif class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
                                 <label for="">Otoño</label>
                                 </div>
                                 <div>
-                                    <input name="temporada_text[]" value="2" @if(is_array(old('temporada_text')) && in_array(2, old('temporada_text'))) checked @endif class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-green-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
+                                    <input name="temporada_text[]" value="2" @if(is_array(old('temporada_text')) && in_array(2, old('temporada_text'))) checked @endif class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
                                 <label for="">Invierno</label>
                                 </div>
                                 <div>
-                                    <input name="temporada_text[]" value="3" @if(is_array(old('temporada_text')) && in_array(3, old('temporada_text'))) checked @endif class=" form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-green-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
+                                    <input name="temporada_text[]" value="3" @if(is_array(old('temporada_text')) && in_array(3, old('temporada_text'))) checked @endif class=" form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
                                     <label for="">Primavera</label>
                                 </div>
                                 <div>
-                                    <input name="temporada_text[]" value="4" @if(is_array(old('temporada_text')) && in_array(4, old('temporada_text'))) checked @endif class=" form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-green-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
+                                    <input name="temporada_text[]" value="4" @if(is_array(old('temporada_text')) && in_array(4, old('temporada_text'))) checked @endif class=" form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
                                     <label for="">Verano</label>
                                 </div>
                             </div>
