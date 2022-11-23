@@ -4,7 +4,7 @@
         <div class="py-5">
             <p class="text-xl ml-5 mb-5 font-black text-lime-500">Filtrar por Categorias</p>
             
-            <ul class="mx-5 border-1 rounded-md px-5 py-5 bg-white" id="categorias">
+            <ul class="mx-5 border-1 rounded-md px-5 pb-5 bg-white" id="categorias2">
                 <li class="py-2 hover:text-lime-500">
                     <div class="form-check">
                         <input name="categorias[]" 
@@ -14,7 +14,7 @@
                             checked
                             @endif
                         @endif
-                        class="hover:bg-yellow-100 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" >
+                        class="rounded-md hover:bg-lime-500 hover:animate-ping ease-in-out delay-150 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" >
                         <label class="form-check-label inline-block text-gray-800">
                           Ornamentales
                         </label>
@@ -28,7 +28,7 @@
                                 checked
                             @endif
                         @endif
-                        class="hover:bg-yellow-100 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" >
+                        class="rounded-md hover:bg-lime-500 hover:animate-ping ease-in-out delay-150 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" >
                         <label class="form-check-label inline-block text-gray-800">
                           Plantas de Interior
                         </label>
@@ -42,7 +42,7 @@
                                 checked
                             @endif
                         @endif
-                        class="hover:bg-yellow-100 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" >
+                        class="rounded-md hover:bg-lime-500 hover:animate-ping ease-in-out delay-150 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" >
                         <label class="form-check-label inline-block text-gray-800">
                           Plantas de Exterior
                         </label>
@@ -56,7 +56,7 @@
                                 checked
                             @endif
                         @endif
-                        class="hover:bg-yellow-100 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"  >
+                        class="rounded-md hover:bg-lime-500 hover:animate-ping ease-in-out delay-150 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"  >
                         <label class="form-check-label inline-block text-gray-800">
                           Suculentas
                         </label>
@@ -70,7 +70,7 @@
                                 checked
                             @endif
                         @endif
-                        class="hover:bg-yellow-100 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
+                        class="rounded-md hover:bg-lime-500 hover:animate-ping ease-in-out delay-150 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
                         <label class="form-check-label inline-block text-gray-800">
                           Árboles Frutales
                         </label>
@@ -84,7 +84,7 @@
                                 checked
                             @endif
                         @endif
-                        class="form-check-input categorias hover:bg-yellow-100  appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
+                        class="form-check-input categorias rounded-md hover:bg-lime-500 hover:animate-ping ease-in-out delay-150  appearance-none h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox">
                         <label class="form-check-label inline-block text-gray-800">
                           Maceteros
                         </label>
@@ -98,7 +98,7 @@
                                 checked
                             @endif
                         @endif
-                        class="hover:bg-yellow-100 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"  >
+                        class="rounded-md hover:bg-lime-500 hover:animate-ping ease-in-out delay-150 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"  >
                         <label class="form-check-label inline-block text-gray-800">
                           Tierra de Hojas
                         </label>
@@ -112,7 +112,7 @@
                                 checked
                             @endif
                         @endif
-                        class="hover:bg-yellow-100 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"  >
+                        class="rounded-md hover:bg-lime-500 hover:animate-ping ease-in-out delay-150 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"  >
                         <label class="form-check-label inline-block text-gray-800">
                           Accesorios
                         </label>
@@ -126,7 +126,7 @@
                                 checked
                             @endif
                         @endif
-                        class="hover:bg-yellow-100 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-lime-500 checked:border-black focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"  >
+                        class="rounded-md hover:bg-lime-500 hover:animate-ping ease-in-out delay-150 categorias form-check-input appearance-none h-4 w-4 border border-gray-300 bg-white checked:bg-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox"  >
                         <label class="form-check-label inline-block text-gray-800">
                           Todos
                         </label>

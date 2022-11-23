@@ -8,15 +8,6 @@
                 Categorias
             </p>
         </div>
-        <div class="flex justify-end">
-            <p id="" class="text-white text-sm font-black mr-2 py-2 flecha-arriba">
-                <i class="fa fa-chevron-up"></i>
-            </p>
-            <p id="" class="text-white text-sm font-black mr-2 py-2 flecha-abajo">
-                <i class="fa fa-chevron-down"></i>
-            </p> 
-        </div>
-        
     </div>
     <div id="" class="border-2 md:text-lg lg:text-md categoria bg-white">
         <ul class="pl-2">
@@ -28,6 +19,6 @@
             <li class="py-2 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados','6')}}">Maceteros</a></li>
             <li class="py-2 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados','7')}}">Tierra de Hojas</a></li>
             <li class="py-2 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados','8')}}">Accesorios</a></li>
-        </ul>    </div>
-    
+        </ul>    
+    </div>
 </div>

@@ -45,7 +45,7 @@
                     @for ($i = 0; $i < $cantidad; $i++)
                         <div class="mt-5">
                             <div>
-                                <p class="font-semibold cursor-pointer titulo" id="titulo-{{$i}}">
+                                <p class="font-semibold cursor-pointer titulo mb-2" id="titulo-{{$i}}">
                                     @switch($i)
                                         @case(0)
                                             Descripcion: <i id="fl-ar-0" class="fa fa-chevron-up hidden"></i><i id="fl-ab-0" class="fa fa-chevron-down"></i>
@@ -77,7 +77,7 @@
                                     </ul>
                                 </div>
                                 @else
-                                <div id="contenido-{{$i}}">
+                                <div class="text-justify" id="contenido-{{$i}}">
                                     {{$producto->descripcion[$i]}}
                                 </div>
                                 @endif

@@ -104,10 +104,6 @@ class Helpers
 
     public static function mergeCarritos()
     { 
-        
-        view()->composer('*', function($view)
-        {
-
             if(!Session::has('carrito')){
                 Session::put('carrito', array());
             }
@@ -117,14 +113,14 @@ class Helpers
             if($carritoModel == null){
                 $carritoModel = new Carrito;
                 $carritoModel->user_id = Auth::user()->id;
+                $carritoModel->total = 0;
                 $carritoModel->save();
             }
             
-            //loop through the session carrito and add the products to the model carrito
             for($i = 0; $i < count($carrito); $i++){
                 $duplicated = false;
                 for($j = 0; $j < count($carritoModel->productos); $j++){
-                    if($carrito[$i]['id'] == $carritoModel->productos[$j]['id']){
+                    if($carrito[$i]['producto_id'] == $carritoModel->productos[$j]['producto_id']){
                         //add cantidad_carrito to cantidad_carrito
                         $carritoModel->productos[$j]['cantidad_carrito'] += $carrito[$i]['cantidad_carrito'];
                         $duplicated = true;
@@ -132,7 +128,7 @@ class Helpers
                     }
                 }
                 if(!$duplicated){
-                    $carritoModel->productos()->attach($carrito[$i]['id'], ['cantidad' => $carrito[$i]['cantidad']]);
+                    $carritoModel->productos()->attach($carrito[$i]['producto_id'], ['cantidad_carrito' => $carrito[$i]['cantidad_carrito']]);
                 }
 
             }
@@ -143,8 +139,21 @@ class Helpers
             }
             $carritoModel->save();
             Session::forget('carrito');
-            $view->with('carro', $contador);
-        });
+            return $carritoModel;
+    }
 
+    public static function getIdCarrito()
+    {
+        if(Auth::check()){
+            $carrito = Carrito::where('user_id',Auth::user()->id)->first();
+            if($carrito == null){
+                $carrito = new Carrito;
+                $carrito->user_id = Auth::user()->id;
+                $carrito->save();
+            }
+            return $carrito->id;
+        }else{
+            
+        }
     }
 }

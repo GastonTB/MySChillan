@@ -25,22 +25,6 @@ class tiendaController extends Controller
     public function index()
     {
 
-        if(Auth::check()){
-            $id = Auth::user()->id;
-            $carrito = Carrito::where('user_id',$id)->first();
-            if($carrito == null){
-                $contador = 0;
-            }else{
-                $contador = count($carrito->productos);
-                if($contador >= 10){
-                    $contador = '9+';
-                }
-            }
-
-        }
-        else{
-            $contador = 0;
-        }
 
         $regiones = new Region;
         $regiones = Region::all();
@@ -52,9 +36,6 @@ class tiendaController extends Controller
         foreach($productos as $producto)
         {
             $producto->imagenes = explode('|', $producto->imagenes);
-            if($producto->oferta_id != 0){
-                $producto->precio = $producto->oferta->precio_oferta;
-            }
 
         }
 
@@ -71,7 +52,7 @@ class tiendaController extends Controller
             $oferta->imagenes = explode('|', $oferta->imagenes);
         }
 
-        return view('tienda', compact('productos' , 'ultimos', 'ofertas', 'categoria' ,'contador'));
+        return view('tienda', compact('productos' , 'ultimos', 'ofertas', 'categoria'));
     }
 
     /**

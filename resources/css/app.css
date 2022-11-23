@@ -2,15 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+input[type="text"]:focus ~ .input-text{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
+input[type="password"]:focus ~ .input-text-password{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
+input[type="text"]:not(:placeholder-shown) ~ .input-text{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
+input[type="password"]:not(:placeholder-shown) ~ .input-text-password{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
+select:focus ~ .input-select{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
+select:not([value=""]) ~ .input-select{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
+
+
+
+
 @layer components{
     .btn-primary{
-        @apply active:bg-yellow-100 select-none cursor-pointer text-xl font-bold px-6 py-2.5 bg-lime-500 text-white leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-white focus:text-lime-500 hover:bg-white hover:text-lime-500 focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out;
+        @apply active:bg-yellow-100 select-none cursor-pointer text-xl font-bold px-6 py-2.5 bg-lime-500 text-white leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-white focus:text-lime-500 hover:bg-white hover:text-lime-500 focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out delay-150;
     }
 
     .btn-red{
-        @apply cursor-pointer text-xl  select-none font-bold px-6 py-2.5 bg-red-500 text-white leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-white focus:text-red-500 hover:bg-white hover:text-red-500 focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out;
+        @apply cursor-pointer text-xl  select-none font-bold px-6 py-2.5 bg-red-500 text-white leading-tight uppercase rounded shadow-md hover:shadow-lg focus:bg-white focus:text-red-500 hover:bg-white hover:text-red-500 focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out delay-150;
     }
     .btn-tienda{
-        @apply cursor-pointer select-none active:bg-yellow-100 text-sm font-semibold px-3 py-2.5 bg-lime-500 text-white leading-tight uppercase rounded-sm shadow-md hover:shadow-lg focus:bg-white focus:text-lime-500 hover:bg-white hover:text-lime-500 focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out;
+        @apply cursor-pointer select-none active:bg-yellow-100 text-sm font-semibold px-3 py-2.5 bg-lime-500 text-white leading-tight uppercase rounded-sm shadow-md hover:shadow-lg focus:bg-white focus:text-lime-500 hover:bg-white hover:text-lime-500 focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out delay-150;
+    }
+    .btn-cat{
+        @apply cursor-pointer select-none active:bg-yellow-100 font-semibold px-3 bg-lime-500 text-white leading-tight uppercase rounded-sm shadow-md hover:shadow-lg focus:bg-white focus:text-lime-500 hover:bg-white hover:text-lime-500 focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out delay-150;
     }
 }

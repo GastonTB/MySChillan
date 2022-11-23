@@ -1,5 +1,5 @@
 <div class="px-10 md:px-0 ">
-    <div class="hover:scale-110 hover:z-40 hover:shadow-xl shadow-md select-none">
+    <div class="hover:scale-110 transition ease-in-out delay-150 hover:shadow-xl shadow-md select-none">
         <form action="{{route('carrito')}}" method="POST">
             @csrf
             <div class="col-container mb-3 grid place-items-center producto border-black border-opacity-5 rounded-md bg-gray-100" id="{{$producto->id}}">
@@ -23,12 +23,29 @@
                 </div>
                 <div class="py-5 space-y-1">
                     <div class="flex justify-center">
-                        <p class="font-medium">{{$producto->nombre_producto}}</p>
+                        <p class="font-medium text-gray-700">{{$producto->nombre_producto}}</p>
                     </div>
-                    <div  class="flex justify-center">
-                        <p class="font-semibold text-xl precio">
-                            $ {{ number_format($producto->precio, 0, ",", ".")}}
-                        </p>
+                    <div>
+                        @if($producto->oferta_id!=0)
+                            <div class="flex justify-center space-x-3">
+                                <div>
+                                    <p class="font-semibold text-xl precio text-lime-700">
+                                        ${{ number_format($producto->oferta->precio_oferta, 0, ",", ".")}}
+                                    </p>
+                                </div>
+                                <div class="items-end flex">
+                                    <p class="precio text-gray-700 line-through">
+                                        ${{ number_format($producto->precio, 0, ",", ".")}}
+                                    </p>
+                                </div>
+                            </div>
+                        @else
+                        <div class="flex justify-center">
+                            <p class="font-semibold text-xl precio text-lime-700">
+                                ${{ number_format($producto->precio, 0, ",", ".")}}
+                            </p>
+                        </div>
+                        @endif
                     </div>
                     <input type="hidden" name="cantidad" value="1">
                     <input type="hidden" name="producto" value="{{$producto->id}}">

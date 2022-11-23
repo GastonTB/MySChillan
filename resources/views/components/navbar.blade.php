@@ -1,5 +1,5 @@
-<div>
-    <div id="celular" class="hidden sm:block md:block">
+<div class="select-none relative">
+    <div id="celular" class="lg:hidden">
         <div class="columns-2 mb-5">
             <div class="flex justify-start">
                 <div class="content-center">
@@ -80,25 +80,27 @@
         <div class="py-2">
             <div class="grid grid-cols-4 items-center">
                 <div class="flex justify-end">
-                    <img class="object-scale-down h-14" src="{{asset('img/logos/logo.png')}}" alt="">
+                    <a href="{{route('inicio')}}">
+                        <img class="object-scale-down h-14" src="{{asset('img/logos/logo.png')}}" alt="">
+                    </a>
                 </div>
                 <div class="grid col-span-2 justify-evenly font-black text-lime-500">
                     <div class="flex @auth
-                    space-x-12 lg:space-x-10
+                    lg:space-x-8 xl:space-x-10
                     @endauth space-x-16">
-                        @if(session()->get('rol')!=1)
-                            <div>
-                                <a href="{{route('inicio')}}">
-                                    <p class=" hover:text-black">
-                                        INICIO
-                                    </p>
-                                </a>
-                            </div>
+                        <div>
+                            <a href="{{route('inicio')}}">
+                                <p class=" hover:text-black">
+                                    INICIO
+                                </p>
+                            </a>
+                        </div>
+                        @if(session()->get('rol')!=1) 
                         @else
                             <div>
                                 <a href="{{route('backoffice')}}">
                                     <p class=" hover:text-black">
-                                        BACK OFFICE
+                                        
                                     </p>
                                 </a>
                             </div>
@@ -110,28 +112,11 @@
                                 </p>
                             </a>
                         </div>
-                        <div class="relative">
-                            <div id="carrito">
-                                <p class=" hover:text-black">
-                                    CARRITO
-                                </p>
-                            </div>
-                            <div id="opciones-carrito" class="space-y-2 fixed hidden z-10 bg-white">
-                                <ul clas="">
-                                    <li class=" hover:text-black">
-                                        VER CARRITO
-                                    </li>
-                                    <li class=" hover:text-black">
-                                        PAGAR
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                         @if(session('rol')==1)
                         <div class="relative">
                             <div id="admin">
                                 <p class=" hover:text-black">
-                                    ADMINISTRACIÓN
+                                    BACK OFFICE
                                 </p>
                             </div>
                             <div id="opciones-admin" class="space-y-2 fixed hidden z-10 bg-white">
@@ -149,13 +134,6 @@
                             </div>
                         </div>
                         @endif
-                        @if(session()->get('rol') !=1)
-                            <div>
-                                <p class=" hover:text-black">
-                                    SOBRE NOSOTROS
-                                </p>
-                            </div>
-                        @endif
                         @auth
                             <div>
                                 <p class=" hover:text-black">
@@ -163,6 +141,11 @@
                                 </p>
                             </div>
                         @endauth
+                        <div>
+                            <p class=" hover:text-black">
+                                SOBRE NOSOTROS
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="grid-cols-1">
