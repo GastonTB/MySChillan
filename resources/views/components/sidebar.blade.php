@@ -1,116 +1,131 @@
 <div>
-    <div id="sidebar" class="hidden">
+    <div id="sidebar" class="select-none hidden">
         {{-- overlay --}}
-        <div id="overlay-sidebar" class="z-10 fixed h-screen w-screen bg-black opacity-40"></div>
-        <div class="sidebar-slide z-20 h-full w-3/4 fixed md:w-2/4 bg-gray-100">
-            {{-- contenido sidebar --}}
-            <div class="grid h-screen grid-rows-10 gap-4">
-                <div class="flex row-span-1">
-                    <div class="m-auto">
-                        <img class="object-scale-down h-16" src="{{asset('img/logos/logo.png')}}" alt="">
+        <div id="overlay-sidebar" class="z-20 fixed h-screen w-screen bg-black opacity-40"></div>
+        <div class="sidebar-slide z-40 h-full w-3/4 fixed md:w-2/5 bg-gray-100 overflow-auto">
+            <div>
+                <div class="mt-5 flex">
+                    <div>
+                        <img class="h-16" src="{{asset('img/logos/logo.png')}}" alt="">
+                    </div>
+                    <div class="absolute top-2 right-3">
+                        <i id="cerrar-sidebar" class="fa fa-x active:lime-green-500"></i>
                     </div>
                 </div>
-                <div class="row-span-1 flex justify-center md:text-lg">
-                    <div class="flex content-center">
-                        <div class="grid content-center mx-1">
-                            <i class="fa fa-lg fa-shopping-cart" aria-hidden="true"></i>
-                        </div>
-                        <div class="grid content-center mx-1">
-                            <p class="font-bold">$123.456</p>
-                        </div>
+                <div>
+                    <div class="flex justify-center my-5">
+                        <x-carrito/>
                     </div>
-                </div>
-                <div class="row-span-1 flex justify-evenly md:text-lg">
-                    <div class="grid content-center">
-                        <ul class="flex space-x-5">
-                            <li id="ingresar">
-                                <a class="hover:text-lime-500 flex space-x-2" href="#">
-                                    <i class="fa fa-user"></i>
-                                    <p class="">
-                                        Ingresar
-                                    </p>
-                                </a>
+                    <div>
+                        @auth
+                        <div class="pl-5 mt-5">
+                            <p class="items-end active:text-lime-500"><i class="fa fa-user fa-sm pr-1 text-lime-600"> </i>{{Auth::user()->name}} {{Session::get('apellido_paterno')}} {{Session::get('apellido_materno')}}</p>
+                        </div>
+                    @endauth
+
+                    @guest
+                        <div class="pl-5 mt-5">
+                            <ul class="space-x-3">
+                                <li class="inline-block" id="ingresar">
+                                    <a class="hover:text-lime-500 flex space-x-2" href="#">
+                                        <p class="text-gray-700 active:text-lime-500">
+                                            <i class="fa-sm fa fa-user text-lime-600"></i>
+                                            Ingresar
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="inline-block" id="registrarse">
+                                    <a class="hover:text-lime-500 flex space-x-2" href="#">
+                                        <p class="text-gray-700 active:text-lime-500">
+                                            <i class="fa-sm fa fa-user-plus text-lime-600"></i>
+                                            Registrarse
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    @endguest
+                    </div>
+
+                    {{-- menu --}}
+                    <div class="mt-5">
+                        <ul class="px-5 space-y-3 text-gray-700">
+                            <li class="border-b-2 pb-1 border-black border-opacity-10">
+                                <a class="active:text-lime-500" href="{{route('inicio')}}">Inicio</a>
                             </li>
-                            <li id="registrarse">
-                                <a class="hover:text-lime-500 flex space-x-2" href="#">
-                                    <i class="fa fa-user-plus"></i>
-                                    <p class="">
-                                        Registrarse
-                                    </p>
-                                </a>
+                            <li class="border-b-2 pb-1 border-black border-opacity-10">
+                                <a class="active:text-lime-500" id="tienda" href="#">Tienda <i id="abajo-tienda" class="fa fa-chevron-down fa-sm"></i><i id="arriba-tienda" class="fa fa-chevron-up hidden fa-sm"></i></a>
+                                <ul id="lista-tienda" class="pl-10 space-y-2 mt-3 pb-1 hidden">
+                                    <li><a href="{{route('tienda')}}"Todos los Productos></a></li>
+                                    <li><a href="{{route('filtrados',1)}}">Ornamentales</a></li>
+                                    <li><a href="{{route('filtrados',2)}}">Plantas de Interior</li>
+                                    <li><a href="{{route('filtrados',3)}}">Plantas de Exterior</li>
+                                    <li><a href="{{route('filtrados',4)}}">Suculentas</li>
+                                    <li><a href="{{route('filtrados',5)}}">Arboles Frutales</li>
+                                    <li><a href="{{route('filtrados',6)}}">Maceteros</li>
+                                    <li><a href="{{route('filtrados',7)}}">Tierra de Hojas</li>
+                                    <li><a href="{{route('filtrados',8)}}">Accesorios</li>
+                                </ul>
+                            </li>
+                            <li class="border-b-2 pb-1 border-black border-opacity-10">
+                                <a class="active:text-lime-500" href="#">Carrito</a>
+                            </li>
+                            @auth
+                                <li class="border-b-2 pb-1 border-black border-opacity-10">
+                                    <a class="active:text-lime-500" href="#">Perfil</a>
+                                </li>
+                                {{-- check if is admin --}}
+                                @if (session()->get('rol')== 1)
+                                <li class="border-b-2 pb-1 border-black border-opacity-10">
+                                    <a id="back-office" class="active:text-lime-500" href="#">Back Office <i id="abajo-bo" class="fa fa-chevron-down fa-sm"></i><i id="arriba-bo" class="fa fa-chevron-up hidden fa-sm"></i></a>
+                                    <ul id="lista-bo" class="pl-10 space-y-2 mt-3 pb-1 hidden">
+                                        <li>Ver Listado Productos</li>
+                                        <li>Ver Listado Ofertas</li>
+                                        <li>Agregar Producto</li>
+                                    </ul>
+                                </li>
+                                @endif
+                            @endauth
+                            <li class="border-b-2 pb-1 border-black border-opacity-10">
+                                <a class="active:text-lime-500" href="#">Sobre Nosotros</a>
                             </li>
                         </ul>
                     </div>
-                </div>
-                {{-- menu lista --}}
-                <div class="pl-10 row-span-2">
-                    <div class="flex">
-                        <div class="grid content-center md:text-lg">
-                            <ul class="space-y-3 font-semibold">
-                                <div class="flex pb-1 hover:text-lime-500 hover:text-lg">
-                                    <li class="hover:text-xl">
-                                        <a href="#">Inicio</a>
-                                    </li>
-                                </div>
-                                <div class="flex pb-1 hover:text-lime-500 hover:text-lg">
-                                    <li class="hover:text-xl">
-                                        <a href="#">Tienda</a>
-                                    </li>
-                                </div>
-                                <div class="flex pb-1 hover:text-lime-500 hover:text-lg">
-                                    <li class="hover:text-xl">
-                                        <a href="#">Carrito</a>
-                                    </li>
-                                </div>
-                                <div class="flex pb-1 hover:text-lime-500 hover:text-lg">
-                                    <li class="hover:text-xl">
-                                        <a href="#">Sobre Nosotros</a>
-                                    </li>
-                                </div>
-                            </ul>
+                    <div class="my-5 pl-5">
+                        <div class="flex space-x-3">
+                            <i class="text-lime-600 fa fa-instagram font-bold"></i>
+                            <i class="text-lime-600 fa fa-facebook font-bold"></i>
                         </div>
                     </div>
-                </div>
-                {{-- footer --}}
-                <div class="border-2">
-                    <footer>
-                        <div class="py-5">
-                            <div class="mb-5">
-                                <ul class="flex justify-evenly md:text-2xl">
-                                    <li>
-                                        <p class="text-lime-500 hover:text-white">
-                                            <a href="#">
-                                                <i class="fa fa-facebook"></i>
-                                            </a>
-                                        </p>  
-                                    </li>
-                                    <li>
-                                        <p class="text-lime-500 hover:text-white">
-                                            <a href="#">
-                                                <i class="fa fa-instagram"></i>
-                                            </a>
-                                        </p>    
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="pl-5">
-                                <ul class="space-y-1 text-sm text-gray-600 md:text-md">
-                                    <li>
-                                        <p>Retiro Gratis en Tienda y Envios a Todo Chile</p>
-                                    </li>
-                                    <li>
-                                        direccion
-                                    </li>
-                                    <li>
-                                        telefono
-                                    </li>
-                                    <li>
-                                        correo
-                                    </li>
-                                </ul>
-                            </div>
+                    <div class="pl-5 text-gray-700 flex space-x-2">
+                        <div>
+                            <i class="fa fa-sm fa-envelope"></i>
                         </div>
-                    </footer>
+                        <div class="text-sm select-auto">
+                            <p>correo@correo.cl</p>
+                        </div>
+                    </div>
+                    <div class="pl-5 text-gray-700 flex space-x-2 mt-2">
+                        <div>
+                            <i class="fa fa-sm fa-phone"></i>
+                        </div>
+                        <div class="text-sm select-auto">
+                            <p>+569 66 419 506</p>
+                        </div>
+                    </div>
+                    <div class="pl-5 text-gray-700 flex space-x-2 mt-2">
+                        <div>
+                            <i class="fa fa-sm fa-map-marker"></i>
+                        </div>
+                        <div class="text-sm">
+                            <p>Pasaje Ñiquen 2795, Chillán, Chile</p>
+                        </div>
+                    </div>
+                    <div class="pl-5 text-gray-700 flex space-x-2 mt-5">
+                        <div class="text-sm">
+                            <p>Envios a Todo Chile y Retiro en Tienda</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

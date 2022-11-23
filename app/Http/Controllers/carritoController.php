@@ -153,7 +153,7 @@ class carritoController extends Controller
      */
     public function show($id)
     {
-        //
+        return 'hola';
     }
 
     /**

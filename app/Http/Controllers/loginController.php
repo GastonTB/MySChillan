@@ -95,6 +95,7 @@ class loginController extends Controller
             session(['apellido_materno' => $usuario->apellido_materno]);
             session(['id' => $usuario->user_id]);
             session(['rol' => $usuario->rol_id]);
+            $carrito = Helpers::mergeCarritos();
             return Redirect::back();
 
         }else{

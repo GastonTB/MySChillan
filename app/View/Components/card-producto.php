@@ -13,11 +13,13 @@ class card-producto extends Component
      */
     public $producto;
     public $image;
+    public $oferta;
 
-    public function __construct($producto, $imagen)
+    public function __construct($producto, $imagen, $oferta)
     {
         $this->producto = $producto;
         $this->image = $producto->imagenes;
+        $this->oferta = $oferta;
     }
 
     public function customFunction(): string

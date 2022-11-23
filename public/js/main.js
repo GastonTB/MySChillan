@@ -36,36 +36,24 @@
       )
     },function(){
       $('#opciones-admin').hide();
-    }
-    );
-  
-    
-
-    //ocultar navbars
-    if($('#pc').css('display')!='none'){
-      $('#pc').show();
-      $('#celular').hide();
-    }else{
-      $('#celular').show();
-      $('#pc').hide();
-    }
+    });
 
       //boton menu PC
-  
-      $('#ingresar2').on('click', function(){
-        $('#modal-login').removeClass('hidden');
-        $('#sidebar').addClass('hidden');
-      });
-  
-      $('#overlay-modal-login').on('click', function(){
-        $('#modal-login').addClass('hidden');
-      });
-      
-      $('#registrarse2').on('click', function(){
-        $('#modal-registro').removeClass('hidden');
-        $('#sidebar').addClass('hidden');
-        var selectR = selectRegion(); 
-      });
+
+    $('#ingresar2').on('click', function(){
+      $('#modal-login').removeClass('hidden');
+      $('#sidebar').addClass('hidden');
+    });
+
+    $('#overlay-modal-login').on('click', function(){
+      $('#modal-login').addClass('hidden');
+    });
+    
+    $('#registrarse2').on('click', function(){
+      $('#modal-registro').removeClass('hidden');
+      $('#sidebar').addClass('hidden');
+      var selectR = selectRegion(); 
+    });
   
 
     //boton menu celular/tablet
@@ -135,43 +123,59 @@
           navigation: {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
-          },
+            },
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+          }
         });
 
         
         //when click on id carrito console log hola
         $('.carrito').on('click', function(){
           $('#sidebar-carro').removeClass('hidden');
-          console.log('gola');
         });
         $('.circulo').on('click', function(){
           $('#sidebar-carro').removeClass('hidden');
-          console.log('gola');
         });
         
         $('#overlay-carro').on('click', function(){
           $('#sidebar-carro').addClass('hidden');
         });
 
+        $('#tienda').on('click', function(){
+          if($('#lista-tienda').is(':visible')){
+            $('#lista-tienda').hide('slow');
+            $('#abajo-tienda').show();
+            $('#arriba-tienda').hide();
+          }else{
+            $('#lista-tienda').show('slow');
+            $('#abajo-tienda').hide();
+            $('#arriba-tienda').show();
+          }
 
+        });
+
+        $('#back-office').on('click', function(){
+          if($('#lista-bo').is(':visible')){
+            $('#lista-bo').hide('slow');
+            $('#abajo-bo').show();
+            $('#arriba-bo').hide();
+          }else{
+            $('#lista-bo').show('slow');
+            $('#abajo-bo').hide();
+            $('#arriba-bo').show();
+          }
+        });
+
+        $('#cerrar-sidebar').on('click', function(){
+          $('#sidebar').addClass('hidden');
+        });
+
+        $('#cerrar-carrito').on('click', function(){
+          $('#sidebar-carro').addClass('hidden');
+        });
 
         
-
-        
-
-
-    
-
-
-
-
-      
-
-
-  
-
-
-
-
 
 })(jQuery);

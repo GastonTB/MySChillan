@@ -1,14 +1,14 @@
 <div>
-    <div id="sidebar-carro" class="">
+    <div id="sidebar-carro" class="select-none hidden">
         <div id="overlay-carro" class="z-40 fixed h-screen w-screen bg-black opacity-40"></div>
-        <div class="z-50 right-0 fixed h-screen w-4/5 md:w-3/5 lg:w-1/4 xl:w-1/5 bg-gray-100">
+        <div class="z-50 right-0 fixed h-screen w-4/5 md:w-2/5 lg:w-1/4 xl:w-1/5 bg-gray-100">
 
             
                 <div class="grid grid-rows-18 h-full">
                     <div class="row-span-1">
                         <div class="flex justify-end">
                             <div class="pr-5 pt-3">
-                                <i class="fa fa-x fa-lg"></i>
+                                <i id="cerrar-carrito" class="fa fa-x fa-lg"></i>
                             </div>
                         </div>
                     </div>
@@ -43,20 +43,23 @@
                                                 </div>
                                             </div>
                                             <div class="absolute bottom-4 right-0">
-                                                <i class="fa fa-trash text-lime-500 hover:text-black active:text-red-400"></i>
+                                                <i class="fa fa-trash hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400"></i>
                                             </div>
                                         </div>
                                     </div>
                                 @endfor
                             @else
-                                <div class="flex justify-center items-center h-full">
-                                    <p class="text-2xl font-bold text-gray-400">
-                                        No hay productos en el carrito
-                                    </p>
+                                <div class="row-start-2">
+                                    <div class="flex justify-center items-center h-full">
+                                        <p class="text-xl font-bold text-gray-400">
+                                            No hay productos en el carrito
+                                        </p>
+                                    </div>
                                 </div>
                             @endif
                        
                     </div>
+                    @if(count($carrito)!=0)
                     <div class="row-start-14  row-span-4 border-t-2 bottom-0 bg-gray-200 border-black border-opacity-20">
                         <div class="mt-5 mb-10 space-y-4">
                             <div class="flex justify-center">
@@ -65,9 +68,9 @@
                                 @endauth
                             </div>
                             <div class="flex justify-center">
-                                <button class="btn-tienda">
+                                <a  class="btn-tienda">
                                     Detalles Carrito
-                                </button>
+                                </a>
                             </div>
                             <div class="flex justify-center">
                                 <button class="btn-tienda">
@@ -76,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-               
+                    @endif
                 </div>
             
         </div>

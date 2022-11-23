@@ -43,3 +43,4 @@ Route::post('/oferta', [ofertaController::class, 'store'])->name('crear-oferta')
 Route::post('/tienda', [tiendaController::class, 'filtrar'])->name('filtrar');
 Route::get('/tienda/{id}', [tiendaController::class, 'filtrados'])->name('filtrados');
 Route::post('/carrito', [carritoController::class, 'store'])->name('carrito');
+Route::get('/carrito', [carritoController::class, 'show'])->name('mostrarCarrito');

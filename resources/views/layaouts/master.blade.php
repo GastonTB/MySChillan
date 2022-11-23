@@ -37,7 +37,6 @@
         <section>
             <x-modal-registro :regiones="$regiones" :comunas="$comunas"/>
         </section>
-        {{-- navbar --}}
         <nav>
             <x-navbar/>
         </nav>
@@ -107,25 +106,40 @@
             </div>
         </footer>
         
-        <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script
-        src="https://code.jquery.com/jquery-3.6.1.min.js"
-        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-        crossorigin="anonymous"></script>
-        <script src="{{asset('js/main.js')}}"></script>
-        @yield('js')
-
-        <script type="text/javascript">
-            @if (session()->get('message') == 'error-registro')
-                $('#modal-registro').show();
-            @endif
-        </script>
-        <script>
-            @if(session()->get('message') == 'error-login')
-                $('#modal-login').show();
-            @endif 
-        </script>
 
     </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script
+src="https://code.jquery.com/jquery-3.6.1.min.js"
+integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+crossorigin="anonymous"></script>
+<script src="{{asset('js/main.js')}}"></script>
+<script type="text/javascript">
+    @if (session()->get('message') == 'error-registro')
+        $('#modal-registro').show();
+    @endif
+
+    @if(session()->get('message') == 'error-login')
+        $('#modal-login').show();
+    @endif
+
+    $('#telefono_registro').on('input', function(){
+  var telefono = $(this).val();
+  telefono = telefono.replace(/[^0-9]/g, '');
+  $(this).val(telefono);
+  if(telefono.length>9){
+    $(this).val(telefono.substring(0,9));
+  }
+  //if telefono first digit is not a 9 show a error message down the input fild saying "telefono debe comenzar con un 9"
+  if(telefono.length>0){
+    if(telefono[0]!='9'){
+      $('#error-telefono').removeClass('hidden');
+    }else{
+      $('#error-telefono').addClass('hidden');
+    }
+  }
+});
+</script>
+@yield('js')
