@@ -10,6 +10,7 @@ use Session;
 use App\Models\Producto;
 use App\Models\Carrito;
 use App\Models\Oferta;
+use App\Helpers\Helpers;
 
 
 class carritoController extends Controller
@@ -74,21 +75,11 @@ class carritoController extends Controller
                 }else{
                     $precio = $producto->precio;
                 }
-                $carrito->total = $carrito->total + $precio;
                 $carrito->save();
                 return redirect()->back();
             }else{
                 $carrito = new Carrito();
                 $carrito->user_id = $id;
-                if($oferta!=null){
-                    if($producto->oferta->estado_oferta == 1){
-                        $carrito->total = $producto->oferta->precio_oferta;
-                    }else{
-                        $carrito->total = $producto->precio;
-                    }
-                }else{
-                    $carrito->total = $producto->precio;
-                }
                 $carrito->save();
                 //atach producto id y cantidad
                 $carrito->productos()->attach($producto->id, ['cantidad_carrito' => $request->cantidad]);
@@ -187,6 +178,25 @@ class carritoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::check()){
+            $carrito = Carrito::where('user_id',Session::get('id'))->first();
+            $carrito->productos()->detach($id);
+            return redirect()->back();
+        }else{
+            
+        $carrito = Helpers::reordenarArray($id);
+            // $carrito = Session::get('carrito');
+            // $contador = count($carrito);
+            // for($i = 0; $i < $contador; $i++){
+            //     if($carrito[$i]['producto_id'] == $id){
+            //         //array splice
+            //         array_splice($carrito,$i,1);
+            //         break;
+            //     }
+            // }
+
+            return redirect()->back();
+        }
     }
+
 }

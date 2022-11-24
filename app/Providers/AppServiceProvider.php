@@ -42,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
         $carro = Helpers::getCarro();
 
         $carrito = Helpers::getCarrito();
+        
+        $id_carrito = Helpers::getIdCarrito();
 
     }
 

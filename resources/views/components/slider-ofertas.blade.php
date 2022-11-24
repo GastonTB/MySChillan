@@ -20,11 +20,10 @@
                 $contador3 = 0;
                 $cantidad_ofertas = count($ofertas); 
             @endphp
-            {{-- una oferta por slider si cantidad_ofertas es menor a 3 --}}
             @if ($cantidad_ofertas < 4)
                 @foreach ($ofertas as $oferta)
-                    <a href="{{route('detalles', $oferta->id)}}">
-                        <div class="swiper-slide space-y-3">
+                    <div class="swiper-slide space-y-3">
+                        <a href="{{route('detalles', $oferta->id)}}">
                             <div class="flex">
                                 <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes[0])}}"  alt="">
                                 <ul>
@@ -45,8 +44,8 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 @endforeach
             @elseif($cantidad_ofertas >= 3 && $cantidad_ofertas < 6)
              <div class="swiper-slide space-y-3">
@@ -54,7 +53,6 @@
                     @if($contador == 2)
                         @break
                     @endif
-                    
                         <div>
                             <a href="{{route('detalles', $oferta->id)}}">
                                 <div class="flex">

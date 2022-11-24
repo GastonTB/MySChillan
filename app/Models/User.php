@@ -47,4 +47,9 @@ class User extends Authenticatable
         return $this->hasOne(UserMetadata::class);
     }
 
+    public function carrito()
+    {
+        return $this->hasOne(Carrito::class);
+    }
+
 }

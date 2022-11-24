@@ -26,7 +26,7 @@
                         <p class="font-medium text-gray-700">{{$producto->nombre_producto}}</p>
                     </div>
                     <div>
-                        @if($producto->oferta_id!=0)
+                        @if($producto->oferta_id!=0 && $producto->oferta->estado_oferta!=0)
                             <div class="flex justify-center space-x-3">
                                 <div>
                                     <p class="font-semibold text-xl precio text-lime-700">

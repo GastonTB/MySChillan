@@ -176,6 +176,8 @@
           $('#sidebar-carro').addClass('hidden');
         });
 
+
+
         
 
 })(jQuery);
