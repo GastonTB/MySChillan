@@ -31,36 +31,75 @@ class Helpers
     public static function getCarro()
     {
         view()->composer('*', function($view)
-        {
+        {   
+            
             if (Auth::check()) {
                 $id = Auth::user()->id;
                 $carrito = Carrito::where('user_id',$id)->first();
                 if($carrito == null){
+                    $carrito = new Carrito();
+                    $carrito->user_id = $id;
+                    $carrito->save();
                     $contador = 0;
+                    $total = 0;
                 }else{
-                    $contador = count($carrito->productos);
+                    $contador = 0;
+                    $total = 0;
+                    foreach($carrito->productos as $prod){
+                        $contador += $prod->pivot->cantidad_carrito;
+                        $oferta = Oferta::find($prod->oferta_id);
+                        if($oferta != null){
+                            if($oferta->estatus_oferta != 0){
+                                $prod->precio = $oferta->precio_oferta;
+                            }
+                        }else{
+                            $prod->precio = $prod->precio;
+                        }
+                        $total += $prod->precio * $prod->pivot->cantidad_carrito;
+
+                    }
                     if($contador >= 10){
                         $contador = '9+';
                     }
                 }
-        
-                $view->with('carro', $contador);
+
+                $view->with('carro', ['contador' => $contador, 'total' => $total]);
             }else {
-                //make a carrito session
                 if(!Session::has('carrito')){
                     Session::put('carrito', array());
+                    $id_carrito = time();
+                    Session::put('id_carrito', $id_carrito);
+                    $total = 0;
+
                 }
-                $contador = count(Session::get('carrito'));
+                $carrito = Session::get('carrito');
+                $contador = 0;
+                $total = 0;
+                foreach($carrito as $prod){
+                    $producto = Producto::find($prod['producto_id']);
+                    if($producto->oferta_id != 0){
+                       if($producto->oferta->estado_oferta != 0){
+                           $producto->precio = $producto->oferta->precio_oferta;
+                       }else{
+                           $producto->precio = $producto->precio;
+                       }
+
+                    }else{
+                        $producto->precio = $producto->precio;
+                    }
+                    $contador += $prod['cantidad_carrito'];
+                    $total += $producto->precio * $prod['cantidad_carrito'];
+                }
                 if($contador >= 10){
                     $contador = '9+';
                 }
-                $view->with('carro', $contador);
+                $view->with('carro', ['contador' => $contador, 'total' => $total]);
             }
         });
     }
 
     public static function getCarrito()
-    {   
+    {
         view()->composer('*', function($view)
         {
             if(Auth::check())
@@ -77,53 +116,55 @@ class Helpers
                 for($i = 0; $i < count($carritoProductos); $i++){
                     $carritoProductos[$i]['imagenes'] = explode('|', $carritoProductos[$i]['imagenes']);
                     $carritoProductos[$i]['imagenes'] = $carritoProductos[$i]['imagenes'][0];
-                    if($carritoProductos[$i]['oferta_id'] != 0){ 
+                    if($carritoProductos[$i]['oferta_id'] != 0){
                         $ofer = Oferta::find($carritoProductos[$i]['oferta_id']);
                         if($ofer->estado_oferta!=0){
                             $carritoProductos[$i]['precio'] = $ofer->precio_oferta;
                         }
                     }
                     $cat = Categoria::all();
-                    
+
                     $carrito = $carrito->push($carritoProductos[$i]);
                 }
                 $view->with('carrito', $carrito);
-                
+
             }else{
-                
-                    //make a carrito session
+
                     if(!Session::has('carrito')){
                         Session::put('carrito', array());
+                        $id_carrito = time();
+                        Session::put('id_carrito', $id_carrito);
                     }
                     $carrito = Session::get('carrito');
+                    
                     $view->with('carrito', $carrito);
-                
+
             }
         });
     }
 
     public static function mergeCarritos()
-    { 
+    {
+
             if(!Session::has('carrito')){
+                $id_carrito = time();
+                Session::put('id_carrito', $id_carrito);
                 Session::put('carrito', array());
             }
             $carrito = Session::get('carrito');
-
             $carritoModel = Carrito::where('user_id',Auth::user()->id)->first();
             if($carritoModel == null){
                 $carritoModel = new Carrito;
                 $carritoModel->user_id = Auth::user()->id;
-                $carritoModel->total = 0;
                 $carritoModel->save();
             }
-            
+
             for($i = 0; $i < count($carrito); $i++){
                 $duplicated = false;
                 for($j = 0; $j < count($carritoModel->productos); $j++){
-                    if($carrito[$i]['producto_id'] == $carritoModel->productos[$j]['producto_id']){
-                        //add cantidad_carrito to cantidad_carrito
-                        $carritoModel->productos[$j]['cantidad_carrito'] += $carrito[$i]['cantidad_carrito'];
-                        $duplicated = true;
+                    if($carrito[$i]['producto_id'] == $carritoModel->productos[$j]['id']){
+                        $carritoModel->productos()->updateExistingPivot($carrito[$i]['producto_id'], ['cantidad_carrito' => $carrito[$i]['cantidad_carrito'] + $carritoModel->productos[$j]->pivot->cantidad_carrito]);
+                        $duplicated = true; 
                         break;
                     }
                 }
@@ -132,28 +173,52 @@ class Helpers
                 }
 
             }
-            //count total and and to carritoModel
-            $total = 0;
-            for($i = 0; $i < count($carritoModel->productos); $i++){
-                $total += $carritoModel->productos[$i]['precio'] * $carritoModel->productos[$i]['cantidad_carrito'];
-            }
-            $carritoModel->save();
             Session::forget('carrito');
-            return $carritoModel;
+            Session::forget('id_carrito');
+
     }
 
     public static function getIdCarrito()
     {
-        if(Auth::check()){
-            $carrito = Carrito::where('user_id',Auth::user()->id)->first();
-            if($carrito == null){
-                $carrito = new Carrito;
-                $carrito->user_id = Auth::user()->id;
-                $carrito->save();
+        view()->composer('*', function($view)
+        {
+            if(Auth::check()){
+                $carrito = Carrito::where('user_id',Auth::user()->id)->first();
+                if($carrito == null){
+                    $carrito = new Carrito;
+                    $carrito->user_id = Auth::user()->id;
+                    $carrito->save();
+                }
+                $id_carrito = $carrito->id;
+                $view->with('id_carrito', $id_carrito);
+
+            }else{
+                if(!Session::has('id_carrito')){
+                    $id_carrito = time();
+                    Session::put('id_carrito', $id_carrito);
+                }else{
+                    $id_carrito = Session::get('id_carrito');
+                }
+                $view->with('id_carrito', $id_carrito);
+
             }
-            return $carrito->id;
-        }else{
-            
-        }
+        });
     }
+
+    public static function reordenarArray($id)
+    {
+
+           $carrito = Session::get('carrito');
+           $contador = count($carrito);
+            for($i = 0; $i < $contador; $i++){
+                if($carrito[$i]['producto_id'] == $id){
+                    unset($carrito[$i]);
+                    break;
+                }
+            }
+            $carrito2 = array_values($carrito);
+            Session::put('carrito', $carrito2);
+            return;
+    }
+    
 }

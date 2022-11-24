@@ -42,5 +42,6 @@ Route::get('/productos',[productoController::class , 'index'])->middleware('isad
 Route::post('/oferta', [ofertaController::class, 'store'])->name('crear-oferta');
 Route::post('/tienda', [tiendaController::class, 'filtrar'])->name('filtrar');
 Route::get('/tienda/{id}', [tiendaController::class, 'filtrados'])->name('filtrados');
-Route::post('/carrito', [carritoController::class, 'store'])->name('carrito');
-Route::get('/carrito', [carritoController::class, 'show'])->name('mostrarCarrito');
+Route::post('/', [carritoController::class, 'store'])->name('carrito');
+Route::get('/carrito/{id}', [carritoController::class, 'show'])->middleware('checkcarrito')->name('mostrarCarrito');
+Route::delete('/borrar-carro/{id}',[carritoController::class, 'destroy'])->name('borrarProducto');

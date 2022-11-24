@@ -12,10 +12,12 @@ class sidebar-carro extends Component
      * @return void
      */
     public $carrito;
+    public $id_carrito;
 
     public function __construct($carrito)
     {
         $this->carrito = $carrito;
+        $this->id_carrito = $id_carrito;
 
     }
   

@@ -29,28 +29,16 @@ class InicioController extends Controller
             $ultimo->imagenes = explode('|', $ultimo->imagenes);
             $ultimo->imagenes = $ultimo->imagenes[0];
         }
-        $ofertas = Producto::where('oferta_id', '!=','0')->orderBy('oferta_id', 'desc')->take(7)->get();
+        $ofertas = Producto::join('ofertas','ofertas.id','productos.oferta_id')->
+        where('productos.oferta_id', '!=','0')->
+        where('ofertas.estado_oferta', '!=', '0')->
+        orderBy('oferta_id', 'desc')->
+        take(7)->get();
+
         foreach($ofertas as $oferta)
         {
             $oferta->imagenes = explode('|', $oferta->imagenes);
         }
-
-        // if(Auth::check()){
-        //     $id = Auth::user()->id;
-        //     $carrito = Carrito::where('user_id',$id)->first();
-        //     if($carrito == null){
-        //         $contador = 0;
-        //     }else{
-        //         $contador = count($carrito->productos);
-        //         if($contador > 10){
-        //             $contador = '9+';
-        //         }
-        //     }
-        // }
-        // else{
-        //     $contador = 0;
-        // }
-       
         return view('inicio', compact('ultimos' , 'ofertas'));
         
     }

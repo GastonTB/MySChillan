@@ -21,7 +21,15 @@
                         <div class="pl-5 mt-5">
                             <p class="items-end active:text-lime-500"><i class="fa fa-user fa-sm pr-1 text-lime-600"> </i>{{Auth::user()->name}} {{Session::get('apellido_paterno')}} {{Session::get('apellido_materno')}}</p>
                         </div>
-                    @endauth
+                        <div class="flex pl-5 mb-2">
+                            <div class="mr-1">
+                                <i class="fa fa-sign-out text-lime-600" aria-hidden="true"></i>
+                            </div>
+                            <p>
+                                <a class="active:text-lime-500" id="logout" href="{{route('salir')}}">Cerrar Sesión</a>
+                            </p>
+                        </div>
+                     @endauth
 
                     @guest
                         <div class="pl-5 mt-5">

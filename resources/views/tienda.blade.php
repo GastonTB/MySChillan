@@ -5,7 +5,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
 @endsection
 @section('content')
-
         <div class="lg:hidden">
             <section>
                 <div class="flex justify-center items-center py-5">
@@ -55,7 +54,7 @@
                         {{$titulo}}
                     @else
                         Tienda
-                    @endif
+                @endif
             </p>
         </div>
         <div class="grid grid-cols-5 w-full mt-5">

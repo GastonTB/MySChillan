@@ -21,10 +21,11 @@
     </head>
     <body>
         @include('sweetalert::alert')
-        @yield('modales')        
+        @yield('modales')    
+
         {{-- sidebar --}}
         <section>
-            <x-sidebar-carro :carrito="$carrito"/>
+            <x-sidebar-carro :carrito="$carrito" :id_carrito="$id_carrito"/>
         </section>
         <section>
             <x-sidebar/>

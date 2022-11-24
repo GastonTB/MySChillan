@@ -22,10 +22,6 @@ class card-producto extends Component
         $this->oferta = $oferta;
     }
 
-    public function customFunction(): string
-    {
-        return "string from a custom function component";
-    }
 
     /**
      * Get the view / contents that represent the component.

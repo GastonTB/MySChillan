@@ -8,7 +8,7 @@
                     <div class="row-span-1">
                         <div class="flex justify-end">
                             <div class="pr-5 pt-3">
-                                <i id="cerrar-carrito" class="fa fa-x fa-lg"></i>
+                                <i id="cerrar-carrito" class="fa fa-x fa-lg hover:text-lime-500 active:text-lime-500"></i>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,21 @@
                                                 </div>
                                             </div>
                                             <div class="absolute bottom-4 right-0">
-                                                <i class="fa fa-trash hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400"></i>
+                                                @auth
+                                                    @php
+                                                    $id_producto = $carrito[$i]['id']
+                                                    @endphp
+                                                @endauth
+                                                @guest
+                                                    @php    
+                                                    $id_producto = $carrito[$i]['producto_id']
+                                                    @endphp
+                                                @endguest
+                                               <form action="{{route('borrarProducto',$id_producto)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                    <button href="#" class="fa fa-trash hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400"></button>
+                                               </form>
                                             </div>
                                         </div>
                                     </div>
@@ -63,13 +77,8 @@
                     <div class="row-start-14  row-span-4 border-t-2 bottom-0 bg-gray-200 border-black border-opacity-20">
                         <div class="mt-5 mb-10 space-y-4">
                             <div class="flex justify-center">
-                                @auth
-                                
-                                @endauth
-                            </div>
-                            <div class="flex justify-center">
-                                <a  class="btn-tienda">
-                                    Detalles Carrito
+                                <a href="{{route('mostrarCarrito', $id_carrito)}}" class="bg-lime-500 hover:bg-lime-600 text-white font-bold py-2 px-4 rounded-full">
+                                    Ir al carrito
                                 </a>
                             </div>
                             <div class="flex justify-center">

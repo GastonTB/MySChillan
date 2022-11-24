@@ -46,7 +46,12 @@ class tiendaController extends Controller
             $ultimo->imagenes = $ultimo->imagenes[0];
         }
 
-        $ofertas = Producto::where('oferta_id', '!=','0')->orderBy('oferta_id', 'desc')->take(7)->get();
+        $ofertas = Producto::join('ofertas','ofertas.id','productos.oferta_id')->
+        where('productos.oferta_id', '!=','0')->
+        where('ofertas.estado_oferta', '!=', '0')->
+        orderBy('oferta_id', 'desc')->
+        take(7)->get();
+
         foreach($ofertas as $oferta)
         {
             $oferta->imagenes = explode('|', $oferta->imagenes);
@@ -63,7 +68,6 @@ class tiendaController extends Controller
      */
     public function store(Request $request)
     {
-
 
 
     }
@@ -151,7 +155,12 @@ class tiendaController extends Controller
         }
 
 
-        $ofertas = Producto::where('oferta_id', '!=','0')->orderBy('oferta_id', 'desc')->take(7)->get();
+        $ofertas = Producto::join('ofertas','ofertas.id','productos.oferta_id')->
+        where('productos.oferta_id', '!=','0')->
+        where('ofertas.estado_oferta', '!=', '0')->
+        orderBy('oferta_id', 'desc')->
+        take(7)->get();
+
         foreach($ofertas as $oferta)
         {
             $oferta->imagenes = explode('|', $oferta->imagenes);
@@ -179,7 +188,12 @@ class tiendaController extends Controller
         $comunas = new Comuna;
         $comunas = Comuna::all();
         $productos = Producto::where('categoria_id', $categoria)->get();
-        $ofertas = Producto::where('oferta_id', '!=','0')->orderBy('oferta_id', 'desc')->take(7)->get();
+        $ofertas = Producto::join('ofertas','ofertas.id','productos.oferta_id')->
+        where('productos.oferta_id', '!=','0')->
+        where('ofertas.estado_oferta', '!=', '0')->
+        orderBy('oferta_id', 'desc')->
+        take(7)->get();
+
         foreach($ofertas as $oferta)
         {
             $oferta->imagenes = explode('|', $oferta->imagenes);
