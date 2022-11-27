@@ -11,6 +11,7 @@
          {{-- Font Awesome --}}
         <script src="https://kit.fontawesome.com/b64d0c0a86.js" crossorigin="anonymous"></script>
 
+
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
        
@@ -19,7 +20,7 @@
         @vite('resources/css/app.css')
         @vite('resources/js/app.js')
     </head>
-    <body>
+    <body class="flex flex-col min-h-screen body">
         @include('sweetalert::alert')
         @yield('modales')    
 
@@ -50,7 +51,7 @@
         
 
         {{-- footer --}}
-        <footer>
+        <footer class="mt-auto">
             <div class="py-5 bg-gray-100">
                 <div class="flex justify-center md:justify-start pb-2">
                     <img class="object-scale-down h-12 md:h-16" src="{{asset('img/logos/logo.png')}}" alt="">

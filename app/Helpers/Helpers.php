@@ -47,15 +47,12 @@ class Helpers
                     $total = 0;
                     foreach($carrito->productos as $prod){
                         $contador += $prod->pivot->cantidad_carrito;
-                        $oferta = Oferta::find($prod->oferta_id);
-                        if($oferta != null){
-                            if($oferta->estatus_oferta != 0){
-                                $prod->precio = $oferta->precio_oferta;
-                            }
+                        if($prod->oferta_id !=0 && $prod->oferta->estado_oferta != 0){
+                                $prod->precio = $prod->oferta->precio_oferta;
                         }else{
                             $prod->precio = $prod->precio;
                         }
-                        $total += $prod->precio * $prod->pivot->cantidad_carrito;
+                            $total += $prod->precio * $prod->pivot->cantidad_carrito;
 
                     }
                     if($contador >= 10){
@@ -78,7 +75,7 @@ class Helpers
                 foreach($carrito as $prod){
                     $producto = Producto::find($prod['producto_id']);
                     if($producto->oferta_id != 0){
-                       if($producto->oferta->estado_oferta != 0){
+                       if($producto->oferta->estado_oferta != 0 && $producto->oferta->estado_oferta!=0){
                            $producto->precio = $producto->oferta->precio_oferta;
                        }else{
                            $producto->precio = $producto->precio;
@@ -100,7 +97,7 @@ class Helpers
 
     public static function getCarrito()
     {
-        view()->composer('*', function($view)
+        view()->composer('*', function($view)        
         {
             if(Auth::check())
             {
@@ -123,6 +120,7 @@ class Helpers
                         }
                     }
                     $cat = Categoria::all();
+                    $carritoProductos[$i]['categoria'] = $cat[$carritoProductos[$i]['categoria_id']-1]->nombre_categoria;
 
                     $carrito = $carrito->push($carritoProductos[$i]);
                 }
@@ -136,6 +134,19 @@ class Helpers
                         Session::put('id_carrito', $id_carrito);
                     }
                     $carrito = Session::get('carrito');
+                    for($i = 0; $i < count($carrito); $i++){
+                        $producto = Producto::find($carrito[$i]['producto_id']);
+                        $carrito[$i]['imagenes'] = explode('|', $producto->imagenes);
+                        $carrito[$i]['imagenes'] = $carrito[$i]['imagenes'][0];
+                        if($producto->oferta_id != 0 && $producto->oferta->estado_oferta != 0){
+                            $ofer = Oferta::find($producto->oferta_id);
+                            if($ofer->estado_oferta!=0){
+                                $carrito[$i]['precio'] = $ofer->precio_oferta;
+                            }
+                        }
+                        $cat = Categoria::all();
+                        $carrito[$i]['categoria'] = $cat[$producto->categoria_id-1]->nombre_categoria;
+                    }
                     
                     $view->with('carrito', $carrito);
 

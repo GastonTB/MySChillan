@@ -45,3 +45,4 @@ Route::get('/tienda/{id}', [tiendaController::class, 'filtrados'])->name('filtra
 Route::post('/', [carritoController::class, 'store'])->name('carrito');
 Route::get('/carrito/{id}', [carritoController::class, 'show'])->middleware('checkcarrito')->name('mostrarCarrito');
 Route::delete('/borrar-carro/{id}',[carritoController::class, 'destroy'])->name('borrarProducto');
+Route::put('/carrito/{id}', [carritoController::class , 'update'])->name('actualizarCarrito');

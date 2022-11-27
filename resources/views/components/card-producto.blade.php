@@ -7,6 +7,39 @@
                     <a href="{{route('detalles',$producto->id)}}">
                             <img class="object-scale-down rounded-t-md shadow-sm" src="{{asset('storage/imagenes/'.$producto->imagenes[0])}}"  alt="">
                     </a>
+                    @if($producto->oferta_id && $producto->oferta->estado_oferta!=0)
+                        
+                        <div class="absolute top-0 -right-12 text-white text-xs font-bold rotate-45">
+                            <div class="flex items-end">
+                                <div class="w-11  overflow-hidden inline-block">
+                                    <div class=" h-16  bg-lime-500 rotate-45 transform origin-bottom-left">
+                                        <div class=" my-1 rotate-90 transform origin-bottom-left">
+                                            <p class="text-green-500 text-lg">
+                                               &nbsp;
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="h-11 flex items-center bg-lime-500">
+                                    <div class=" my-1">
+                                        <p class="text-white text-lg">
+                                            OFERTA
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="w-11  overflow-hidden inline-block">
+                                    <div class=" h-16  bg-lime-500 -rotate-45 transform origin-bottom-right">
+                                        <div class=" my-1">
+                                            <p class="text-lg -rotate-45 transform origin-top-left">
+                                               &nbsp;
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                               
+                        </div>
+                    @endif
                     @if($producto->cantidad == 0)
                     <div class="absolute left-1/5 top-2/3 grid place-items-center">
                         <div class="flex justify-center">

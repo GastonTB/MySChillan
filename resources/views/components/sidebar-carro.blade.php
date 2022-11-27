@@ -13,7 +13,6 @@
                         </div>
                     </div>
                     <div class="row-start-2 row-span-11 overflow-y-auto">
-                        
                             @if(count($carrito)>0)
                                 @for ($i=0; $i< count($carrito); $i++)
                                     <div class="row-span-2">
@@ -25,7 +24,7 @@
                                                 <div class="flex items-end">
                                                     <ul>
                                                         <li>
-                                                            <p class="">
+                                                            <p class="text-gray-700">
                                                                 {{$carrito[$i]['nombre_producto']}}
                                                             </p>
                                                         </li>
@@ -65,19 +64,26 @@
                             @else
                                 <div class="row-start-2">
                                     <div class="flex justify-center items-center h-full">
-                                        <p class="text-xl font-bold text-gray-400">
+                                        <p class="text-xl font-bold text-gray-700">
                                             No hay productos en el carrito
                                         </p>
                                     </div>
                                 </div>
                             @endif
-                       
                     </div>
                     @if(count($carrito)!=0)
                     <div class="row-start-14  row-span-4 border-t-2 bottom-0 bg-gray-200 border-black border-opacity-20">
                         <div class="mt-5 mb-10 space-y-4">
+                            <div class="flex justify-center space-x-2">
+                                <p class="text-gray-900 text-lg font-bold">
+                                    SUBTOTAL: 
+                                </p>
+                                <p class="font-black text-xl text-gray-900">
+                                    ${{number_format($carro['total'], 0, ",", ".")}}
+                                </p>
+                            </div>
                             <div class="flex justify-center">
-                                <a href="{{route('mostrarCarrito', $id_carrito)}}" class="bg-lime-500 hover:bg-lime-600 text-white font-bold py-2 px-4 rounded-full">
+                                <a href="{{route('mostrarCarrito', $id_carrito)}}" class="btn-tienda">
                                     Ir al carrito
                                 </a>
                             </div>
@@ -90,7 +96,6 @@
                     </div>
                     @endif
                 </div>
-            
         </div>
     </div>
 </div>
