@@ -21,6 +21,25 @@ select:not([value=""]) ~ .input-select{
     @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
 }
 
+input[type="text"]:focus ~ .input-text-invitado{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-gray-50;
+}
+input[type="password"]:focus ~ .input-text-password-invitado{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-gray-50;
+}
+input[type="text"]:not(:placeholder-shown) ~ .input-text-invitado{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-gray-50;
+}
+input[type="password"]:not(:placeholder-shown) ~ .input-text-password-invitado{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-gray-50;
+}
+select:focus ~ .input-select-invitado{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-gray-50;
+}
+select:not([value=""]) ~ .input-select-invitado{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-gray-50;
+}
+
 
 
 

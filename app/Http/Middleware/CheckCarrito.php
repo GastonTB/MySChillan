@@ -23,12 +23,6 @@ class CheckCarrito
         if(Auth::check()){
             $user = User::find(Auth::id());
             $carrito = Carrito::where('user_id', $user->id)->first();
-            if($carrito == null){
-                $carrito = new Carrito();
-                $carrito->user_id = $user->id;
-                $carrito->total = 0;
-                $carrito->save();
-            }
             if($carrito->id == $request->id)
             {
                 return $next($request);
@@ -37,11 +31,25 @@ class CheckCarrito
                 return redirect()->route('mostrarCarrito',$carrito->id);
             }
         }else{
-            if(Session::get('id_carrito') == $request->id){
-                return $next($request);
+            if(Session::has('carrito')){
+                $carrito = Session::get('carrito');
+                if($carrito!=null){
+                    if(Session::has('id_carrito')){
+                        if(Session::get('id_carrito') == $request->id){
+                            return $next($request);
+                        }else{
+                            return redirect()->route('mostrarCarrito',Session::get('id_carrito'));
+                        }
+                    
+                    }else{
+                        return redirect()->back();
+                    } 
+                }else{
+                    return redirect()->back();
+                }       
             }else{
-                return redirect()->route('mostrarCarrito',Session::get('id_carrito'));
+                return redirect()->back();
             }
-        } 
+        }
     }
 }

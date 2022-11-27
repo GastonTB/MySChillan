@@ -108,7 +108,8 @@ class carritoController extends Controller
                     'precio' => $precio,
                     'imagenes' => $imagenes,
                     'producto_id' => $producto->id,
-                    'cantidad_carrito' => $request->cantidad
+                    'cantidad_carrito' => $request->cantidad,
+                    'categoria' => $producto->categoria->nombre_categoria,
                 ];
                 Session::push('carrito',$carrito);
             }else{
@@ -125,8 +126,9 @@ class carritoController extends Controller
                             'precio' => $precio,
                             'imagenes' => $imagenes,
                             'producto_id' => $producto->id,
-                            'cantidad_carrito' => $request->cantidad
-                        ];
+                            'cantidad_carrito' => $request->cantidad,
+                            'categoria' => $producto->categoria->nombre_categoria,
+                    ];
                         Session::put('carrito',$carrito);
                     }
                 }
@@ -144,7 +146,15 @@ class carritoController extends Controller
      */
     public function show($id)
     {
-        return 'hola';
+        if(Auth::check()){
+            $id_user = Session::get('id');
+            $carrito = Carrito::where('user_id',$id_user)->first();
+            $carrito = $carrito->productos;
+            return view('carrito.show');
+           
+        }else{
+            return view('carrito.show');
+        }
     }
 
     /**
@@ -167,7 +177,7 @@ class carritoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $request;
     }
 
     /**

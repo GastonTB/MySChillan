@@ -95,16 +95,6 @@
                                 </p>
                             </a>
                         </div>
-                        @if(session()->get('rol')!=1) 
-                        @else
-                            <div>
-                                <a href="{{route('backoffice')}}">
-                                    <p class=" hover:text-black">
-                                        
-                                    </p>
-                                </a>
-                            </div>
-                        @endif
                         <div>
                             <a href="{{route('tienda')}}">
                                 <p class=" hover:text-black">
@@ -115,9 +105,11 @@
                         @if(session('rol')==1)
                         <div class="relative">
                             <div id="admin">
-                                <p class=" hover:text-black">
-                                    BACK OFFICE
-                                </p>
+                                <a href="{{route('backoffice')}}">
+                                    <p class=" hover:text-black">
+                                        BACK OFFICE
+                                    </p>
+                                </a>
                             </div>
                             <div id="opciones-admin" class="space-y-2 fixed hidden z-10 bg-white">
                                 <ul clas="">
