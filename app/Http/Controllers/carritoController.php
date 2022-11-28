@@ -89,27 +89,27 @@ class carritoController extends Controller
         }else{
             $carrito = Session::get('carrito');
             $contador = count($carrito);
-            $imagenes = $producto->imagenes = explode('|', $producto->imagenes);
-            $imagenes = $producto->imagenes[0];
-            $nombre = $producto->nombre_producto;
-            if($oferta!=null){
-                if($producto->oferta->estado_oferta == 1){
-                    $precio = $producto->oferta->precio_oferta;
-                }else{
-                    $precio = $producto->precio;
-                }
-            }else{
-                $precio = $producto->precio;
-            }
+            // $imagenes = $producto->imagenes = explode('|', $producto->imagenes);
+            // $imagenes = $producto->imagenes[0];
+            // $nombre = $producto->nombre_producto;
+            // if($oferta!=null){
+            //     if($producto->oferta->estado_oferta == 1){
+            //         $precio = $producto->oferta->precio_oferta;
+            //     }else{
+            //         $precio = $producto->precio;
+            //     }
+            // }else{
+            //     $precio = $producto->precio;
+            // }
 
             if($contador==0){
                 $carrito = [
-                    'nombre_producto'  => $nombre,
-                    'precio' => $precio,
-                    'imagenes' => $imagenes,
+                    // 'nombre_producto'  => $nombre,
+                    // 'precio' => $precio,
+                    // 'imagenes' => $imagenes,
                     'producto_id' => $producto->id,
                     'cantidad_carrito' => $request->cantidad,
-                    'categoria' => $producto->categoria->nombre_categoria,
+                    // 'categoria' => $producto->categoria->nombre_categoria,
                 ];
                 Session::push('carrito',$carrito);
             }else{
@@ -122,12 +122,12 @@ class carritoController extends Controller
                         break;
                     }elseif($i == $contador-1){
                         $carrito[] = [
-                            'nombre_producto'  => $nombre,
-                            'precio' => $precio,
-                            'imagenes' => $imagenes,
+                            // 'nombre_producto'  => $nombre,
+                            // 'precio' => $precio,
+                            // 'imagenes' => $imagenes,
                             'producto_id' => $producto->id,
                             'cantidad_carrito' => $request->cantidad,
-                            'categoria' => $producto->categoria->nombre_categoria,
+                            // 'categoria' => $producto->categoria->nombre_categoria,
                     ];
                         Session::put('carrito',$carrito);
                     }
@@ -195,16 +195,6 @@ class carritoController extends Controller
         }else{
             
         $carrito = Helpers::reordenarArray($id);
-            // $carrito = Session::get('carrito');
-            // $contador = count($carrito);
-            // for($i = 0; $i < $contador; $i++){
-            //     if($carrito[$i]['producto_id'] == $id){
-            //         //array splice
-            //         array_splice($carrito,$i,1);
-            //         break;
-            //     }
-            // }
-
             return redirect()->back();
         }
     }

@@ -122,7 +122,7 @@
                                                 </span>
                                             </label>
                                         </div>
-                                        <span class="text-sm" style="color:red"><small>@error('email'){{$message}}@enderror</small></span>
+                                        <span class="text-sm" style="color:red"><small>@error('correo'){{$message}}@enderror</small></span>
                                     </div>
                                 </div>
                             </div>

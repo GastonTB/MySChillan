@@ -31,7 +31,7 @@ class tiendaController extends Controller
         $comunas = new Comuna;
         $comunas = Comuna::all();
         $productos = new Producto;
-        $productos = Producto::all();
+        $productos = Producto::latest()->get();
         $categoria = 0;
         foreach($productos as $producto)
         {

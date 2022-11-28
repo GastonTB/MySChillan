@@ -264,7 +264,10 @@ class productoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        $producto->delete();
+        Alert::success('El producto se ha eliminado con exito', 'Ya no esta disponible para ser comprado');
+        return redirect()->back();
     }
 
 
