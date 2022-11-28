@@ -52,7 +52,7 @@
                                                     $id_producto = $carrito[$i]['producto_id']
                                                     @endphp
                                                 @endguest
-                                               <form action="{{route('borrarProducto',$id_producto)}}" method="POST">
+                                               <form action="{{route('borrarProductoCarro',$id_producto)}}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                     <button href="#" class="fa fa-trash hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400"></button>

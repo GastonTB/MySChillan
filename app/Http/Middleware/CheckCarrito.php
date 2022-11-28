@@ -31,25 +31,34 @@ class CheckCarrito
                 return redirect()->route('mostrarCarrito',$carrito->id);
             }
         }else{
-            if(Session::has('carrito')){
-                $carrito = Session::get('carrito');
-                if($carrito!=null){
-                    if(Session::has('id_carrito')){
-                        if(Session::get('id_carrito') == $request->id){
+            //check if session has id
+            if(Session::has('id_carrito')){
+                if (Session::get('id_carrito') == $request->id){
+                   if(Session::has('carrito')){
+                        if(count(Session::get('carrito'))>0){
                             return $next($request);
                         }else{
-                            return redirect()->route('mostrarCarrito',Session::get('id_carrito'));
+                            return redirect()->route('inicio');
                         }
-                    
-                    }else{
-                        return redirect()->back();
-                    } 
+                   }else{
+                        return redirect()->route('inicio');
+                   }
                 }else{
-                    return redirect()->back();
-                }       
+                    if(Session::has('carrito')){
+                        $carrito = Session::get('carrito');
+                        if(count($carrito)>0){
+                            return redirect()->route('mostrarCarrito',$id_carrito);
+                        }else{
+                            return redirect()->route('inicio');
+                        }
+                    }else{
+                        return redirect()->route('inicio');
+                    }
+                }
             }else{
-                return redirect()->back();
+                return redirect()->route('inicio');
             }
+            
         }
     }
 }

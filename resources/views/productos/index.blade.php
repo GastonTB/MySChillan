@@ -145,8 +145,19 @@
                             </button>
                         </td>
                         <td class="py-4 px-6">
-                            <div class="bg-white">
+                            <div class="flex justify-center">
                                 <i class="fa fa-pencil"></i>
+                            </div>
+                        </td>
+                        <td class="py-4 px-6">
+                            <div class="flex justify-center">
+                                <form action="{{route('borrarProducto', $producto->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-tienda bg-red-500 px-10">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
