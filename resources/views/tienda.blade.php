@@ -30,7 +30,7 @@
                         <div class="mb-5 hidden md:block">
                             <x-slider-ultimos-productos :ultimos="$ultimos"/>
                         </div>
-                        <div class="md:hidden grid grid-cols-2 gap-1 px-2">
+                        <div class="md:hidden grid grid-cols-2 gap-2 px-2">
                             <div class="columns-1">
                                 <div class="mb-5">
                                     <x-slider-ofertas :ofertas="$ofertas"/>
