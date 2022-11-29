@@ -1,7 +1,7 @@
 <div>
     <div class="flex ml-5 mb-5 space-x-5">
         <div clas="justify-start">
-            <p class="text-2xl font-black">Ofertas</p>
+            <p class="text-xl md:text-2xl font-black">Ofertas</p>
         </div>
         <div class="flex justify-end">
             <div id="oferta-izquierda" class="py-1 mx-1 px-1 bg-gray-200 shadow-sm rounded-md hover:bg-lime-500">
@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-    <div class="swiper ml-5" id="ofertas-slider">
+    <div class="swiper ml-5 hidden md:block" id="ofertas-slider">
         <div class="swiper-wrapper">
             @php
                 $contador = 0;
@@ -25,7 +25,7 @@
                     <div class="swiper-slide space-y-3">
                         <a href="{{route('detalles', $oferta->id)}}">
                             <div class="flex">
-                                <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes[0])}}"  alt="">
+                                <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes)}}"  alt="">
                                 <ul>
                                     <li>
                                         <p class="ml-3">
@@ -56,7 +56,7 @@
                         <div>
                             <a href="{{route('detalles', $oferta->id)}}">
                                 <div class="flex">
-                                    <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes[0])}}"  alt="">
+                                    <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes)}}"  alt="">
                                     <ul>
                                         <li>
                                             <p class="ml-3">
@@ -89,7 +89,7 @@
                     <div>
                         <a href="{{route('detalles', $oferta->id)}}">
                             <div class="flex">
-                                <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes[0])}}"  alt="">
+                                <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes)}}"  alt="">
                                 <ul>
                                     <li>
                                         <p class="ml-3">
@@ -125,7 +125,7 @@
                     <div>
                         <a href="{{route('detalles', $oferta->id)}}">
                             <div class="flex">
-                                <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes[0])}}"  alt="">
+                                <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes)}}"  alt="">
                                 <ul>
                                     <li>
                                         <p class="ml-3">
@@ -162,7 +162,7 @@
                             <div>
                                 <a href="{{route('detalles', $oferta->id)}}">
                                     <div class="flex">
-                                        <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes[0])}}"  alt="">
+                                        <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes)}}"  alt="">
                                         <ul>
                                             <li>
                                                 <p class="ml-3">
@@ -194,7 +194,7 @@
                             <div>
                                 <a href="{{route('detalles', $oferta->id)}}">
                                     <div class="flex">
-                                        <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes[0])}}"  alt="">
+                                        <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$oferta->imagenes)}}"  alt="">
                                         <ul>
                                             <li>
                                                 <p class="ml-3">
@@ -224,6 +224,34 @@
                 </div>
             @endif
             
+        </div>
+    </div>
+    <div class="swiper md:hidden" id="ofertas-slider">
+        <div class="swiper-wrapper">
+            @foreach ($ofertas as $oferta)
+                <div class="swiper-slide">
+                    <a href="{{route('detalles', $oferta->id)}}">
+                        <div class="">
+                            <img class="h-52" src="{{asset('storage/imagenes/'.$oferta->imagenes)}}" alt="">
+                            <div class="">
+                                <div class="mt-3">
+                                    <p class="font-semibold flex justify-center">
+                                        {{$oferta->nombre_producto}}
+                                    </p>
+                                    <div class="flex justify-center space-x-2">
+                                        <p class="font-semibold flex justify-center">
+                                            ${{ number_format($oferta->oferta->precio_oferta, 0, ",", ".")}}
+                                        </p>
+                                        <p class="flex justify-center text-gray-500 line-through">
+                                            ${{ number_format($oferta->precio, 0, ",", ".")}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>  
+            @endforeach
         </div>
     </div>
 </div>

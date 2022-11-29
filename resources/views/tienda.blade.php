@@ -7,11 +7,6 @@
 @section('content')
         <div class="lg:hidden">
             <section>
-                <div class="flex justify-center items-center py-5">
-                    <x-carrito/>
-                </div>
-            </section>
-            <section>
                 <div class="my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
                     <p class="titulo font-black uppercase text-black bg-white text-4xl md:text-5xl mix-blend-lighten">
                         @if(isset($titulo))
@@ -20,20 +15,32 @@
                             Tienda
                         @endif
                     </p>          
-            </div>
+                </div>
             </section>
             <section>
                 <div class="md:grid md:grid-cols-7 gap-1">
-                    <div class="col-span-3 lg:col-span-2">
+                    <div class="md:col-span-3 lg:col-span-2">
                         <div class="mb-5 px-5 lg:px-0">
                             <x-filtro-categorias :categoria="$categoria"/> 
                             <span class="text-sm" style="color:red"><small>@error('categorias'){{$message}}@enderror</small></span>                              
                         </div>
-                        <div class="mb-5">
+                        <div class="mb-5 hidden md:block">
                             <x-slider-ofertas :ofertas="$ofertas"/>
                         </div>
-                        <div class="mb-5">
+                        <div class="mb-5 hidden md:block">
                             <x-slider-ultimos-productos :ultimos="$ultimos"/>
+                        </div>
+                        <div class="md:hidden grid grid-cols-2 gap-1 px-2">
+                            <div class="columns-1">
+                                <div class="mb-5">
+                                    <x-slider-ofertas :ofertas="$ofertas"/>
+                                </div>
+                            </div>
+                            <div class="columns-1">
+                                <div class="mb-5">
+                                    <x-slider-ultimos-productos :ultimos="$ultimos"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-span-4 lg:col-span-5 p-4">
@@ -94,7 +101,7 @@
         }
     });
 
-    var swiper5 = new Swiper("#ultimos-mobile", {
+    var swiper5 = new Swiper("#ultimos-slider", {
           slidesPerView: 1,
           spaceBetween: 10,
           slidesPerGroup: 1,

@@ -1,20 +1,18 @@
 <div>
-    <div class="flex ml-5 mb-5 space-x-1">
-        <div class="">
-            <p class="text-2xl lg:text-xl font-black">
-                Ultimos Productos
-            </p>
+    <div class="flex md:ml-5 mb-5 space-x-5">
+        <div clas="justify-start">
+            <p class="text-xl md:text-2xl font-black">Nuevos</p>
         </div>
-        <div class="flex">
-            <div class="cursor-pointer py-1 mx-1 px-1 bg-gray-200 rounded-md shadow-sm hover:bg-lime-500">
-                <i id="ultimos-izquierda" class="fa fa-chevron-left"></i>
+        <div class="flex justify-end">
+            <div id="ultimos-izquierda" class="py-1 mx-1 px-1 bg-gray-200 shadow-sm rounded-md hover:bg-lime-500">
+                <i class="fa fa-chevron-left"></i>
             </div>
-            <div class="cursor-pointer py-1 px-1 bg-gray-200 rounded-md shadow-sm hover:bg-lime-500">
-                <i id ="ultimos-derecha" class="fa fa-chevron-right"></i>
+            <div id="ultimos-derecha" class="py-1 px-1 bg-gray-200 shadow-sm rounded-md hover:bg-lime-500">
+                <i class="fa fa-chevron-right"></i>
             </div>
         </div>
     </div>
-    <div class="swiper ml-5" id="ultimos-mobile">
+    <div class="swiper ml-5 hidden md:block" id="ultimos-slider">
         <div class="swiper-wrapper">
             @php
                 $contador = 0;
@@ -78,6 +76,29 @@
                         @endphp
                 @endforeach
             </div>
+        </div>
+    </div>
+    <div class="swiper md:ml-5 md:hidden" id="ultimos-slider">
+        <div class="swiper-wrapper">
+            @foreach ($ultimos as $ultimo)
+                <div class="swiper-slide">
+                    <a href="{{route('detalles', $ultimo->id)}}">
+                        <div class="ml-5">
+                            <img class="h-52" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}" alt="">
+                            <div class="">
+                                <div class="mt-3">
+                                    <p class="font-semibold flex justify-center">
+                                        {{$ultimo->nombre_producto}}
+                                    </p>
+                                    <p class="font-semibold flex justify-center">
+                                        ${{ number_format($ultimo->precio, 0, ",", ".")}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>  
+            @endforeach
         </div>
     </div>
 </div>

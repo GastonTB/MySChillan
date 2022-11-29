@@ -239,5 +239,6 @@ class Helpers
             $carrito2 = array_values($carrito);
             Session::put('carrito', $carrito2);
     }
+
     
 }

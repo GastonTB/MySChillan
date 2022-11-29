@@ -206,7 +206,7 @@ class productoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-{       
+        {
         $producto = Producto::findOrFail($id);
         $producto->categoria();
         $regiones = new Region;
