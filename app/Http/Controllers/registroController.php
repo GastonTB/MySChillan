@@ -68,7 +68,7 @@ class registroController extends Controller
         $user = User::create(
             [
                 'name' => $request->input('nombre'),
-                'email' => $request->input('email'),
+                'email' => $request->input('correo'),
                 'password' => Hash::make($request->input('contraseña')),
                 'created_at' => date('Y-m-d H:i:s')
             ]

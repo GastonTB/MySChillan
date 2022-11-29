@@ -7,6 +7,12 @@ module.exports = {
   ],
   theme: {
 
+    expand:{
+      fontSize:{
+        '2xs': '0.5rem',
+      }
+    },
+
     screens: {
       'sm': '340px',
       // => @media (min-width: 340px) { ... }

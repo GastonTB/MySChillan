@@ -19,7 +19,7 @@ class carritoController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
@@ -81,7 +81,6 @@ class carritoController extends Controller
                 $carrito = new Carrito();
                 $carrito->user_id = $id;
                 $carrito->save();
-                //atach producto id y cantidad
                 $carrito->productos()->attach($producto->id, ['cantidad_carrito' => $request->cantidad]);
                 return redirect()->back();
             }
@@ -89,27 +88,10 @@ class carritoController extends Controller
         }else{
             $carrito = Session::get('carrito');
             $contador = count($carrito);
-            // $imagenes = $producto->imagenes = explode('|', $producto->imagenes);
-            // $imagenes = $producto->imagenes[0];
-            // $nombre = $producto->nombre_producto;
-            // if($oferta!=null){
-            //     if($producto->oferta->estado_oferta == 1){
-            //         $precio = $producto->oferta->precio_oferta;
-            //     }else{
-            //         $precio = $producto->precio;
-            //     }
-            // }else{
-            //     $precio = $producto->precio;
-            // }
-
             if($contador==0){
                 $carrito = [
-                    // 'nombre_producto'  => $nombre,
-                    // 'precio' => $precio,
-                    // 'imagenes' => $imagenes,
                     'producto_id' => $producto->id,
                     'cantidad_carrito' => $request->cantidad,
-                    // 'categoria' => $producto->categoria->nombre_categoria,
                 ];
                 Session::push('carrito',$carrito);
             }else{
@@ -122,13 +104,9 @@ class carritoController extends Controller
                         break;
                     }elseif($i == $contador-1){
                         $carrito[] = [
-                            // 'nombre_producto'  => $nombre,
-                            // 'precio' => $precio,
-                            // 'imagenes' => $imagenes,
                             'producto_id' => $producto->id,
                             'cantidad_carrito' => $request->cantidad,
-                            // 'categoria' => $producto->categoria->nombre_categoria,
-                    ];
+                        ];
                         Session::put('carrito',$carrito);
                     }
                 }
@@ -177,7 +155,7 @@ class carritoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $request;
+        //
     }
 
     /**

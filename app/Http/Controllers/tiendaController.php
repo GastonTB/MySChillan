@@ -13,6 +13,8 @@ use App\Models\Categoria;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Carrito;
 use Illuminate\Support\Collection;
+//carbon
+use Carbon\Carbon;
 
 
 class tiendaController extends Controller
@@ -46,17 +48,15 @@ class tiendaController extends Controller
             $ultimo->imagenes = $ultimo->imagenes[0];
         }
 
-        $ofertas = Producto::join('ofertas','ofertas.id','productos.oferta_id')->
-        where('productos.oferta_id', '!=','0')->
-        where('ofertas.estado_oferta', '!=', '0')->
-        orderBy('oferta_id', 'desc')->
-        take(7)->get();
+        $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
+
 
         foreach($ofertas as $oferta)
         {
             $oferta->imagenes = explode('|', $oferta->imagenes);
+            $oferta->imagenes = $oferta->imagenes[0];
         }
-
+        
         return view('tienda', compact('productos' , 'ultimos', 'ofertas', 'categoria'));
     }
 
@@ -197,6 +197,7 @@ class tiendaController extends Controller
         foreach($ofertas as $oferta)
         {
             $oferta->imagenes = explode('|', $oferta->imagenes);
+            $oferta->imagenes = $oferta->imagenes[0];
         }
         $ultimos = Producto::latest()->take(7)->get();
         foreach($ultimos as $ultimo)

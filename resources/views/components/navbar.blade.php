@@ -6,8 +6,14 @@
                     <img class="object-scale-down h-16 md:h-20" src="{{asset('img/logos/logo.png')}}" alt="">
                 </div>
             </div>
-            <div id="boton-menu" class="flex justify-end content-center pr-3 pt-7 md:pt-9 hover:text-lime-500 md:text-xl">
-                <i class="fa fa-bars fa-2xl"></i>
+            
+            <div class="flex justify-end content-center pr-3 pt-7 md:pt-9 hover:text-lime-500 md:text-xl">
+                <div class="flex items-end">
+                    <x-carrito/>
+                </div>
+                <div id="boton-menu">
+                    <i class="fa fa-bars fa-2xl"></i>
+                </div>
             </div>
         </div>
     </div>
