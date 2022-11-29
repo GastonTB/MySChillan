@@ -1,5 +1,5 @@
 <div>
-    <div class="flex md:ml-5 mb-5 space-x-5">
+    <div class="flex ml-5 mb-5 space-x-5">
         <div clas="justify-start">
             <p class="text-xl md:text-2xl font-black">Nuevos</p>
         </div>
