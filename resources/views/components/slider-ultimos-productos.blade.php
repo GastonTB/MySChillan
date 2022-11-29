@@ -1,6 +1,6 @@
 <div>
-    <div class="flex ml-5 mb-5 space-x-5">
-        <div clas="justify-start">
+    <div class="flex ml-5 mb-5">
+        <div clas="flex justify-start">
             <p class="text-xl md:text-2xl font-black">Nuevos</p>
         </div>
         <div class="flex justify-end">
@@ -83,7 +83,7 @@
             @foreach ($ultimos as $ultimo)
                 <div class="swiper-slide">
                     <a href="{{route('detalles', $ultimo->id)}}">
-                        <div class="ml-5">
+                        <div class="">
                             <img class="h-52" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}" alt="">
                             <div class="">
                                 <div class="mt-3">
