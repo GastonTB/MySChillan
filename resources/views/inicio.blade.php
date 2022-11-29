@@ -32,7 +32,7 @@
                         </div>
                     </section>
                 </div>
-                <div class="md:hidden grid grid-cols-2 px-2 space-x-2">
+                <div class="md:hidden grid grid-cols-2 px-2 space-x-1">
                     <div class="columns-1">
                         <div class="mb-5">
                             <x-slider-ofertas :ofertas="$ofertas"/>
