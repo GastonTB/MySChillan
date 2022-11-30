@@ -3,7 +3,9 @@
         <div class="columns-2 mb-5">
             <div class="flex justify-start">
                 <div class="content-center">
-                    <img class="object-scale-down h-16 md:h-20" src="{{asset('img/logos/logo.png')}}" alt="">
+                    <a href="{{route('inicio')}}">
+                        <img class="object-scale-down h-16 md:h-20" src="{{asset('img/logos/logo.png')}}" alt="">
+                    </a>
                 </div>
             </div>
             

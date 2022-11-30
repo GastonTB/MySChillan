@@ -48,8 +48,6 @@ class carritoController extends Controller
     public function store(Request $request)
     {   
         $producto = Producto::findOrFail($request->producto);
-        $oferta = Oferta::find($producto->oferta_id);
-
         if(Auth::check())
         {
             $id = Session::get('id');
@@ -70,15 +68,7 @@ class carritoController extends Controller
 
                     $carrito->productos()->attach($producto->id, ['cantidad_carrito' => $request->cantidad]);
                 }               
-                if($oferta!=null){
-                    if($producto->oferta->estado_oferta == 1){
-                        $precio = $producto->oferta->precio_oferta;
-                    }else{
-                        $precio = $producto->precio;
-                    }
-                }else{
-                    $precio = $producto->precio;
-                }
+                
                 $carrito->save();
                 return redirect()->back();
             }else{
