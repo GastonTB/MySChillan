@@ -6,7 +6,9 @@
             <div>
                 <div class="mt-5 flex">
                     <div>
-                        <img class="h-16" src="{{asset('img/logos/logo.png')}}" alt="">
+                        <a href="{{route('inicio')}}">
+                            <img class="h-16" src="{{asset('img/logos/logo.png')}}" alt="">
+                        </a>
                     </div>
                     <div class="absolute top-2 right-3">
                         <i id="cerrar-sidebar" class="fa fa-x active:lime-green-500"></i>
