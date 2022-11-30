@@ -179,8 +179,10 @@ class carritoController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+
+        $producto = Producto::findOrFail($request->producto_id);
+
         if(Auth::check()){
-            $producto = Producto::findOrFail($request->producto_id);
             $id_user = Session::get('id');
             $carrito = Carrito::where('user_id',$id_user)->first();
             $contador = count($carrito->productos);
@@ -201,6 +203,29 @@ class carritoController extends Controller
         }else{
             $carrito = Session::get('carrito');
             $contador = count($carrito);
+            if($contador==0){
+                $carrito = [
+                    'producto_id' => $producto->id,
+                    'cantidad_carrito' => $request->cantidad,
+                ];
+                Session::push('carrito',$carrito);
+            }else{
+                $contador = count($carrito);
+                for($i = 0; $i < $contador; $i++){
+                    if($carrito[$i]['producto_id'] == $request->producto){
+                        $cantidad = $carrito[$i]['cantidad_carrito'];
+                        $carrito[$i]['cantidad_carrito'] = $cantidad + $request->cantidad;
+                        Session::put('carrito',$carrito);
+                        break;
+                    }elseif($i == $contador-1){
+                        $carrito[] = [
+                            'producto_id' => $producto->id,
+                            'cantidad_carrito' => $request->cantidad,
+                        ];
+                        Session::put('carrito',$carrito);
+                    }
+                }
+            }
             for($i = 0; $i < $contador; $i++){
                 if($carrito[$i]['producto_id'] == $request->producto_id){
                     $carrito[$i]['cantidad_carrito'] = $request->cantidad + $carrito[$i]['cantidad_carrito'];
