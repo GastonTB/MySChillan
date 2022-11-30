@@ -112,6 +112,8 @@ class loginController extends Controller
         session()->forget('apellido_materno');
         session()->forget('id');
         session()->forget('rol');
+        session()->forget('id_carrito');
+        session()->forget('carrito');
         return redirect('/');;
     }
 }
