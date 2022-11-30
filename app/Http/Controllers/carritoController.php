@@ -222,14 +222,6 @@ class carritoController extends Controller
             }
 
             return redirect()->back();
-
-            // for($i = 0; $i < $contador; $i++){
-            //     if($carrito[$i]['producto_id'] == $request->producto_id){
-            //         $carrito[$i]['cantidad_carrito'] = $request->cantidad + $carrito[$i]['cantidad_carrito'];
-            //         Session::put('carrito',$carrito);
-            //         break;
-            //     }
-            // }
         }
 
         
