@@ -269,12 +269,24 @@ class carritoController extends Controller
         if(Auth::check()){
             $id_user = Session::get('id');
             $carrito = Carrito::where('user_id',$id_user)->first();
-            $id_carrito = $carrito->id;
-            $carrito = $carrito->productos;
-            return view('carrito.show');
+            //if carrito is empty return route inicio
+            if($carrito->productos->isEmpty()){
+                return redirect()->route('inicio');
+            }else{
+                
+                return view('carrito.show');
+            }
+            
            
         }else{
-            return view('carrito.show');
+            if(Session::has('id_carrito')){
+                $carrito = Session::get('carrito');
+                if(count($carrito) == 0){
+                    return redirect()->route('inicio');
+                }
+            }else{
+                return redirect()->route('inicio');
+            }
         }
     }
 
