@@ -205,9 +205,8 @@ class carritoController extends Controller
                 ];
                 Session::push('carrito',$carrito);
             }else{
-                $contador = count($carrito);
                 for($i = 0; $i < $contador; $i++){
-                    if($carrito[$i]['producto_id'] == $request->producto){
+                    if($carrito[$i]['producto_id'] == $producto->id){
                         $cantidad = $carrito[$i]['cantidad_carrito'];
                         $carrito[$i]['cantidad_carrito'] = $cantidad + $request->cantidad;
                         Session::put('carrito',$carrito);
