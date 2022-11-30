@@ -78,9 +78,10 @@
             </div>
             <div class="lg:col-span-2">
                 <div class="grid xl:grid-cols-3 p-5 lg:grid-cols-2 gap-4 lg:px-5">
-                     @foreach ($productos as $producto)
+                    @foreach ($productos as $producto)
                         <x-card-producto :producto="$producto"/>
                     @endforeach  
+
                 </div> 
             </div>
         
