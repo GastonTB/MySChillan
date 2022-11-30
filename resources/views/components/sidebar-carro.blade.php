@@ -8,7 +8,7 @@
                     <div class="row-span-1">
                         <div class="flex justify-end">
                             <div class="pr-5 pt-3">
-                                <i id="cerrar-carrito" class="fa fa-x fa-lg hover:text-lime-500 active:text-lime-500"></i>
+                                <i id="cerrar-carrito" class="fa fa-x hover:text-lime-500 active:text-lime-500"></i>
                             </div>
                         </div>
                     </div>

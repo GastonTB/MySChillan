@@ -120,11 +120,11 @@ crossorigin="anonymous"></script>
 <script src="{{asset('js/main.js')}}"></script>
 <script type="text/javascript">
     @if (session()->get('message') == 'error-registro')
-        $('#modal-registro').show();
+        $('#modal-registro').removeClass('hidden');
     @endif
 
     @if(session()->get('message') == 'error-login')
-        $('#modal-login').show();
+        $('#modal-login').removeClass('hidden');
     @endif
 
     $('#telefono_registro').on('input', function(){

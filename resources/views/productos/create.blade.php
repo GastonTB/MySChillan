@@ -8,8 +8,8 @@
 </div>
 <form action="{{route('crearproducto2')}}" method="POST" enctype="multipart/form-data">
     @csrf
-    <div class="grid xl:grid-cols-5 md:grid-cols-1 gap-4 pb-10">
-        <div class="xl:col-start-2 xl:col-span-3 mt-10 ">
+    <div class="grid xl:grid-cols-5 lg:grid-cols-7 md:grid-cols-1 gap-4 pb-10">
+        <div class="xl:col-start-2 xl:col-span-3 lg:col-start-2 lg:col-span-5 mt-10 ">
             <div class="grid xl:grid-cols-5 md:grid-cols-2 ">
                 {{-- izquierda --}}
                 <div class="xl:col-span-2 lg:order-2">
@@ -126,7 +126,7 @@
     
                     <div class="pl-10 mt-5">
                         <ul class="pestañas flex flex-wrap text-sm  font-medium text-center text-gray-500 border-b border-gray-200">
-                            <li id="descripcion" class="xl:mr-2 inline-block p-4 sm:p-2 text-blue-600 bg-gray-100 rounded-t-xl active">
+                            <li id="descripcion" class="xl:mr-2 inline-block p-4 sm:p-2 text-lime-500 bg-gray-100 rounded-t-xl active">
                                 <a href="#" aria-current="page">Descripción</a>
                             </li>
                             <li id="temporada" class="xl:mr-2 inline-block p-4 sm:p-2 rounded-t-xl hover:text-gray-600 hover:bg-gray-100">
@@ -208,7 +208,9 @@
             $('.pestañas > li').on('click', function(){
                 var id = $(this).attr('id');
                 $(this).siblings().removeClass('bg-gray-100');
+                $(this).siblings().removeClass('text-lime-500');
                 $(this).addClass('bg-gray-100');
+                $(this).addClass('text-lime-500');
                 $('.texto').addClass('hidden');
                 $('#'+ id + '-text').removeClass('hidden');
             });
@@ -280,7 +282,6 @@
             })
 
 
-            //en caso de volver desde el controlador con errores ocultar ciertas pestañas si no es planta
             $(window).on('load', function() {
                 if(($('.categorias')[5].checked) || ($('.categorias')[6].checked) || ($('.categorias')[7].checked))
                 {

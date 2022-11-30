@@ -176,6 +176,20 @@
           $('#sidebar-carro').addClass('hidden');
         });
 
+        $('#cerrar-login').on('click', function(){
+          $('#modal-login').addClass('hidden');
+        });
+
+        $('#cerrar-registro').on('click', function(){
+          $('#modal-registro').addClass('hidden');
+        });
+
+        $('#carrito').on('click', function(){
+          $('#sidebar').addClass('hidden');
+        });
+
+
+       
 
 
         
