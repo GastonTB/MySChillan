@@ -154,9 +154,26 @@ class carritoController extends Controller
     public function update(Request $request, $id)
     {   
         //validate
-        $request->validate([
+        // $request->validate([
+        //     'cantidad' => 'required|numeric|min:1|max:20',
+        // ]);
+        $reglas = [
             'cantidad' => 'required|numeric|min:1|max:20',
-        ]);
+        ];
+
+        $mensajes = [
+            'cantidad.required' => 'La cantidad es requerida',
+            'cantidad.numeric' => 'La cantidad debe ser un número',
+            'cantidad.min' => 'La cantidad debe ser mayor a 0',
+            'cantidad.max' => 'La cantidad debe ser menor a 20',
+        ];
+
+        $validator = Validator::make($request->all(), $reglas, $mensajes);
+
+        if ($validator->fails()) {
+            return redirect()->back();
+        }
+            
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -180,6 +197,17 @@ class carritoController extends Controller
             }
             $carrito->save();
 
+            return redirect()->back();
+        }else{
+            $carrito = Session::get('carrito');
+            $contador = count($carrito);
+            for($i = 0; $i < $contador; $i++){
+                if($carrito[$i]['producto_id'] == $request->producto_id){
+                    $carrito[$i]['cantidad_carrito'] = $request->cantidad + $carrito[$i]['cantidad_carrito'];
+                    Session::put('carrito',$carrito);
+                    break;
+                }
+            }
             return redirect()->back();
         }
 

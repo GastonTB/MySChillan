@@ -54,7 +54,7 @@
         <div class="hidden lg:block xl:block">
             <div class="grid xl:grid-cols-5 lg:grid-cols-7 gap-4 mt-10">
                 <div class="xl:col-start-2 lg:col-start-2 xl:col-span-1 lg:col-span-1 pt-3">
-                    <x-lista-categorias />
+                    <x-lista-categorias/>
                 </div>
                 <div class="xl:col-span-2 lg:col-span-4">
                     <div class="py-3">
