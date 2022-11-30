@@ -45,5 +45,7 @@ Route::get('/tienda/{id}', [tiendaController::class, 'filtrados'])->name('filtra
 Route::post('/', [carritoController::class, 'store'])->name('carrito');
 Route::get('/carrito/{id}', [carritoController::class, 'show'])->middleware('checkcarrito')->name('mostrarCarrito');
 Route::delete('/borrar-carro/{id}',[carritoController::class, 'destroy'])->name('borrarProductoCarro');
-Route::put('/carrito/{id}', [carritoController::class , 'update'])->name('actualizarCarrito');
+Route::put('/carrito-agregar/{id}', [carritoController::class , 'update'])->name('actualizarCarrito');
 Route::delete('/borrar-producto/{id}', [productoController::class, 'destroy'])->name('borrarProducto');
+Route::put('/carrito-actualizar/{id}', [carritoController::class, 'actualizar'])->name('actualizarCarrito2');
+Route::get('/carrito', [carritoController::class, 'miCarrito'])->name('miCarrito');

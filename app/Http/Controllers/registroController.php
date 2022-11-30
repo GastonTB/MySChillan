@@ -49,7 +49,7 @@ class registroController extends Controller
              'direccion' => 'required|min:7|max:100',
              'apellido_paterno'=>'required|alpha|min:3|max:35',
              'apellido_materno'=>'required|alpha|min:3|max:35',
-             'correo' => 'required|email:rfc,dns|unique:users',
+             'email' => 'required|email:rfc,dns|unique:users',
              'contraseña' => 'required|min:8|confirmed',
              'telefono' => 'required|digits:9|unique:users_metadata'
         );
@@ -68,7 +68,7 @@ class registroController extends Controller
         $user = User::create(
             [
                 'name' => $request->input('nombre'),
-                'email' => $request->input('correo'),
+                'email' => $request->input('email'),
                 'password' => Hash::make($request->input('contraseña')),
                 'created_at' => date('Y-m-d H:i:s')
             ]

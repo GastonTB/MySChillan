@@ -3,9 +3,13 @@
         <div id="overlay-modal-login" class="z-40 fixed h-screen w-screen bg-black opacity-40"></div>
         <div class="flex justify-center">
             <div class="top-1/12 z-50 w-4/5 md:w-5/10 lg:w-2/10 bg-white fixed rounded-md">
+                
                 <form action="{{route('ingresar')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class=""> 
+                        <div class="absolute top-2 right-3 hover:cursor-pointer">
+                            <i id="cerrar-login" class="fa fa-x hover:text-lime-500 active:text-lime-500"></i>
+                        </div>
                         <div class="flex justify-center mt-2 py-3">
                             <img class="object-scale-down h-16" src="{{asset('img/logos/logo.png')}}" alt="">
                         </div>

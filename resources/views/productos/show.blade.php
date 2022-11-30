@@ -88,24 +88,41 @@
                         @if($producto->cantidad == 0)
                             <p class="text-red-500 font-semibold">Producto agotado</p>
                         @else
-                        <div class="grid grid-cols-12 w-full space-x-2">
-                            <div id="menos" class="flex boton items-center justify-end text-lime-500 font-black cursor-pointer">
-                                <i class="fa fa-minus"></i>
-                            </div>
-                            <div class="border-2 col-span-3 xl:col-span-2">
-                                <input id="cantidad" min="1" max="{{$producto->cantidad}}" placeholder="1" type="number" name="" id="" class="border-2 text-gray-500 text-center" style="width: 100%; height:100%">
-                            </div>
-                            <div id="mas" class="flex boton items-center text-lime-500 font-black cursor-pointer">
-                                <i class="fa fa-plus"></i>
-                            </div>
-                            <div class="col-span-5">
-                                <button class="btn-tienda col-span-5">
-                                    agregar al carrito
-                                </button>
-                                <div id="{{$producto->cantidad}}" class="oculto hidden">
+                        @auth
+                            @php
+                                $id_carrito = Auth::user()->carrito->id;
+                            @endphp
+                        @endauth
+                        @guest
+                            @php
+                                $id_carrito = Session::get('id_carrito');
+                            @endphp
+                        @endguest
+                        <form action="{{route('actualizarCarrito',$id_carrito)}}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="producto_id" value="{{$producto->id}}">
+                                <div class="grid grid-cols-12 w-full space-x-2">
+                                    <div id="menos" class="flex boton items-center justify-end text-lime-500 font-black cursor-pointer">
+                                        <i class="fa fa-minus"></i>
+                                    </div>
+                                    <div class="border-2 col-span-3 xl:col-span-2">
+                                        <input value="1" id="cantidad" min="1" max="20" placeholder="1" type="number" name="cantidad" class="border-2 text-gray-500 text-center" style="width: 100%; height:100%">
+                                    </div>
+                                    <div id="mas" class="flex boton items-center text-lime-500 font-black cursor-pointer">
+                                        <i class="fa fa-plus"></i>
+                                    </div>
+                                    <div class="col-span-5">
+                                        <button class="btn-tienda col-span-5">
+                                            agregar al carrito
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-sm" style="color:red"><small>@error('cantidad'){{$message}}@enderror</small></span>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                         @endif
                     </div>
                 </div>
@@ -116,17 +133,6 @@
 
     @section('js')
         <script>
-            const max = $('.oculto').attr('id');
-            var swiper = new Swiper("#producto", {
-                slidesPerView: 1,
-                spaceBetween: 1,
-                slidesPerGroup: 1,
-                loop: false,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-            });
 
             $(window).on('load', function() {
                 $('#contenido-1').hide();
@@ -151,7 +157,6 @@
             $('.boton').on('click', function(){
                 var id = $(this).attr('id');
                 var val = $('#cantidad').val();
-                val = parseInt(val);
                 if(id == 'mas'){
                     val++;
                     $('#cantidad').val(val);
@@ -161,26 +166,26 @@
                     $('#cantidad').val(val);
                 }
                  if($('#cantidad').val()<1)
-                 {   var val = 1;
+                 {    val = 1;
                      $('#cantidad').val(val);
                  }
-                 if($('#cantidad').val()>max)
-                 {
-                     $('#cantidad').val(max);
-                 }
+                if($('#cantidad').val()>20)
+                {    val = 20;
+                    $('#cantidad').val(val);
+                }
+
             });
 
 
             $("#cantidad").keyup(function(){
                 var valor = $(this).val();
                 valor = parseInt(valor);
-                if(valor>max){
-                    $(this).val(max);
-                }
                 if(valor<1){
                     $(this).val(1);
                 }
-                
+                if(valor>20){
+                    $(this).val(20);
+                }
             });
             
 

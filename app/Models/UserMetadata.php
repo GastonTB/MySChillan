@@ -32,4 +32,9 @@ class UserMetadata extends Model
     {
         return $this->hasOne(Rol::class);
     }
+
+    public function comuna()
+    {
+        return $this->belongsTo(Comuna::class);
+    }
 }

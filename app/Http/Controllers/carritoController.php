@@ -10,7 +10,11 @@ use Session;
 use App\Models\Producto;
 use App\Models\Carrito;
 use App\Models\Oferta;
+use App\Models\UserMetadata;
+use App\Models\Region;
+use App\Models\Comuna;
 use App\Helpers\Helpers;
+use Illuminate\Support\Facades\Validator;
 
 
 class carritoController extends Controller
@@ -128,7 +132,11 @@ class carritoController extends Controller
             $id_user = Session::get('id');
             $carrito = Carrito::where('user_id',$id_user)->first();
             $carrito = $carrito->productos;
-            return view('carrito.show');
+            $usuario = Auth::user();
+            $metauser = UserMetadata::where('user_id',$usuario->id)->first();
+            $comuna = Comuna::where('id',$metauser->comuna_id)->first();
+            $region = Region::where('id',$comuna->region_id)->first();
+            return view('carrito.show', compact('usuario', 'metauser', 'comuna', 'region'));
            
         }else{
             return view('carrito.show');
@@ -154,8 +162,38 @@ class carritoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        //validate
+        $request->validate([
+            'cantidad' => 'required|numeric|min:1|max:20',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if(Auth::check()){
+            $producto = Producto::findOrFail($request->producto_id);
+            $id_user = Session::get('id');
+            $carrito = Carrito::where('user_id',$id_user)->first();
+            $contador = count($carrito->productos);
+            foreach($carrito->productos as $prod){
+                if($prod->pivot->producto_id == $producto->id){
+                    $carrito->productos()->updateExistingPivot($producto->id, ['cantidad_carrito' => $request->cantidad + $prod->pivot->cantidad_carrito]);
+                    break;
+                }
+                $contador--;
+            }
+
+            if($contador == 0){
+                $carrito->productos()->attach($producto->id, ['cantidad_carrito' => $request->cantidad]);
+            }
+            $carrito->save();
+
+            return redirect()->back();
+        }
+
+        
     }
 
     /**
@@ -176,5 +214,79 @@ class carritoController extends Controller
             return redirect()->back();
         }
     }
+
+    public function actualizar(Request $request, $id)
+    {   
+
+        $validator = Validator::make($request->all(), [
+            'cantidad_oculta.*' => 'numeric|min:1|max:20',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if(Auth::check()){
+            $carritos = Carrito::where('user_id',Session::get('id'))->first();
+            $carritos = Carrito::findOrFail($carritos->id);
+        }else{
+            if(!Session::has('carrito')){
+                return redirect()->route('inicio');
+            }else{
+                $carritos = Session::get('carrito');
+            }
+        }
+
+        $productos=$request->id_producto;
+        $cantidad = $request->cantidad_oculta;
+        $precio = $request->precio_oculto;
+
+
+
+
+        
+
+       if(Auth::check()){
+            $contador = count($carritos->productos);
+            $i = 0;
+            foreach($carritos->productos as $carrito){
+                if($carrito->pivot->cantidad_carrito != $cantidad[$i]){
+                    $carritos->productos()->updateExistingPivot($carrito->id, ['cantidad_carrito' => $cantidad[$i]]);
+                }
+                $i++;
+            }
+            $carritos->save();
+            return redirect()->back();
+        }else{
+            $contador = count($carritos);
+            $i = 0;
+            foreach($carritos as $carrito){
+                if($carrito['cantidad_carrito'] != $cantidad[$i]){
+                    $carritos[$i]['cantidad_carrito'] = $cantidad[$i];
+                }
+                $i++;
+            }
+            Session::put('carrito',$carritos);
+            return redirect()->back();
+        }
+        
+        
+        return redirect()->back();
+
+    }
+
+    public function miCarrito(){
+        if(Auth::check()){
+            $id_user = Session::get('id');
+            $carrito = Carrito::where('user_id',$id_user)->first();
+            $id_carrito = $carrito->id;
+            $carrito = $carrito->productos;
+            return view('carrito.show');
+           
+        }else{
+            return view('carrito.show');
+        }
+    }
+
 
 }

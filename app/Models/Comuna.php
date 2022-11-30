@@ -17,4 +17,9 @@ class Comuna extends Model
     {
         return $this->belongsTo(Region::class);
     }
+
+    public function userMetadata()
+    {
+        return $this->hasMany(UserMetadata::class);
+    }
 }

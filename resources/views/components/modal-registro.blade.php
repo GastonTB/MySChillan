@@ -7,7 +7,10 @@
                 <div class="lg:px-5">
                     <form action="{{route('registro')}}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="grid h-full grid-cols-2 md:gap-3 gap-0"> 
+                        <div class="grid h-full grid-cols-2 md:gap-3 gap-0">
+                            <div class="absolute top-2 right-3 hover:cursor-pointer">
+                                <i id="cerrar-registro" class="fa fa-x hover:text-lime-500 active:text-lime-500"></i>
+                            </div>
                             <div class="flex justify-center col-span-2 mt-2 py-3">
                                 <img class="object-scale-down h-16" src="{{asset('img/logos/logo.png')}}" alt="">
                             </div>
@@ -116,13 +119,13 @@
                                     <div>
                                         <div>
                                             <label class="relative">
-                                                <input name="correo" value="{{old('correo')}}" type="text" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" ">
+                                                <input name="email" value="{{old('email')}}" type="text" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" ">
                                                 <span class="text-opacity-30 text-black absolute text-xs md:text-sm left-0 top-0 mx-3 px-2 transition duration-200 input-text">
                                                     Correo
                                                 </span>
                                             </label>
                                         </div>
-                                        <span class="text-sm" style="color:red"><small>@error('correo'){{$message}}@enderror</small></span>
+                                        <span class="text-sm" style="color:red"><small>@error('email'){{$message}}@enderror</small></span>
                                     </div>
                                 </div>
                             </div>
