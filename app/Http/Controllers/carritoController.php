@@ -170,16 +170,11 @@ class carritoController extends Controller
 
         $validator = Validator::make($request->all(), $reglas, $mensajes);
 
-        if ($validator->fails()) {
-            return redirect()->back();
-        }
             
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
-
         $producto = Producto::findOrFail($request->producto_id);
 
         if(Auth::check()){
@@ -226,14 +221,16 @@ class carritoController extends Controller
                     }
                 }
             }
-            for($i = 0; $i < $contador; $i++){
-                if($carrito[$i]['producto_id'] == $request->producto_id){
-                    $carrito[$i]['cantidad_carrito'] = $request->cantidad + $carrito[$i]['cantidad_carrito'];
-                    Session::put('carrito',$carrito);
-                    break;
-                }
-            }
+
             return redirect()->back();
+
+            // for($i = 0; $i < $contador; $i++){
+            //     if($carrito[$i]['producto_id'] == $request->producto_id){
+            //         $carrito[$i]['cantidad_carrito'] = $request->cantidad + $carrito[$i]['cantidad_carrito'];
+            //         Session::put('carrito',$carrito);
+            //         break;
+            //     }
+            // }
         }
 
         
