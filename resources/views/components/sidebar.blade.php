@@ -66,7 +66,7 @@
                                     <a class="active:text-lime-500" id="tienda" href="#">Tienda <i id="abajo-tienda" class="fa fa-chevron-down fa-sm"></i><i id="arriba-tienda" class="fa fa-chevron-up hidden fa-sm"></i></a>
                                 </div>
                                 <ul id="lista-tienda" class="pl-10 space-y-2 mt-3 pb-1 hidden">
-                                    <li><a href="{{route('tienda')}}">Todos los Productos></a></li>
+                                    <li><a href="{{route('tienda')}}">Todos los Productos</a></li>
                                     <li><a href="{{route('filtrados',1)}}">Ornamentales</a></li>
                                     <li><a href="{{route('filtrados',2)}}">Plantas de Interior</li>
                                     <li><a href="{{route('filtrados',3)}}">Plantas de Exterior</li>
