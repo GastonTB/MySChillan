@@ -122,6 +122,7 @@ class tiendaController extends Controller
         $categoria = $request->categorias;
         $categoria = implode(',', $categoria);
 
+
         if($categoria == 9){
             $categoria = 9;
             $titulo =  'TIENDA';
@@ -175,7 +176,9 @@ class tiendaController extends Controller
 
     public function filtrados($categoria)
     {   
-
+        if($categoria > 9 || $categoria < 1){
+            return redirect()->route('tienda');
+        }
         $categoria = Categoria::findOrFail($categoria);
         $titulo = $categoria->nombre_categoria;
         $categoria = $categoria->id;
