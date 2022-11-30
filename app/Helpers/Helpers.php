@@ -73,7 +73,7 @@ class Helpers
                 $contador = 0;
                 $total = 0;
                 foreach($carrito as $prod){
-                    $producto = Producto::find($prod['producto_id']);
+                    $producto = Producto::findOrFail($prod['producto_id']);
                     if($producto->oferta_id != 0){
                        if($producto->oferta->estado_oferta != 0 && $producto->oferta->estado_oferta!=0){
                            $producto->precio = $producto->oferta->precio_oferta;
