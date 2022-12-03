@@ -5,9 +5,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
 @endsection
 @section('content')
-        <div class="lg:hidden">
+        {{-- <div class="lg:hidden">
             <section>
-                <div class="hidden md:block my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
+                <div class="my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
                     <p class="titulo font-black uppercase text-black bg-white text-4xl md:text-5xl mix-blend-lighten">
                         @if(isset($titulo))
                             {{$titulo}}
@@ -43,28 +43,65 @@
                             </div>
                         </div>
                     </div>
-                    <section>
-                        <div class="md:hidden my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
-                            <p class="titulo font-black uppercase text-black bg-white text-4xl md:text-5xl mix-blend-lighten">
-                                @if(isset($titulo))
-                                    {{$titulo}}
-                                @else
-                                    Tienda
-                                @endif
-                            </p>          
-                        </div>
-                    </section>
                     <div class="col-span-4 p-4">
-                        <div class="grid grid-cols-2 md:gap-4 gap-1">
+                        <div class="grid grid-cols-2 gap-4">
                             @foreach ($productos as $producto)
-                            <div class="columns-1">
-                                <x-card-producto :producto="$producto"/>
-                            </div>
+                            <x-card-producto :producto="$producto"/>
                             @endforeach
                         </div>
                     </div>
                 </div>  
             </section>
+        </div> --}}
+
+        <div class="lg:hidden">
+            <div class="my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
+                <p class="titulo font-black uppercase text-black bg-white text-4xl md:text-5xl mix-blend-lighten">
+                    @if(isset($titulo))
+                        {{$titulo}}
+                    @else
+                        Tienda
+                    @endif
+                </p>          
+            </div>
+            <div class="md:grid md:grid-cols-7 gap-1">
+                <div class="md:col-span-3 lg:col-span-2">
+                    <div class="mb-5 px-5 lg:px-0">
+                        <x-filtro-categorias :categoria="$categoria"/>                           
+                    </div>
+                    <div class="mb-5 hidden md:block">
+                        <x-slider-ofertas :ofertas="$ofertas"/>
+                    </div>
+                    <div class="mb-5 hidden md:block">
+                        <x-slider-ultimos-productos :ultimos="$ultimos"/>
+                    </div>
+                    <div class="md:hidden grid grid-cols-2 gap-1 px-2">
+                        <div class="columns-1">
+                            <div class="mb-5">
+                                <x-slider-ofertas :ofertas="$ofertas"/>
+                            </div>
+                        </div>
+                        <div class="columns-1">
+                            <div class="mb-5">
+                                <x-slider-ultimos-productos :ultimos="$ultimos"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-4 p-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach ($productos as $producto)
+                        <x-card-producto :contador="$i" :producto="$producto"/>
+                            @php
+                                $i++;
+                            @endphp
+                        @endforeach
+                    </div>
+                </div>
+            </div>  
         </div>
 
     <div class="hidden lg:block xl:block mb-10">
@@ -92,7 +129,7 @@
             <div class="lg:col-span-2">
                 <div class="grid xl:grid-cols-3 p-5 lg:grid-cols-2 gap-4 lg:px-5">
                     @foreach ($productos as $producto)
-                        <x-card-producto :producto="$producto"/>
+                        <x-card-producto :contador="0" :producto="$producto"/>
                     @endforeach  
 
                 </div> 
@@ -109,9 +146,9 @@
 
 <script>
 
-    $('.categorias').on('change', function(){
+    $('.categoria').on('change', function(){
         if($(this).prop('checked') == true){
-            $('.categorias').not(this).prop('checked', false);
+            $('.categoria').not(this).prop('checked', false);
         }
     });
 
