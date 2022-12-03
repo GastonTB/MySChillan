@@ -187,7 +187,7 @@ class tiendaController extends Controller
         $regiones = Region::all();
         $comunas = new Comuna;
         $comunas = Comuna::all();
-        $productos = Producto::where('categoria_id', $categoria)->get();
+        $productos = Producto::where('categoria_id', $categoria)->latest()->get();
         $ofertas = Producto::join('ofertas','ofertas.id','productos.oferta_id')->
         where('productos.oferta_id', '!=','0')->
         where('ofertas.estado_oferta', '!=', '0')->

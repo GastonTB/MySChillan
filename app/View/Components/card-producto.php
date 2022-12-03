@@ -12,14 +12,13 @@ class card-producto extends Component
      * @return void
      */
     public $producto;
-    public $image;
-    public $oferta;
+    public $contador;
 
-    public function __construct($producto, $imagen, $oferta)
+    public function __construct($producto, $contador)
     {
         $this->producto = $producto;
-        $this->image = $producto->imagenes;
-        $this->oferta = $oferta;
+        $this->contador = $contador;
+        
     }
 
 
