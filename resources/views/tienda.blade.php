@@ -43,8 +43,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-span-4 lg:col-span-5 p-4">
-                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="col-span-4 p-4">
+                        <div class="grid grid-cols-2 gap-3">
                             @foreach ($productos as $producto)
                             <x-card-producto :producto="$producto"/>
                             @endforeach

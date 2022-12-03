@@ -110,7 +110,7 @@
 
 
 
-          var swiper = new Swiper("#categorias", {
+          var swiper = new Swiper(".categorias", {
           slidesPerView: tamaño,
           spaceBetween: 10,
           slidesPerGroup: 1,
