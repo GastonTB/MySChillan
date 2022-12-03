@@ -1,6 +1,6 @@
 @extends('layaouts.master')
 @section('content')
-            
+
         {{-- celular y tablet --}}
         <div class="lg:hidden xl:hidden">
 
@@ -32,14 +32,14 @@
                         </div>
                     </section>
                 </div>
-                <div class="md:hidden grid grid-cols-2 px-2 space-x-1">
-                    <div class="columns-1">
-                        <div class="mb-5">
+                <div class="md:hidden grid grid-cols-2 mb-10">
+                    <div class="columns-1 px-1">
+                        <div class="">
                             <x-slider-ofertas :ofertas="$ofertas"/>
                         </div>
                     </div>
-                    <div class="columns-1">
-                        <div class="mb-5">
+                    <div class="columns-1 px-1">
+                        <div class="">
                             <x-slider-ultimos-productos :ultimos="$ultimos"/>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                     disableOnInteraction: false,
                 }
                 });
-            
+
             $('.flecha').on('click', function(){
                 let id = $(this).attr('id');
                 if(id == 'abajo'){
@@ -144,7 +144,14 @@
 
             });
 
-    
+
             </script>
         @endsection
 @endsection
+
+
+
+
+
+
+
