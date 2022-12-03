@@ -7,7 +7,7 @@
 @section('content')
         <div class="lg:hidden">
             <section>
-                <div class="my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
+                <div class="hidden md:block my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
                     <p class="titulo font-black uppercase text-black bg-white text-4xl md:text-5xl mix-blend-lighten">
                         @if(isset($titulo))
                             {{$titulo}}
@@ -43,10 +43,23 @@
                             </div>
                         </div>
                     </div>
+                    <section>
+                        <div class="md:hidden my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
+                            <p class="titulo font-black uppercase text-black bg-white text-4xl md:text-5xl mix-blend-lighten">
+                                @if(isset($titulo))
+                                    {{$titulo}}
+                                @else
+                                    Tienda
+                                @endif
+                            </p>          
+                        </div>
+                    </section>
                     <div class="col-span-4 p-4">
-                        <div class="grid grid-cols-2 gap-3">
+                        <div class="grid grid-cols-2 md:gap-4 gap-1">
                             @foreach ($productos as $producto)
-                            <x-card-producto :producto="$producto"/>
+                            <div class="columns-1">
+                                <x-card-producto :producto="$producto"/>
+                            </div>
                             @endforeach
                         </div>
                     </div>
