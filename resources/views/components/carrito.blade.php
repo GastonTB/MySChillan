@@ -6,14 +6,12 @@
                 <i class="hover:text-lime-500 carrito absolute top-0 right-0 fa fa-xl fa-shopping-cart hidden md:block" aria-hidden="true"></i>
                 <div class="circulo hover:bg-black absolute bottom-0 left-0 rounded-full py-0.5
                     @if($carro['contador'] < 10)
-                    lg:px-2
-                    px-1
+                    px-1.5
                     @else
-                    lg:px-1
                     px-0.5
                     @endif
                 bg-lime-500 text-2xs">
-                    <p class="contador text-xs md:text-base hover:text-white font-bold">
+                    <p class="contador text-xs hover:text-white font-bold">
                         {{$carro['contador']}}
                     </p>
                 </div>

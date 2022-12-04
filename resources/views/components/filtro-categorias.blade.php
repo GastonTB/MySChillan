@@ -1,4 +1,4 @@
-<div class="border-1 rounded-md bg-gray-100 shadow-md">
+<div class="border-1 rounded-md bg-gray-100 shadow-md mb-10 md:mb-0 xl:relative xl:w-4/5">
     <form action="{{route('filtrar')}}" method="POST">
         @csrf
         <div class="py-5">
@@ -135,7 +135,26 @@
 
             </ul>
             <span class="text-sm ml-5 mt-10" style="color:red"><small>@error('categorias'){{$message}}@enderror</small></span>                                                           
-
+            {{-- <div class="lg:hidden border-lg pb-5 px-5">
+                <label class="mb-2 font-black text-gray-700 flex">Precio Mínimo: <p class="precio_minimo text-lime-500 ml-1"></p></label>
+                <div class="p-5 bg-white mb-3">
+                    <input name="minimo" type="range" min="0" max="100000" value="0" step="10000" class="minimo w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700">
+                </div>
+                <label class="mb-2 font-black text-gray-700 flex">Precio Máximo: <p class="precio_maximo text-lime-500 ml-1"></p></label>
+                <div class="p-5 bg-white">
+                    <input name="maximo" type="range" min="0" max="100000" value="100000" step="10000" class="maximo w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700">
+                </div>
+            </div> --}}
+            <div class="hidden lg:block border-lg pb-5 px-5">
+                <label class="mb-2 font-black text-gray-700 flex">Precio Mínimo: <p class="precio_minimo2 text-lime-500 ml-1"></p></label>
+                <div class="p-5 bg-white mb-3">
+                    <input name="minimo" type="range" min="0" max="100000" value="0" step="10000" class="minimo2 w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700">
+                </div>
+                <label class="mb-2 font-black text-gray-700 flex">Precio Máximo: <p class="precio_maximo2 text-lime-500 ml-1"></p></label>
+                <div class="p-5 bg-white">
+                    <input name="maximo" type="range" min="0" max="100000" value="100000" step="10000" class="maximo2 w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700">
+                </div>
+            </div>
         <div class="flex justify-center lg:justify-start lg:ml-5">
             <button type="submit" class="btn-primary">
                 <p>Filtrar</p>

@@ -20,25 +20,33 @@
                 </div>
             </section>
             <section>
-                <div class="md:columns-2 md:mb-10 hidden md:block lg:hidden">
-                    <section class="order-1 md:order-2">
-                        <div class="mb-5">
-                            <x-slider-ultimos-productos :ultimos="$ultimos"/>
+                <div class="md:grid md:grid-cols-3 md:mb-10 hidden md:block lg:hidden md:px-5">
+                   
+                        <div class="columns-1">
+                            <div class="mb-5">
+                                <x-slider-ultimos-productos :ultimos="$ultimos"/>
+                            </div>
                         </div>
-                    </section>
-                    <section class="order-2 md:order-1">
-                        <div class="mb-5">
-                            <x-slider-ofertas :ofertas="$ofertas"/>
+                  
+                    
+                        <div class="columns-1">
+                            <div class="mb-5">
+                                <x-slider-ofertas :ofertas="$ofertas"/>
+                            </div>
                         </div>
-                    </section>
+                        <div class="columns-1">
+                            <div class="mb-5">
+                                <x-slider-mejor-calificados/>
+                            </div>
+                        </div>
                 </div>
-                <div class="md:hidden grid grid-cols-2 mb-10">
-                    <div class="columns-1 px-1">
+                <div class="md:hidden grid grid-cols-2 mb-10 pl-5">
+                    <div class="columns-1">
                         <div class="">
                             <x-slider-ofertas :ofertas="$ofertas"/>
                         </div>
                     </div>
-                    <div class="columns-1 px-1">
+                    <div class="columns-1">
                         <div class="">
                             <x-slider-ultimos-productos :ultimos="$ultimos"/>
                         </div>
@@ -46,9 +54,7 @@
                 </div>
             </section>
             <section>
-                <div class="mb-5">
-                    <x-slider-mejor-calificados/>
-                </div>
+           
             </section>
         </div>
         <div class="hidden lg:block xl:block">

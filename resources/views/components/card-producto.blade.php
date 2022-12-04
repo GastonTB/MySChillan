@@ -147,11 +147,13 @@
                     <input type="hidden" name="cantidad" value="1">
                     <input type="hidden" name="producto" value="{{$producto->id}}">
                     @if($producto->cantidad > 0)
-                        <button type="submit" class="btn-tienda">
-                            Añadir al Carrito
-                        </button>
+                        <div class="px-3 md:px-0">
+                            <button type="submit" class="btn-tienda">
+                                Añadir al Carrito
+                            </button>
+                        </div>
                     @else
-                        <div class="px-3">
+                        <div class="px-3 md:px-0">
                             <button type="button" class="btn-tienda text-xs">
                                 <a href="{{route('detalles',$producto->id)}}">
                                     Detalles del Producto

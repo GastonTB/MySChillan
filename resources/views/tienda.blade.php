@@ -5,57 +5,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Cabin&display=swap" rel="stylesheet">
 @endsection
 @section('content')
-        {{-- <div class="lg:hidden">
-            <section>
-                <div class="my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
-                    <p class="titulo font-black uppercase text-black bg-white text-4xl md:text-5xl mix-blend-lighten">
-                        @if(isset($titulo))
-                            {{$titulo}}
-                        @else
-                            Tienda
-                        @endif
-                    </p>          
-                </div>
-            </section>
-            <section>
-                <div class="md:grid md:grid-cols-7 gap-1">
-                    <div class="md:col-span-3 lg:col-span-2">
-                        <div class="mb-5 px-5 lg:px-0">
-                            <x-filtro-categorias :categoria="$categoria"/> 
-                            <span class="text-sm" style="color:red"><small>@error('categorias'){{$message}}@enderror</small></span>                              
-                        </div>
-                        <div class="mb-5 hidden md:block">
-                            <x-slider-ofertas :ofertas="$ofertas"/>
-                        </div>
-                        <div class="mb-5 hidden md:block">
-                            <x-slider-ultimos-productos :ultimos="$ultimos"/>
-                        </div>
-                        <div class="md:hidden grid grid-cols-2 gap-1 px-2">
-                            <div class="columns-1">
-                                <div class="mb-5">
-                                    <x-slider-ofertas :ofertas="$ofertas"/>
-                                </div>
-                            </div>
-                            <div class="columns-1">
-                                <div class="mb-5">
-                                    <x-slider-ultimos-productos :ultimos="$ultimos"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-span-4 p-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            @foreach ($productos as $producto)
-                            <x-card-producto :producto="$producto"/>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>  
-            </section>
-        </div> --}}
 
         <div class="lg:hidden">
-            <div class="my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
+            <div class="md:hidden">
+                <div class="mt-5"></div>
+            </div>
+            <div class="hidden md:block my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
                 <p class="titulo font-black uppercase text-black bg-white text-4xl md:text-5xl mix-blend-lighten">
                     @if(isset($titulo))
                         {{$titulo}}
@@ -66,8 +21,8 @@
             </div>
             <div class="md:grid md:grid-cols-7 gap-1">
                 <div class="md:col-span-3 lg:col-span-2">
-                    <div class="mb-5 px-5 lg:px-0">
-                        <x-filtro-categorias :categoria="$categoria"/>                           
+                    <div class="mb-5 px-5 lg:px-0 lg:hidden">
+                        <x-filtro-categorias-movil :categoria="$categoria"/>                           
                     </div>
                     <div class="mb-5 hidden md:block">
                         <x-slider-ofertas :ofertas="$ofertas"/>
@@ -75,7 +30,7 @@
                     <div class="mb-5 hidden md:block">
                         <x-slider-ultimos-productos :ultimos="$ultimos"/>
                     </div>
-                    <div class="md:hidden grid grid-cols-2 gap-1 px-2">
+                    <div class="md:hidden grid grid-cols-2 pl-5">
                         <div class="columns-1">
                             <div class="mb-5">
                                 <x-slider-ofertas :ofertas="$ofertas"/>
@@ -87,6 +42,15 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="md:hidden my-10 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">
+                    <p class="titulo font-black uppercase text-black bg-white text-4xl md:text-5xl mix-blend-lighten">
+                        @if(isset($titulo))
+                            {{$titulo}}
+                        @else
+                            Tienda
+                        @endif
+                    </p>          
                 </div>
                 <div class="col-span-4 p-4">
                     <div class="grid grid-cols-2 gap-4">
@@ -116,7 +80,7 @@
         </div>
         <div class="grid grid-cols-5 w-full mt-5">
             <div class="col-start-2 col-span-1 pt-5">
-                <div>
+                <div class="hidden lg:block">
                     <x-filtro-categorias :categoria="$categoria"/>
                 </div>
                 <div class="mt-10">
@@ -146,13 +110,129 @@
 
 <script>
 
-    $('.categoria').on('change', function(){
+    //load page
+    $(document).ready(function(){
+
+        $('.precio_minimo').text(' $' + $('.minimo').val());
+        $('.precio_maximo').text(' $' + $('.maximo').val());
+
+        $('.minimo').on('change', function(){
+            comparar();
+           
+        });
+
+        $('.maximo').on('change', function(){
+            comparar();           
+        });
+      
+        function comparar(){
+            var minimo = $('.minimo').val();
+            minimo = parseInt(minimo);
+            var maximo = $('.maximo').val();
+            maximo = parseInt(maximo);
+            if(minimo >= maximo){
+                if(maximo == 100000){
+                    minimo = minimo - 10000;
+                }
+                if(minimo == 0 && maximo != 0){
+                    maximo = maximo + 10000;
+                }
+                if(minimo != 0 && maximo != 100000){
+                    maximo = minimo + 10000;
+                }
+            }
+            if(maximo <= minimo){
+                if(maximo == 100000){
+                    minimo = minimo - 10000;
+                }
+                if(minimo == 0 && maximo != 0){
+                    maximo = maximo + 10000;
+                }
+                if(minimo != 0 && maximo != 100000){
+                    minimo = maximo - 10000;
+                }
+            }
+            if(minimo == 0 && maximo == minimo){
+                maximo = maximo + 10000;
+            }
+            if(minimo == 100000 && maximo == minimo){
+                minimo = minimo - 10000;
+            }
+            if(maximo > 100000){
+                maximo = 100000;
+            }
+            $('.minimo').val(minimo);
+            $('.maximo').val(maximo);
+            var minimo = minimo.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $('.precio_minimo').text(' $' + minimo);
+            var maximo = maximo.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $('.precio_maximo').text(' $' + maximo);
+        }
+
+        
+        $('.precio_minimo2').text(' $' + $('.minimo2').val());
+        $('.precio_maximo2').text(' $' + $('.maximo2').val());
+
+        $('.minimo2').on('change', function(){
+            comparar2();
+           
+        });
+
+        $('.maximo2').on('change', function(){
+            comparar2();           
+        });
+      
+        function comparar2(){
+            var minimo2 = $('.minimo2').val();
+            minimo2 = parseInt(minimo2);
+            var maximo2 = $('.maximo2').val();
+            maximo2 = parseInt(maximo2);
+            if(minimo2 >= maximo2){
+                if(maximo2 == 100000){
+                    minimo2 = minimo2 - 10000;
+                }
+                if(minimo2 == 0 && maximo2 != 0){
+                    maximo2 = maximo2 + 10000;
+                }
+                if(minimo2 != 0 && maximo2 != 100000){
+                    maximo2 = minimo2 + 10000;
+                }
+            }
+            if(maximo2 <= minimo2){
+                if(maximo2 == 100000){
+                    minimo2 = minimo2 - 10000;
+                }
+                if(minimo2 == 0 && maximo2 != 0){
+                    maximo2 = maximo2 + 10000;
+                }
+                if(minimo2 != 0 && maximo2 != 100000){
+                    minimo2 = maximo2 - 10000;
+                }
+            }
+            if(minimo2 == 0 && maximo2 == minimo2){
+                maximo2 = maximo2 + 10000;
+            }
+            if(minimo2 == 100000 && maximo2 == minimo2){
+                minimo2 = minimo2 - 10000;
+            }
+            if(maximo2 > 100000){
+                maximo2 = 100000;
+            }
+            $('.minimo2').val(minimo2);
+            $('.maximo2').val(maximo2);
+            var minimo2 = minimo2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $('.precio_minimo2').text(' $' + minimo2);
+            var maximo2 = maximo2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $('.precio_maximo2').text(' $' + maximo2);
+        }
+        
+        $('.categoria').on('change', function(){
         if($(this).prop('checked') == true){
             $('.categoria').not(this).prop('checked', false);
         }
-    });
+        });
 
-    var swiper5 = new Swiper("#ultimos-slider", {
+        var swiper5 = new Swiper("#ultimos-slider", {
           slidesPerView: 1,
           spaceBetween: 10,
           slidesPerGroup: 1,
@@ -186,17 +266,19 @@
 
     $('.carrito').on('click', function(){
           $('#sidebar-carro').removeClass('hidden');
-          console.log('gola');
+
     });
     $('.circulo').on('click', function(){
         $('#sidebar-carro').removeClass('hidden');
-        console.log('gola');
     });
         
     $('#overlay-carro').on('click', function(){
         $('#sidebar-carro').addClass('hidden');
     });
 
+    });
+
+ 
 
 
 </script>
