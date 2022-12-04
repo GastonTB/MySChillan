@@ -113,6 +113,22 @@
     //load page
     $(document).ready(function(){
 
+        $('#filtro-abajo').on('click', function(){
+            $('#filtro-arriba').removeClass('hidden');
+            $('#lista-filtros').removeClass('rounded-md');
+            $('#lista-filtros').addClass('rounded-t-md');
+            $('#filtro-abajo').addClass('hidden');
+            $('#filtros').show('slow');
+        });
+
+        $('#filtro-arriba').on('click', function(){
+            $('#filtro-arriba').addClass('hidden');
+            $('#lista-filtros').removeClass('rounded-t-md');
+            $('#lista-filtros').addClass('rounded-md');
+            $('#filtro-abajo').removeClass('hidden');
+            $('#filtros').hide('slow');
+        });
+
         $('.precio_minimo').text(' $' + $('.minimo').val());
         $('.precio_maximo').text(' $' + $('.maximo').val());
 
@@ -124,6 +140,7 @@
         $('.maximo').on('change', function(){
             comparar();           
         });
+
       
         function comparar(){
             var minimo = $('.minimo').val();
@@ -234,7 +251,7 @@
 
         var swiper5 = new Swiper("#ultimos-slider", {
           slidesPerView: 1,
-          spaceBetween: 10,
+          spaceBetween: 0,
           slidesPerGroup: 1,
           loop: true,
           loopFillGroupWithBlank: true,
@@ -250,7 +267,7 @@
 
       var swiper6 = new Swiper("#ofertas-slider", {
         slidesPerView: 1,
-        spaceBetween: 10,
+        spaceBetween: 0,
         slidesPerGroup: 1,
         loop: true,
         loopFillGroupWithBlank: true,
