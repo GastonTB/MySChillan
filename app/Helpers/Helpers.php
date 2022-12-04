@@ -240,5 +240,30 @@ class Helpers
             Session::put('carrito', $carrito2);
     }
 
+    public static function getOfertas()
+    {
+        $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
+
+        foreach($ofertas as $oferta)
+        {
+            $oferta->imagenes = explode('|', $oferta->imagenes);
+            $oferta->imagenes = $oferta->imagenes[0];
+        }
+
+        return $ofertas;
+    }
+
+    public static function getUltimos()
+    {
+        $ultimos = Producto::latest()->take(7)->get();
+        foreach($ultimos as $ultimo)
+        {
+            $ultimo->imagenes = explode('|', $ultimo->imagenes);
+            $ultimo->imagenes = $ultimo->imagenes[0];
+        }
+
+        return $ultimos;
+    }
+
     
 }

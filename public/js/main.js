@@ -146,12 +146,12 @@
         $('#tienda').on('click', function(){
           if($('#lista-tienda').is(':visible')){
             $('#lista-tienda').hide('slow');
-            $('#abajo-tienda').show();
-            $('#arriba-tienda').hide();
+            $('#abajo-tienda').removeClass('hidden');
+            $('#arriba-tienda').addClass('hidden');
           }else{
             $('#lista-tienda').show('slow');
-            $('#abajo-tienda').hide();
-            $('#arriba-tienda').show();
+            $('#abajo-tienda').addClass('hidden');
+            $('#arriba-tienda').removeClass('hidden');
           }
 
         });
@@ -159,12 +159,12 @@
         $('#back-office').on('click', function(){
           if($('#lista-bo').is(':visible')){
             $('#lista-bo').hide('slow');
-            $('#abajo-bo').show();
-            $('#arriba-bo').hide();
+            $('#abajo-bo').removeClass('hidden');
+            $('#arriba-bo').addClass('hidden');
           }else{
             $('#lista-bo').show('slow');
-            $('#abajo-bo').hide();
-            $('#arriba-bo').show();
+            $('#abajo-bo').addClass('hidden');
+            $('#arriba-bo').removeClass('hidden');
           }
         });
 

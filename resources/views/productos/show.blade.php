@@ -17,7 +17,7 @@
                 <div class="md:mt-0 mt-10 mb-5 flex justify-start pl-5">
                     <p>
                         <a class="text-lime-500" href="{{route('tienda')}}">Tienda</a> / 
-                        <a class="text-lime-500" href="{{route('filtrados', $producto->categoria_id)}}">{{$producto->categoria->nombre_categoria}}</a> /
+                        <a class="text-lime-500" href="{{route('filtrados', ['id' => $producto->categoria_id , 'minimo' => 0, 'maximo' => 100000])}}">{{$producto->categoria->nombre_categoria}}</a> /
                         {{$producto->nombre_producto}}
                     </p>
                 </div>

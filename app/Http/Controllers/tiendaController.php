@@ -13,8 +13,9 @@ use App\Models\Categoria;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Carrito;
 use Illuminate\Support\Collection;
-//carbon
 use Carbon\Carbon;
+use App\Helpers\Helpers;
+
 
 
 class tiendaController extends Controller
@@ -33,8 +34,8 @@ class tiendaController extends Controller
         $comunas = new Comuna;
         $comunas = Comuna::all();
         $productos = new Producto;
-        $productos = Producto::latest()->get();
-        $categoria = 0;
+        $productos = Producto::latest()->paginate(12);
+        $categoria = 9;
         foreach($productos as $producto)
         {
             $producto->imagenes = explode('|', $producto->imagenes);
@@ -56,8 +57,11 @@ class tiendaController extends Controller
             $oferta->imagenes = explode('|', $oferta->imagenes);
             $oferta->imagenes = $oferta->imagenes[0];
         }
+
+        $minimo = 0;
+        $maximo = 100000;
         
-        return view('tienda', compact('productos' , 'ultimos', 'ofertas', 'categoria'));
+        return view('tienda', compact('productos' , 'ultimos', 'ofertas', 'categoria', 'minimo', 'maximo'));
     }
 
     /**
@@ -107,27 +111,40 @@ class tiendaController extends Controller
     }
 
     public function filtrar(Request $request)
-    {
+    {  
         $reglas = array(
-            'categorias' => 'max:1',
+            'categoria' => 'max:1',
             'minimo' => 'required || numeric || max:100000 || min:0',
             'maximo' => 'required || numeric || max:100000 || min:0',
         );
 
-        $validador = Validator::make($request->all(), $reglas);
+        $mensaje = array(
+            'categoria.max' => 'Solo se puede seleccionar una categoria',
+            'minimo.required' => 'El campo precio minimo es obligatorio',
+            'minimo.numeric' => 'El campo precio minimo debe ser numerico',
+            'minimo.max' => 'El campo precio minimo debe ser menor a $100.000',
+            'minimo.min' => 'El campo precio minimo debe ser mayor a $0',
+            'maximo.required' => 'El campo precio maximo es obligatorio',
+            'maximo.numeric' => 'El campo precio maximo debe ser numerico',
+            'maximo.max' => 'El campo precio maximo debe ser menor a $100.000',
+            'maximo.min' => 'El campo precio maximo debe ser mayor a $0',
+        );
+
+
+        $validador = Validator::make($request->all(), $reglas, $mensaje);
         if($validador->fails()){
             return Redirect::back()
-            ->withErrors($validador);
+            ->withErrors($validador)->withInput();
         }
 
-        if($request->has('categorias'))
+        if($request->has('categoria'))
         {   
-            $categorias = implode(',', $request->categorias);
+            $categorias = implode(',', $request->categoria);
             if($categorias == 9){
                 $categoria = 9;
                 $titulo = 'TIENDA';
             }else{
-                $categoria = Categoria::find($categorias);
+                $categoria = Categoria::findOrFail($categorias);
                 $titulo = $categoria->nombre_categoria;
                 $categoria = $categoria->id;
             }
@@ -139,10 +156,10 @@ class tiendaController extends Controller
 
         if($categoria != 9)
         {
-            $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $request->minimo)->where('precio', '<=', $request->maximo)->latest()->get();
+            $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $request->minimo)->where('precio', '<=', $request->maximo)->latest()->paginate(12);
         }else{
-            $productos = Producto::all();
-            $productos = $productos->where('precio', '>=', $request->minimo)->where('precio', '<=', $request->maximo);
+
+            $productos = Producto::where('precio', '>=', $request->minimo)->where('precio', '<=', $request->maximo)->paginate(12);
         }
 
         foreach($productos as $producto)
@@ -155,51 +172,53 @@ class tiendaController extends Controller
         }
 
 
-        $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
 
-        foreach($ofertas as $oferta)
-        {
-            $oferta->imagenes = explode('|', $oferta->imagenes);
-            $oferta->imagenes = $oferta->imagenes[0];
-        }
-        $ultimos = Producto::latest()->take(7)->get();
-        foreach($ultimos as $ultimo)
-        {
-            $ultimo->imagenes = explode('|', $ultimo->imagenes);
-            $ultimo->imagenes = $ultimo->imagenes[0];
-        }
 
-        return view('tienda', compact('productos', 'ultimos', 'ofertas', 'categoria', 'titulo'));
-
+        $minimo = $request->minimo;
+        $maximo = $request->maximo;
+        // return view('tienda', compact('productos', 'ultimos', 'ofertas', 'categoria', 'titulo' ,'minimo', 'maximo'));
+        return redirect()->route('filtrados', array('id' => $categoria, 'minimo' => $minimo, 'maximo' => $maximo));
     }
 
-    public function filtrados($categoria)
+    public function filtrados($categoria , $minimo, $maximo)
     {   
+        if(!is_numeric($minimo)){
+            $minimo = 0;
+        }
+        if(!is_numeric($maximo)){
+            $maximo = 100000;
+        }
+        if($minimo > $maximo){
+            $minimo = 0;
+            $maximo = 100000;
+        }
+        if($minimo < 0){
+            $minimo = 0;
+        }
+        if($maximo > 100000){
+            $maximo = 100000;
+        }
         if($categoria > 9 || $categoria < 1){
             return redirect()->route('tienda');
+        }elseif($categoria < 9){
+            $categoria = Categoria::findOrFail($categoria);
+            $titulo = $categoria->nombre_categoria;
+            $categoria = $categoria->id;
+        }else{
+            $categoria = 9;
+            $titulo = 'TIENDA';
         }
-        $categoria = Categoria::findOrFail($categoria);
-        $titulo = $categoria->nombre_categoria;
-        $categoria = $categoria->id;
+        
+        
 
-        $productos = Producto::where('categoria_id', $categoria)->latest()->get();
-        $ofertas = Producto::join('ofertas','ofertas.id','productos.oferta_id')->
-        where('productos.oferta_id', '!=','0')->
-        where('ofertas.estado_oferta', '!=', '0')->
-        orderBy('oferta_id', 'desc')->
-        take(7)->get();
+        if($categoria != 9){
+            $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->latest()->paginate(12);
+        }else{
+            $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->paginate(12);
+        }
 
-        foreach($ofertas as $oferta)
-        {
-            $oferta->imagenes = explode('|', $oferta->imagenes);
-            $oferta->imagenes = $oferta->imagenes[0];
-        }
-        $ultimos = Producto::latest()->take(7)->get();
-        foreach($ultimos as $ultimo)
-        {
-            $ultimo->imagenes = explode('|', $ultimo->imagenes);
-            $ultimo->imagenes = $ultimo->imagenes[0];
-        }
+        $ofertas = Helpers::getOfertas();
+        $ultimos = Helpers::getUltimos();
 
         foreach($productos as $producto)
         {
@@ -210,7 +229,7 @@ class tiendaController extends Controller
 
         }
 
-        return view('tienda', compact('productos', 'categoria', 'ofertas', 'ultimos', 'titulo'));
+        return view('tienda', compact('productos', 'categoria', 'ofertas', 'ultimos', 'titulo', 'minimo', 'maximo'));
 
     }
 

@@ -2,7 +2,7 @@
 @section('content')
 
         {{-- celular y tablet --}}
-        <div class="lg:hidden xl:hidden">
+        <div class="lg:hidden">
 
             <section>
                 <div class="px-2 mb-5 mt-5">

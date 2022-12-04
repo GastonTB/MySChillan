@@ -106,7 +106,10 @@ class carritoController extends Controller
                 }
             }
 
+            // return redirect()->route('filtrados', array('id' => $categoria, 'minimo' => $minimo, 'maximo' => $maximo));
+            //return to the previous pagination
             return redirect()->back();
+            
         }
     }
 

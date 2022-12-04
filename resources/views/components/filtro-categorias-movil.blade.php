@@ -1,6 +1,6 @@
 <div>
     <div class="border-1 rounded-md md:rounded-none bg-gray-100 shadow-md mb-10 md:mb-0 border-1">
-        <div id="lista-filtros" class="grid grid-cols-2 px-5 py-3 mb-5 bg-lime-500 rounded-md md:rounded-t-md md:rounded-b-none">
+        <div id="lista-filtros" class="grid grid-cols-2 px-5 py-3 mb-5 bg-lime-500 rounded-sm md:rounded-t-sm md:rounded-b-none">
             <div class="flex justify-start">
                 <p class="text-xl font-black text-white">
                     Filtros
@@ -19,7 +19,7 @@
                 <ul class="mx-5 border-1 rounded-md px-5 pb-5 bg-white" id="categorias2">
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
-                            <input name="categorias[]" 
+                            <input name="categoria[]" 
                             value="1" 
                             @if( ! empty($categoria))
                                 @if($categoria == 1)
@@ -34,7 +34,7 @@
                     </li>
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
-                            <input name="categorias[]" value="2" 
+                            <input name="categoria[]" value="2" 
                             @if( ! empty($categoria))
                                 @if($categoria == 2)
                                     checked
@@ -48,7 +48,7 @@
                     </li>
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
-                            <input name="categorias[]" value="3" 
+                            <input name="categoria[]" value="3" 
                             @if( ! empty($categoria))
                                 @if($categoria == 3)
                                     checked
@@ -62,7 +62,7 @@
                     </li>
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
-                            <input name="categorias[]" value="4" 
+                            <input name="categoria[]" value="4" 
                             @if( ! empty($categoria))
                                 @if($categoria == 4)
                                     checked
@@ -76,7 +76,7 @@
                     </li>
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
-                            <input name="categorias[]" value="5" 
+                            <input name="categoria[]" value="5" 
                             @if( ! empty($categoria))
                                 @if($categoria == 5)
                                     checked
@@ -90,7 +90,7 @@
                     </li>
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
-                            <input name="categorias[]" value="6" 
+                            <input name="categoria[]" value="6" 
                             @if( ! empty($categoria))
                                 @if($categoria == 6)
                                     checked
@@ -104,7 +104,7 @@
                     </li>
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
-                            <input name="categorias[]" value="7" 
+                            <input name="categoria[]" value="7" 
                             @if( ! empty($categoria))
                                 @if($categoria == 7)
                                     checked
@@ -118,7 +118,7 @@
                     </li>
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
-                            <input name="categorias[]" value="8" 
+                            <input name="categoria[]" value="8" 
                             @if( ! empty($categoria))
                                 @if($categoria == 8)
                                     checked
@@ -132,7 +132,7 @@
                     </li>
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
-                            <input name="categorias[]" value="9" 
+                            <input name="categoria[]" value="9" 
                             @if( ! empty($categoria))
                                 @if($categoria == 9)
                                     checked
@@ -150,11 +150,11 @@
                 <div class="lg:hidden border-lg pb-5 px-5">
                     <label class="mb-2 font-black text-gray-700 flex">Precio Mínimo: <p class="precio_minimo text-lime-500 ml-1"></p></label>
                     <div class="p-5 bg-white rounded-md mb-3">
-                        <input name="minimo" type="range" min="0" max="100000" value="0" step="10000" class="minimo w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700">
+                        <input name="minimo" type="range" min="0" max="100000" value="{{$minimo}}" step="10000" class="minimo w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700">
                     </div>
                     <label class="mb-2 font-black text-gray-700 flex">Precio Máximo: <p class="precio_maximo text-lime-500 ml-1"></p></label>
                     <div class="p-5 bg-white rounded-md">
-                        <input name="maximo" type="range" min="0" max="100000" value="100000" step="10000" class="maximo w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700">
+                        <input name="maximo" type="range" min="0" max="100000" value="{{$maximo}}" step="10000" class="maximo w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700">
                     </div>
                 </div>
             <div class="flex justify-center lg:justify-start lg:ml-5">
