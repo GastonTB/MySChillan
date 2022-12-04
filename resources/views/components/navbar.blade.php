@@ -9,12 +9,12 @@
                 </div>
             </div>
             
-            <div class="flex justify-end content-center pr-3 pt-7 md:pt-9 hover:text-lime-500 md:text-xl">
-                <div class="flex items-end">
+            <div class="flex justify-end content-center pr-3 pt-7 md:pt-9">
+                <div class="flex items-end hover:text-lime-500 md:text-xl">
                     <x-carrito/>
                 </div>
                 <div id="boton-menu">
-                    <i class="fa fa-bars fa-2xl"></i>
+                    <i class="fa fa-bars fa-2xl hover:text-lime-500 md:text-xl"></i>
                 </div>
             </div>
         </div>

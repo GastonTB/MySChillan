@@ -285,7 +285,6 @@
             $(window).on('load', function() {
                 if(($('.categorias')[5].checked) || ($('.categorias')[6].checked) || ($('.categorias')[7].checked))
                 {
-                    console.log('fasdasd');
                     $('#temporada').addClass('hidden');
                     $('#cuidados').addClass('hidden');
                 }
@@ -303,7 +302,7 @@
 
             $('input:file').on('change', function(){ 
             numero = $(this).attr('id')[7];
-            console.log(numero);
+    
                 var fileUpload = document.getElementById("imagen-"+numero);
                 var reader = new FileReader();
             //  Read the contents of Image File.
@@ -345,7 +344,7 @@
                     }
                 }
                 if(tamaño == 1){
-                    console.log(tamaño);
+                   
                     $('#descripcion-text').removeAttr('cols');
                     $('#descripcion-text').attr('cols','35');
                     $('#caracteristicas-text').removeAttr('cols');
@@ -355,7 +354,7 @@
                 }
 
                 if(tamaño == 2){
-                    console.log(tamaño);
+                   
                     $('#descripcion-text').removeAttr('cols');
                     $('#descripcion-text').attr('cols','40');
                     $('#caracteristicas-text').removeAttr('cols');
@@ -364,7 +363,7 @@
                     $('#cuidados-text').attr('cols','70');
                 }
                 if(tamaño == 3 || tamaño == 4){
-                    console.log(tamaño);
+                   
                     $('#descripcion-text').removeAttr('cols');
                     $('#descripcion-text').attr('cols','70');
                     $('#caracteristicas-text').removeAttr('cols');
@@ -387,18 +386,18 @@
                 }
 
                 if(tamaño == 1){
-                    console.log(tamaño);
+                   
                     $('#descripcion-text').removeAttr('cols');
                     $('#descripcion-text').attr('cols','35');
                 }
 
                 if(tamaño == 2){
-                    console.log(tamaño);
+                   
                     $('#descripcion-text').removeAttr('cols');
                     $('#descripcion-text').attr('cols','40');
                 }
                 if(tamaño == 3){
-                    console.log(tamaño);
+                   
                     $('#descripcion-text').removeAttr('cols');
                     $('#descripcion-text').attr('cols','70');
                 }

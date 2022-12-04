@@ -107,10 +107,11 @@ class tiendaController extends Controller
     }
 
     public function filtrar(Request $request)
-{
-        
+    {
         $reglas = array(
-            'categorias' => 'required || max:1 || min:1',
+            'categorias' => 'max:1',
+            'minimo' => 'required || numeric || max:100000 || min:0',
+            'maximo' => 'required || numeric || max:100000 || min:0',
         );
 
         $validador = Validator::make($request->all(), $reglas);
@@ -118,32 +119,30 @@ class tiendaController extends Controller
             return Redirect::back()
             ->withErrors($validador);
         }
-        
-        $categoria = $request->categorias;
-        $categoria = implode(',', $categoria);
 
+        if($request->has('categorias'))
+        {   
+            $categorias = implode(',', $request->categorias);
+            if($categorias == 9){
+                $categoria = 9;
+                $titulo = 'TIENDA';
+            }else{
+                $categoria = Categoria::find($categorias);
+                $titulo = $categoria->nombre_categoria;
+                $categoria = $categoria->id;
+            }
 
-        if($categoria == 9){
+        }else{
             $categoria = 9;
             $titulo =  'TIENDA';
-            $productos = Producto::all();
-        }else{
-            $categoria = Categoria::findOrFail($request->categorias)->first();
-            $titulo = $categoria->nombre_categoria;
-            $categoria = $categoria->id;
         }
 
-        $regiones = new Region;
-        $regiones = Region::all();
-        $comunas = new Comuna;
-        $comunas = Comuna::all();
-        $productos = new Producto;
-
-        if($categoria == 9)
+        if($categoria != 9)
         {
-            $productos = Producto::all();
+            $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $request->minimo)->where('precio', '<=', $request->maximo)->latest()->get();
         }else{
-            $productos = Producto::where('categoria_id', $categoria)->get();
+            $productos = Producto::all();
+            $productos = $productos->where('precio', '>=', $request->minimo)->where('precio', '<=', $request->maximo);
         }
 
         foreach($productos as $producto)
@@ -170,7 +169,7 @@ class tiendaController extends Controller
             $ultimo->imagenes = $ultimo->imagenes[0];
         }
 
-        return view('tienda', compact('productos', 'regiones', 'comunas', 'ultimos', 'ofertas', 'categoria', 'titulo'));
+        return view('tienda', compact('productos', 'ultimos', 'ofertas', 'categoria', 'titulo'));
 
     }
 
@@ -183,10 +182,6 @@ class tiendaController extends Controller
         $titulo = $categoria->nombre_categoria;
         $categoria = $categoria->id;
 
-        $regiones = new Region;
-        $regiones = Region::all();
-        $comunas = new Comuna;
-        $comunas = Comuna::all();
         $productos = Producto::where('categoria_id', $categoria)->latest()->get();
         $ofertas = Producto::join('ofertas','ofertas.id','productos.oferta_id')->
         where('productos.oferta_id', '!=','0')->

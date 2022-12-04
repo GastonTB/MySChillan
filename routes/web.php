@@ -39,13 +39,13 @@ Route::get('/producto-nuevo', [productoController::class, 'create'])->middleware
 Route::post('/producto-nuevo', [productoController::class, 'store'])->middleware('isadmin', 'auth')->name('crearproducto2');
 Route::get('/producto/{id}', [productoController::class, 'show'])->name('detalles');
 Route::get('/productos',[productoController::class , 'index'])->middleware('isadmin', 'auth')->name('listado-productos');
-Route::post('/oferta', [ofertaController::class, 'store'])->name('crear-oferta');
+Route::post('/oferta', [ofertaController::class, 'store'])->middleware('isadmin', 'auth')->name('crear-oferta');
 Route::post('/tienda', [tiendaController::class, 'filtrar'])->name('filtrar');
 Route::get('/tienda/{id}', [tiendaController::class, 'filtrados'])->name('filtrados');
 Route::post('/', [carritoController::class, 'store'])->name('carrito');
 Route::get('/carrito/{id}', [carritoController::class, 'show'])->middleware('checkcarrito')->name('mostrarCarrito');
 Route::delete('/borrar-carro/{id}',[carritoController::class, 'destroy'])->name('borrarProductoCarro');
 Route::put('/carrito-agregar/{id}', [carritoController::class , 'update'])->name('actualizarCarrito');
-Route::delete('/borrar-producto/{id}', [productoController::class, 'destroy'])->name('borrarProducto');
+Route::delete('/borrar-producto/{id}', [productoController::class, 'destroy'])->middleware('isadmin', 'auth')->name('borrarProducto');
 Route::put('/carrito-actualizar/{id}', [carritoController::class, 'actualizar'])->name('actualizarCarrito2');
 Route::get('/carrito', [carritoController::class, 'miCarrito'])->name('miCarrito');

@@ -237,7 +237,6 @@
 
     $('.boton-oferta').click(function(){
         var id = $(this).attr('id');
-        console.log(id);
         $('#modal-oferta').removeClass('hidden');
         var precio = $('#precio-producto-'+id).text();
         var nombre = $('#nombre-producto-'+id).text();
@@ -273,7 +272,6 @@
         
         val = val.toLocaleString();
 
-        console.log(typeof(val));
 
         $(this).val('$'+val);
     });

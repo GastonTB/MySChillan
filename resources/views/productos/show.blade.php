@@ -102,7 +102,7 @@
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="producto_id" value="{{$producto->id}}">
-                            <div class="grid grid-cols-12 w-full space-x-2">
+                            <div class="flex space-x-2">
                                 <div id="menos" class="flex boton items-center justify-end text-lime-500 font-black cursor-pointer">
                                     <i class="fa fa-minus"></i>
                                 </div>
@@ -134,9 +134,9 @@
         <script>
 
             $(window).on('load', function() {
-                $('#contenido-1').hide();
-                $('#contenido-2').hide();
-                $('#contenido-3').hide();
+                $('#contenido-1').addClass('hidden');
+                $('#contenido-2').addClass('hidden');
+                $('#contenido-3').addClass('hidden');
             });
 
             $('.titulo').on('click', function(){
@@ -144,12 +144,12 @@
                 id = id.slice(-1);
                 if($('#contenido-'+id).is(':visible')){
                     $('#contenido-'+id).hide('slow');
-                    $('#fl-ab-'+id).hide();
-                    $('#fl-ar-'+id).show();
+                    $('#fl-ab-'+id).addClass('hidden');
+                    $('#fl-ar-'+id).removeClass('hidden');
                 }else{
                     $('#contenido-'+id).show('slow');
-                    $('#fl-ar-'+id).hide();
-                    $('#fl-ab-'+id).show();
+                    $('#fl-ar-'+id).addClass('hidden');
+                    $('#fl-ab-'+id).removeClass('hidden');
                 } 
             });
 

@@ -27,6 +27,6 @@
             <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados','6')}}">Maceteros</a></li>
             <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados','7')}}">Tierra de Hojas</a></li>
             <li class="py-1 xl:py-1 lg:py-1.5 mb-1 lg:mb-3 xl:mb-4 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados','8')}}">Accesorios</a></li>
-        </ul>    
+        </ul>
     </div>
 </div>

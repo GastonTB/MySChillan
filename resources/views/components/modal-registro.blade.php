@@ -29,21 +29,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-span-1 order-4">
-                                <div class="md:mx-3 mx-2 mt-5 md:mt-3">
-                                    <div>
-                                        <div>
-                                            <label class="relative">
-                                                <input name="direccion" value="{{old('direccion')}}" type="text" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" ">
-                                                <span class="text-opacity-30 text-black absolute text-xs md:text-sm left-0 top-0 mx-3 px-2 transition duration-200 input-text">
-                                                    Direccion
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <span class="text-sm" style="color:red"><small>@error('direccion'){{$message}}@enderror</small></span>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-span-1 order-2">
                                 <div class="md:mx-3 mx-2 mt-5 md:mt-3">
                                     <div>
@@ -56,6 +41,36 @@
                                             </label>
                                         </div>
                                         <span class="text-sm" style="color:red"><small>@error('apellido_paterno'){{$message}}@enderror</small></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-1 order-3">
+                                <div class="md:mx-3 mx-2 mt-5 md:mt-3">
+                                    <div>
+                                        <div>
+                                            <label class="relative">
+                                                <input name="apellido_materno" value="{{old('apellido_materno')}}" type="text" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" ">
+                                                <span class="text-opacity-30 text-black absolute text-xs md:text-sm left-0 top-0 mx-3 px-2 transition duration-200 input-text">
+                                                    Apellido Materno
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <span class="text-sm" style="color:red"><small>@error('apellido_materno'){{$message}}@enderror</small></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-1 order-4">
+                                <div class="md:mx-3 mx-2 mt-5 md:mt-3">
+                                    <div>
+                                        <div>
+                                            <label class="relative">
+                                                <input name="direccion" value="{{old('direccion')}}" type="text" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" ">
+                                                <span class="text-opacity-30 text-black absolute text-xs md:text-sm left-0 top-0 mx-3 px-2 transition duration-200 input-text">
+                                                    Direccion
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <span class="text-sm" style="color:red"><small>@error('direccion'){{$message}}@enderror</small></span>
                                     </div>
                                 </div>
                             </div>
@@ -79,21 +94,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-span-1 order-3">
-                                <div class="md:mx-3 mx-2 mt-5 md:mt-3">
-                                    <div>
-                                        <div>
-                                            <label class="relative">
-                                                <input name="apellido_materno" value="{{old('apellido_materno')}}" type="text" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" ">
-                                                <span class="text-opacity-30 text-black absolute text-xs md:text-sm left-0 top-0 mx-3 px-2 transition duration-200 input-text">
-                                                    Apellido Materno
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <span class="text-sm" style="color:red"><small>@error('apellido_materno'){{$message}}@enderror</small></span>
-                                    </div>
-                                </div>
-                            </div>
+                           
                             <div class="col-span-2 md:col-span-1 order-6">
                                 <div class="md:mx-3 mx-2 mt-5 md:mt-3">
                                     <div>
@@ -129,21 +130,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-span-1 order-9">
-                                <div class="md:mx-3 mx-2 mt-5 md:mt-3">
-                                    <div>
-                                        <div>
-                                            <label class="relative">
-                                                <input name="contraseña" type="password" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" ">
-                                                <span class="text-opacity-30 text-black absolute text-xs md:text-sm left-0 top-0 mx-3 px-2 transition duration-200 input-text-password">
-                                                    Contraseña
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <span class="text-sm" style="color:red"><small>@error('contraseña'){{$message}}@enderror</small></span>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-span-1 order-8">
                                 <div class="md:mx-3 mx-2 mt-5 md:mt-3">
                                     <div>
@@ -164,6 +150,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-span-1 order-9">
+                                <div class="md:mx-3 mx-2 mt-5 md:mt-3">
+                                    <div>
+                                        <div>
+                                            <label class="relative">
+                                                <input name="contraseña" type="password" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" ">
+                                                <span class="text-opacity-30 text-black absolute text-xs md:text-sm left-0 top-0 mx-3 px-2 transition duration-200 input-text-password">
+                                                    Contraseña
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <span class="text-sm" style="color:red"><small>@error('contraseña'){{$message}}@enderror</small></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="col-span-1 order-10">
                                 <div class="md:mx-3 mx-2 mt-5 md:mt-3">
                                     <div>
