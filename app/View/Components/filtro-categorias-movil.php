@@ -12,10 +12,15 @@ class filtro-categorias-movil extends Component
      * @return void
      */
     public $categoria;
+    public $minimo;
+    public $maximo;
 
-    public function __construct($categoria)
+    public function __construct($categoria, $minimo, $maximo)
     {
         $this->$categoria = $categoria;
+        $this->$minimo = $minimo;
+        $this->$maximo = $maximo;
+
     }
 
     /**

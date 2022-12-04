@@ -41,7 +41,7 @@ Route::get('/producto/{id}', [productoController::class, 'show'])->name('detalle
 Route::get('/productos',[productoController::class , 'index'])->middleware('isadmin', 'auth')->name('listado-productos');
 Route::post('/oferta', [ofertaController::class, 'store'])->middleware('isadmin', 'auth')->name('crear-oferta');
 Route::post('/tienda', [tiendaController::class, 'filtrar'])->name('filtrar');
-Route::get('/tienda/{id}', [tiendaController::class, 'filtrados'])->name('filtrados');
+Route::get('/tienda/{id}/{minimo}/{maximo}', [tiendaController::class, 'filtrados'])->name('filtrados');
 Route::post('/', [carritoController::class, 'store'])->name('carrito');
 Route::get('/carrito/{id}', [carritoController::class, 'show'])->middleware('checkcarrito')->name('mostrarCarrito');
 Route::delete('/borrar-carro/{id}',[carritoController::class, 'destroy'])->name('borrarProductoCarro');

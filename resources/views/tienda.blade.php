@@ -20,9 +20,9 @@
                 </p>          
             </div>
             <div class="md:grid md:grid-cols-7 gap-1">
-                <div class="md:col-span-3 lg:col-span-2">
-                    <div class="mb-5 px-5 lg:px-0 lg:hidden">
-                        <x-filtro-categorias-movil :categoria="$categoria"/>                           
+                <div class="md:col-span-3">
+                    <div class="mb-5 px-5 md:pt-4">
+                        <x-filtro-categorias-movil :minimo="$minimo" :maximo="$maximo" :categoria="$categoria"/>                           
                     </div>
                     <div class="mb-5 hidden md:block">
                         <x-slider-ofertas :ofertas="$ofertas"/>
@@ -54,15 +54,23 @@
                 </div>
                 <div class="col-span-4 p-4">
                     <div class="grid grid-cols-2 gap-4">
-                        @php
-                            $i = 1;
-                        @endphp
-                        @foreach ($productos as $producto)
-                        <x-card-producto :contador="$i" :producto="$producto"/>
+                        @if(count($productos)>0)
                             @php
-                                $i++;
+                                $i=1;
                             @endphp
-                        @endforeach
+                            @foreach($productos as $producto)
+                                <div class="col-span-1">
+                                    <x-card-producto :contador="$i" :categoria="$categoria" :minimo="$minimo" :maximo="$maximo" :producto="$producto"/>
+                                </div>
+                                @php
+                                    $i++;
+                                @endphp
+                            @endforeach
+                        @else
+                            <div class="col-span-2 mb-10">
+                                <p class="text-center text-gray-700 font-bold text-2xl">Lo sentimos hay productos en esta categoría</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>  
@@ -81,7 +89,7 @@
         <div class="grid grid-cols-5 w-full mt-5">
             <div class="col-start-2 col-span-1 pt-5">
                 <div class="hidden lg:block">
-                    <x-filtro-categorias :categoria="$categoria"/>
+                    <x-filtro-categorias :minimo="$minimo" :maximo="$maximo" :categoria="$categoria"/>
                 </div>
                 <div class="mt-10">
                     <x-slider-ofertas :ofertas="$ofertas"/>
@@ -92,11 +100,19 @@
             </div>
             <div class="lg:col-span-2">
                 <div class="grid xl:grid-cols-3 p-5 lg:grid-cols-2 gap-4 lg:px-5">
-                    @foreach ($productos as $producto)
-                        <x-card-producto :contador="0" :producto="$producto"/>
-                    @endforeach  
+                    @if (count($productos)>0)
+                        @foreach ($productos as $producto)
+                        <x-card-producto :categoria="$categoria" :minimo="$minimo" :maximo="$maximo" :contador="0" :producto="$producto"/>
+                        @endforeach     
+                    @else
+                        <div class="col-span-2 mb-20 flex items-center">
+                            <p class="text-center text-gray-700 font-bold text-3xl">Lo sentimos hay productos en esta categoría</p>
+                        </div>
+                                       
+                   @endif 
 
-                </div> 
+                </div>
+                {{$productos->links()}} 
             </div>
         
         </div>
@@ -113,6 +129,8 @@
     //load page
     $(document).ready(function(){
 
+
+
         $('#filtro-abajo').on('click', function(){
             $('#filtro-arriba').removeClass('hidden');
             $('#lista-filtros').removeClass('rounded-md');
@@ -128,9 +146,17 @@
             $('#filtro-abajo').removeClass('hidden');
             $('#filtros').hide('slow');
         });
-
-        $('.precio_minimo').text(' $' + $('.minimo').val());
-        $('.precio_maximo').text(' $' + $('.maximo').val());
+        var maximo1 = $('.maximo').val();
+        var minimo1 = $('.minimo').val();
+        var maximo2 = $('.maximo2').val();
+        var minimo2 = $('.minimo2').val();
+        var maximo1 = maximo1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        var minimo1 = minimo1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        var maximo2 = maximo2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        var minimo2 = minimo2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        
+        $('.precio_minimo').text(' $' + minimo1);
+        $('.precio_maximo').text(' $' + maximo1);
 
         $('.minimo').on('change', function(){
             comparar();
@@ -187,8 +213,8 @@
         }
 
         
-        $('.precio_minimo2').text(' $' + $('.minimo2').val());
-        $('.precio_maximo2').text(' $' + $('.maximo2').val());
+        $('.precio_minimo2').text(' $' + minimo2);
+        $('.precio_maximo2').text(' $' + maximo2);
 
         $('.minimo2').on('change', function(){
             comparar2();

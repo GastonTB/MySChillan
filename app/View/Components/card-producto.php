@@ -13,11 +13,17 @@ class card-producto extends Component
      */
     public $producto;
     public $contador;
+    public $categoria;
+    // public $minimo;
+    // public $maximo;
 
     public function __construct($producto, $contador)
     {
         $this->producto = $producto;
         $this->contador = $contador;
+        // $this->categoria = $categoria;
+        // $this->minimo = $minimo;
+        // $this->maximo = $maximo;
         
     }
 
