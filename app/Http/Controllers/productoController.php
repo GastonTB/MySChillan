@@ -227,7 +227,7 @@ class productoController extends Controller
                 $extension = strrev(substr($filename, 0, $pos));
                 $nombre = $producto->id.'-'.$i.'.'.$extension;
                 $nombre_array[] = $nombre;
-                $ruta = storage_path().'\app\public\imagenes/'.$nombre;
+                $ruta = storage_path().'/app/public/imagenes/'.$nombre;
                 $img = Image::make($request->file('imagen_'.$i))->rotate(270);
                 $img->resize(300,400);
                 $img->save($ruta);
@@ -451,7 +451,7 @@ class productoController extends Controller
         //delete images
         $imagenes = explode('|', $producto->imagenes);
         foreach($imagenes as $imagen){
-            $ruta = storage_path().'\app\public\imagenes/'.$imagen;
+            $ruta = storage_path().'/app/public/imagenes/'.$imagen;
             if(File::exists($ruta)){
                 File::delete($ruta);
             }
