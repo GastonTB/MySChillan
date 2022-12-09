@@ -27,41 +27,34 @@ class tiendaController extends Controller
      */
     public function index()
     {
+        // $productos = Producto::latest()->paginate(12);
+        // $categoria = 9;
+        // foreach($productos as $producto)
+        // {
+        //     $producto->imagenes = explode('|', $producto->imagenes);
+
+        // }
+
+        // $ultimos = Producto::latest()->take(7)->get();
+        // foreach($ultimos as $ultimo)
+        // {
+        //     $ultimo->imagenes = explode('|', $ultimo->imagenes);
+        //     $ultimo->imagenes = $ultimo->imagenes[0];
+        // }
+
+        // $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
 
 
-        $regiones = new Region;
-        $regiones = Region::all();
-        $comunas = new Comuna;
-        $comunas = Comuna::all();
-        $productos = new Producto;
-        $productos = Producto::latest()->paginate(12);
-        $categoria = 9;
-        foreach($productos as $producto)
-        {
-            $producto->imagenes = explode('|', $producto->imagenes);
-
-        }
-
-        $ultimos = Producto::latest()->take(7)->get();
-        foreach($ultimos as $ultimo)
-        {
-            $ultimo->imagenes = explode('|', $ultimo->imagenes);
-            $ultimo->imagenes = $ultimo->imagenes[0];
-        }
-
-        $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
-
-
-        foreach($ofertas as $oferta)
-        {
-            $oferta->imagenes = explode('|', $oferta->imagenes);
-            $oferta->imagenes = $oferta->imagenes[0];
-        }
-
-        $minimo = 0;
-        $maximo = 100000;
+        // foreach($ofertas as $oferta)
+        // {
+        //     $oferta->imagenes = explode('|', $oferta->imagenes);
+        //     $oferta->imagenes = $oferta->imagenes[0];
+        // }
+        // $minimo = 0;
+        // $maximo = 100000;
         
-        return view('tienda', compact('productos' , 'ultimos', 'ofertas', 'categoria', 'minimo', 'maximo'));
+        // return view('tienda', compact('productos' , 'ultimos', 'ofertas', 'categoria', 'minimo', 'maximo'));
+        return redirect()->route('filtrados', ['id' => 9, 'minimo' => 0, 'maximo' => 100000]);
     }
 
     /**
@@ -165,10 +158,6 @@ class tiendaController extends Controller
         foreach($productos as $producto)
         {
             $producto->imagenes = explode('|', $producto->imagenes);
-            if($producto->oferta_id != 0){
-                $producto->precio = $producto->oferta->precio_oferta;
-            }
-
         }
 
 
@@ -199,7 +188,8 @@ class tiendaController extends Controller
             $maximo = 100000;
         }
         if($categoria > 9 || $categoria < 1){
-            return redirect()->route('tienda');
+            $categoria = 9;
+            $titulo = 'TIENDA';
         }elseif($categoria < 9){
             $categoria = Categoria::findOrFail($categoria);
             $titulo = $categoria->nombre_categoria;
@@ -209,12 +199,14 @@ class tiendaController extends Controller
             $titulo = 'TIENDA';
         }
         
-        
+        $productos = Producto::all();
+        // return Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->paginate(12);
 
         if($categoria != 9){
-            $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->latest()->paginate(12);
+            $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->latest()->where('precio', '<=', $maximo)->latest()->paginate(12);
         }else{
-            $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->paginate(12);
+            $productos = Producto::all();
+            $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->latest()->paginate(12);
         }
 
         $ofertas = Helpers::getOfertas();
@@ -223,11 +215,8 @@ class tiendaController extends Controller
         foreach($productos as $producto)
         {
             $producto->imagenes = explode('|', $producto->imagenes);
-            if($producto->oferta_id != 0){
-                $producto->precio = $producto->oferta->precio_oferta;
-            }
-
         }
+
 
         return view('tienda', compact('productos', 'categoria', 'ofertas', 'ultimos', 'titulo', 'minimo', 'maximo'));
 

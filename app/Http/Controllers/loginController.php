@@ -75,11 +75,17 @@ class loginController extends Controller
         
         $reglas = array(
             'correo' => 'required|email:rfc,dns',
-            'contraseña' => 'required|min:8'
+            'contraseña' => 'required'
+        );
+
+        $mensaje = array(
+            'correo.required' => 'El campo correo es obligatorio',
+            'correo.email' => 'El campo correo debe ser un correo valido',
+            'contraseña.required' => 'El campo contraseña es obligatorio',
         );
         
 
-        $validador = Validator::make($request->all(), $reglas);
+        $validador = Validator::make($request->all(), $reglas, $mensaje);
 
         if($validador->fails()){
             return Redirect::back()

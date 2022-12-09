@@ -48,9 +48,20 @@ class ofertaController extends Controller
          $id = $producto->id;
 
         $reglas = array(
-            'oferta' => 'required || max:8 || min:4',
+            'oferta' => 'required || numeric || max:6 || min:3',
             'fecha_ini' => 'required || date_format:y-m-d',
             'fecha_ter' => 'required || date_format:y-m-d'
+        );
+
+        $mensajes = array(
+            'oferta.required' => 'El campo oferta es obligatorio',
+            'oferta.numeric' => 'El campo oferta debe ser numerico',
+            'oferta.max' => 'El campo oferta debe tener maximo 6 digitos',
+            'oferta.min' => 'El campo oferta debe tener minimo 3 digitos',
+            'fecha_ini.required' => 'El campo fecha de inicio es obligatorio',
+            'fecha_ini.date_format' => 'El campo fecha de inicio debe tener el formato aaaa-mm-dd',
+            'fecha_ter.required' => 'El campo fecha de termino es obligatorio',
+            'fecha_ter.date_format' => 'El campo fecha de termino debe tener el formato aaaa-mm-dd',
         );
 
         $validador = Validator::make($request->all(), $reglas);

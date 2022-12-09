@@ -91,9 +91,9 @@
                                 <li class="border-b-2 pb-1 border-black border-opacity-10">
                                     <a id="back-office" class="active:text-lime-500" href="#">Back Office <i id="abajo-bo" class="fa fa-chevron-down fa-sm"></i><i id="arriba-bo" class="fa fa-chevron-up hidden fa-sm"></i></a>
                                     <ul id="lista-bo" class="pl-10 space-y-2 mt-3 pb-1 hidden">
-                                        <li>Ver Listado Productos</li>
+                                        <li><a href="{{route('listado-productos')}}">Ver Listado Productos</a></li>
                                         <li>Ver Listado Ofertas</li>
-                                        <li>Agregar Producto</li>
+                                        <li><a href="{{route('crearproducto')}}">Agregar Producto</a></li>
                                     </ul>
                                 </li>
                                 @endif
@@ -105,8 +105,12 @@
                     </div>
                     <div class="my-5 pl-5">
                         <div class="flex space-x-3">
-                            <i class="text-lime-600 fa fa-instagram font-bold"></i>
-                            <i class="text-lime-600 fa fa-facebook font-bold"></i>
+                            <a href="https://www.instagram.com/mys_vivero/">
+                                <i class="text-lime-600 fa fa-instagram font-bold"></i>
+                            </a>
+                            <a href="https://www.facebook.com/MySPlantasySuculentasChillan">
+                                <i class="text-lime-600 fa fa-facebook font-bold"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="pl-5 text-gray-700 flex space-x-2">

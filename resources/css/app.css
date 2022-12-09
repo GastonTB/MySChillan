@@ -5,6 +5,7 @@
 input[type="text"]:focus ~ .input-text{
     @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
 }
+
 input[type="password"]:focus ~ .input-text-password{
     @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
 }
@@ -39,7 +40,12 @@ select:focus ~ .input-select-invitado{
 select:not([value=""]) ~ .input-select-invitado{
     @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-gray-50;
 }
-
+input[type="number"]:focus ~ .input-number{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
+input[type="number"]:not(:placeholder-shown) ~ .input-number{
+    @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
 
 
 

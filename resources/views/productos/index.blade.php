@@ -7,16 +7,25 @@
 @endsection
 @section('modales')
 
-    <div id="modal-oferta" class="hidden">
+    <div id="modal-oferta" class="">
         <div id="overlay-modal-oferta" class="z-40 fixed h-screen w-screen bg-black opacity-40"></div>
         <div class="flex justify-center">
             <div class="top-1/12 z-50 w-4/5 md:w-1/2 lg:w-1/4 bg-white fixed rounded-md">
                 <form action="{{route('crear-oferta')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="grid"> 
-                        <div class="flex justify-center pt-5 mb-10">
-                            <p class="text-2xl font-bold" id="nombre-modal">
-                            </p>
+                        <div class="grid grid-cols-2">
+                            <div class="col-start-1">
+                                <div class="flex pt-5 mb-10">
+                                    <p class="text-xl font-bold" id="nombre-modal">
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-start-2">
+                                <div class="flex justify-end">
+                                    <i class="fa fa-x"></i>
+                                </div>
+                            </div>
                         </div>
                         <div class="">
                             <div class="px-3">
@@ -146,7 +155,9 @@
                         </td>
                         <td class="py-4 px-6">
                             <div class="flex justify-center">
-                                <i class="fa fa-pencil"></i>
+                                <a href="{{route('editarProducto', $producto->id)}}" class="btn-tienda flex space-x-2">
+                                   <p>Editar</p><i class="fa fa-pencil"></i>
+                                </a>
                             </div>
                         </td>
                         <td class="py-4 px-6">
@@ -164,6 +175,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{$productos->links()}} 
         </div>
     </div>
 @endsection

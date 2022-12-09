@@ -54,7 +54,18 @@ class registroController extends Controller
              'telefono' => 'required|digits:9|unique:users_metadata'
         );
 
-        $validador = Validator::make($request->all(), $reglas);
+        $mensaje = array(
+            'required' => 'El campo :attribute es obligatorio',
+            'alpha' => 'El campo :attribute debe contener solo letras',
+            'min' => 'El campo :attribute debe contener al menos :min caracteres',
+            'max' => 'El campo :attribute debe contener al menos :max caracteres',
+            'email' => 'El campo :attribute no es un email valido',
+            'unique' => 'El campo :attribute ya existe',
+            'confirmed' => 'Las contraseñas no coinciden',
+            'digits' => 'El campo :attribute debe contener :digits digitos',
+        );
+
+        $validador = Validator::make($request->all(), $reglas, $mensaje);
 
         if($validador->fails()){
             return Redirect::back()

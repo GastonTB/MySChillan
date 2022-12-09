@@ -35,10 +35,10 @@
                 </div>
                 <div class="flex justify-end pr-5 border-r-2">    
                     <div class="mr-3 hover:text-lime-500">
-                        <a href=""><i class="fa fa-instagram fa-lg"></i></a>
+                        <a href="https://www.instagram.com/mys_vivero/"><i class="fa fa-instagram fa-lg"></i></a>
                     </div>
                     <div class="hover:text-lime-500">
-                        <a href="#"><i class="fa fa-facebook fa-lg"></i></a>
+                        <a href="https://www.facebook.com/MySPlantasySuculentasChillan"><i class="fa fa-facebook fa-lg"></i></a>
                     </div>         
                 </div>
                 <div class="ml-5">
