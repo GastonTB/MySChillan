@@ -17,11 +17,7 @@ class adminController extends Controller
      */
     public function index()
     {   
-        $regiones = new Region;
-        $regiones = Region::all();
-        $comunas = new Comuna;
-        $comunas = Comuna::all();
-        return view('back-office', compact('regiones', 'comunas'));
+        return view('back-office');
     }
 
     /**

@@ -3,6 +3,8 @@
 
 (function ($) {
 
+
+    
     //dropdown carrito
     $('#carrito').hover(function(){
       $('#opciones-carrito').show();
@@ -131,7 +133,6 @@
         });
 
         
-        //when click on id carrito console log hola
         $('.carrito').on('click', function(){
           $('#sidebar-carro').removeClass('hidden');
         });
@@ -189,7 +190,22 @@
         });
 
 
-       
+        $('#telefono_registro').on('input', function(){
+          var telefono = $(this).val();
+          telefono = telefono.replace(/[^0-9]/g, '');
+          $(this).val(telefono);
+          if(telefono.length>9){
+            $(this).val(telefono.substring(0,9));
+          }
+          //if telefono first digit is not a 9 show a error message down the input fild saying "telefono debe comenzar con un 9"
+          if(telefono.length>0){
+            if(telefono[0]!='9'){
+              $('#error-telefono').removeClass('hidden');
+            }else{
+              $('#error-telefono').addClass('hidden');
+            }
+          }
+        });
 
 
         

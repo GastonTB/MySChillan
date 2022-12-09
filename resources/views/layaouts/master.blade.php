@@ -89,14 +89,14 @@
                             <ul class="flex justify-evenly">
                                 <li>
                                     <p class="text-lime-500">
-                                        <a href="#">
+                                        <a href="https://www.facebook.com/MySPlantasySuculentasChillan">
                                             <i class="fa fa-facebook"></i>
                                         </a>
                                     </p>  
                                 </li>
                                 <li>
                                     <p class="text-lime-500">
-                                        <a href="#">
+                                        <a href="https://www.instagram.com/mys_vivero/">
                                             <i class="fa fa-instagram"></i>
                                         </a>
                                     </p>    
@@ -127,21 +127,5 @@ crossorigin="anonymous"></script>
         $('#modal-login').removeClass('hidden');
     @endif
 
-    $('#telefono_registro').on('input', function(){
-  var telefono = $(this).val();
-  telefono = telefono.replace(/[^0-9]/g, '');
-  $(this).val(telefono);
-  if(telefono.length>9){
-    $(this).val(telefono.substring(0,9));
-  }
-  //if telefono first digit is not a 9 show a error message down the input fild saying "telefono debe comenzar con un 9"
-  if(telefono.length>0){
-    if(telefono[0]!='9'){
-      $('#error-telefono').removeClass('hidden');
-    }else{
-      $('#error-telefono').addClass('hidden');
-    }
-  }
-});
 </script>
 @yield('js')

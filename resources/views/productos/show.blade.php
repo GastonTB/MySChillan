@@ -7,6 +7,7 @@
                 <div>
                     <div class="xl:grid xl:grid-cols-5">
                         <div class="xl:col-start-2 xl:col-span-4">
+                            <input type="hidden" id="fotos" data-cantidad="{{count($producto->imagenes)}}">
                             <x-slider-fotos-producto :producto="$producto"/>
                         </div>
                     </div>
@@ -77,8 +78,10 @@
                                     </ul>
                                 </div>
                                 @else
-                                <div class="text-justify" id="contenido-{{$i}}">
-                                    {{$producto->descripcion[$i]}}
+                                <div class="text-justify text-ellipsis" id="contenido-{{$i}}">
+                                    <p>
+                                        {{$producto->descripcion[$i]}}
+                                    </p>
                                 </div>
                                 @endif
                             </div>
@@ -132,6 +135,31 @@
 
     @section('js')
         <script>
+
+            $(document).ready(function(){
+                const cantidad_fotos = $('#fotos').data('cantidad');
+                if(cantidad_fotos>1){
+                    var swiper = new Swiper("#producto", {
+                        slidesPerView: 1,
+                        spaceBetween: 1,
+                        slidesPerGroup: 1,
+                        loop: true,
+                        loopFillGroupWithBlank: true,
+                        pagination: {
+                            el: ".swiper-pagination",
+                            clickable: true,
+                        },
+                        navigation: {
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                            },
+                        autoplay: {
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }
+                    });
+                }
+            });
 
             $(window).on('load', function() {
                 $('#contenido-1').addClass('hidden');

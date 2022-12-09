@@ -1,4 +1,4 @@
-<div class="">
+<div class="col-span-1">
     <div class="hover:scale-110 transition ease-in-out delay-150 hover:shadow-xl shadow-md select-none">
         <form action="{{route('carrito')}}" method="POST">
             @csrf
@@ -120,9 +120,18 @@
                 </div>
                 <div class="py-5 space-y-1">
                     <div class="flex justify-center">
-                        <p class="font-medium text-gray-700">{{$producto->nombre_producto}}</p>
+                        <p class="font-medium text-gray-700">
+                            @if(strlen($producto->nombre_producto) > 20)
+                                {{substr($producto->nombre_producto,0,20)}}...
+                            @else
+                                {{$producto->nombre_producto}}
+                            @endif
+                        </p>
                     </div>
                     <div>
+                        @php
+                            $original = $producto->precio 
+                        @endphp
                         @if($producto->oferta_id!=0 && $producto->oferta->estado_oferta!=0)
                             <div class="flex justify-center space-x-3">
                                 <div>
@@ -132,7 +141,7 @@
                                 </div>
                                 <div class="items-end flex">
                                     <p class="precio text-gray-700 line-through">
-                                        ${{ number_format($producto->precio, 0, ",", ".")}}
+                                        ${{ number_format($original, 0, ",", ".")}}
                                     </p>
                                 </div>
                             </div>
@@ -147,13 +156,13 @@
                     <input type="hidden" name="cantidad" value="1">
                     <input type="hidden" name="producto" value="{{$producto->id}}">
                     @if($producto->cantidad > 0)
-                        <div class="px-3 md:px-0">
+                        <div class="flex justify-center md:px-0">
                             <button type="submit" class="btn-tienda">
                                 Añadir al Carrito
                             </button>
                         </div>
                     @else
-                        <div class="px-3 md:px-0">
+                        <div class="flex justify-center md:px-0">
                             <button type="button" class="btn-tienda text-xs">
                                 <a href="{{route('detalles',$producto->id)}}">
                                     Detalles del Producto

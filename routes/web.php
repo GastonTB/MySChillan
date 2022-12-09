@@ -49,3 +49,5 @@ Route::put('/carrito-agregar/{id}', [carritoController::class , 'update'])->name
 Route::delete('/borrar-producto/{id}', [productoController::class, 'destroy'])->middleware('isadmin', 'auth')->name('borrarProducto');
 Route::put('/carrito-actualizar/{id}', [carritoController::class, 'actualizar'])->name('actualizarCarrito2');
 Route::get('/carrito', [carritoController::class, 'miCarrito'])->name('miCarrito');
+Route::get('/producto/{id}/editar', [productoController::class, 'edit'])->name('editarProducto');
+Route::put('/producto/{id}/editar', [productoController::class, 'update'])->name('editarProducto2');
