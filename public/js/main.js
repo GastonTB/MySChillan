@@ -3,7 +3,11 @@
 
 (function ($) {
 
-
+    $('#no-tiene-cuenta').on('click', function(){
+      $('#modal-login').addClass('hidden');
+      $('#modal-registro').removeClass('hidden');
+      var selectR = selectRegion();
+    });
     
     //dropdown carrito
     $('#carrito').hover(function(){
@@ -84,6 +88,10 @@
 
     $('#overlay-modal-registro').on('click', function(){
       $('#modal-registro').addClass('hidden');
+      //reset select
+      $('#regiones').val('0');
+      $('#comunas').val('0');
+
     });
 
       //saber tamaño de pantalla para slider categoria

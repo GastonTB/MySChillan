@@ -3,7 +3,7 @@
     <div id="modal-registro" class="hidden">
         <div id="overlay-modal-registro" class="z-40 bg-black h-screen w-screen opacity-40 fixed"></div>
         <div class="flex justify-center">
-            <div class="top-17/400 rounded-md md:top-1/6 lg:top-17/400 xl:top-1/10 md:text-lg z-50 w-11/12 h-11/12 custombp:h-7/10 md:h-8/12 lg:h-3/4 lg:w-1/2 xl:h-6/10 xl:w-1/3 bg-white fixed outline-none overflow-x-hidden overflow-y-auto">
+            <div class="top-17/400 rounded-md md:top-1/6 lg:top-17/400 xl:top-1/10 md:text-lg z-50 w-11/12  lg:w-1/2  xl:w-1/3 bg-white fixed outline-none overflow-x-hidden overflow-y-auto">
                 <div class="lg:px-5">
                     <form action="{{route('registro')}}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -181,7 +181,7 @@
                             </div>
                             <div class="col-span-2 order-11">
                                 <div class="flex justify-center">
-                                    <div class="mx-auto col-span-2 py-5">
+                                    <div class="mx-auto col-span-2 py-5 mb-5">
                                         <button type="submit" class="btn-primary">Registrarse</button type="submit">
                                     </div>
                                 </div>
