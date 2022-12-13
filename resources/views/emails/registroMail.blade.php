@@ -11,7 +11,7 @@
         <p>Ingresa con tu cuenta para comenzar a utilizar el sistema de venta en linea</p>
         <hr/>
         MyS Plantas y Suculentas Chillan
-        <button><a href="http://127.0.0.1:8000"></a>Ingresar</button>
+        {{-- <button><a href="http://18.220.82.247"></a>Ingresar</button> --}}
         <hr>
 </body>
 </html>

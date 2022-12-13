@@ -341,7 +341,7 @@ $(document).ready(function(){
                 confirmButtonText: 'Si, editar oferta!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $('#form-editar').attr('action', 'http://127.0.0.1:8000/editar-oferta/'+oferta_id);
+                        $('#form-editar').attr('action', 'http://18.220.82.247/editar-oferta/'+oferta_id);
                         $('#form-editar').submit();
                     }
                 });
@@ -526,7 +526,7 @@ $(document).ready(function(){
                 confirmButtonText: 'Si, editar oferta!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $('#form-editar').attr('action', 'http://127.0.0.1:8000/editar-oferta/'+oferta_id);
+                        $('#form-editar').attr('action', 'http://18.220.82.247/editar-oferta/'+oferta_id);
                         $('#form-editar').submit();
                     }
                 });
@@ -534,7 +534,7 @@ $(document).ready(function(){
             
         });
         // $('#eliminar-oferta').on('click', function(){
-        //     $('#form-eliminar').attr('action', 'http://127.0.0.1:8000/borrar-oferta/'+oferta_id);
+        //     $('#form-eliminar').attr('action', 'http://18.220.82.247/borrar-oferta/'+oferta_id);
         //     Swal.fire({
         //         title: '¿Estas seguro?',
         //         text: "¡No podrás revertir esto!",

@@ -386,7 +386,7 @@
         $('.stock').on('click', function(){
             id = $(this).attr('id');
             id = id.replace('boton-stock-', '');
-            $('#form-stock').attr('action', 'http://127.0.0.1:8000/aumentar-stock/'+id);
+            $('#form-stock').attr('action', 'http://18.220.82.247/aumentar-stock/'+id);
             $('#producto-id').val(id);
             $('#modal-cantidad').removeClass('hidden');
             var nombre = $('#nombre-producto-'+id).text();
@@ -522,7 +522,7 @@
                 confirmButtonText: 'Si, editar oferta!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $('#form-editar').attr('action', 'http://127.0.0.1:8000/editar-oferta/'+oferta_id);
+                        $('#form-editar').attr('action', 'http://18.220.82.247/editar-oferta/'+oferta_id);
                         $('#form-editar').submit();
                     }
                 });
@@ -530,7 +530,7 @@
             
         });
         $('#eliminar-oferta').on('click', function(){
-            $('#form-eliminar').attr('action', 'http://127.0.0.1:8000/borrar-oferta/'+oferta_id);
+            $('#form-eliminar').attr('action', 'http://18.220.82.247/borrar-oferta/'+oferta_id);
             Swal.fire({
                 title: '¿Estas seguro?',
                 text: "¡No podrás revertir esto!",
@@ -586,7 +586,7 @@
                 confirmButtonText: 'Si, editar oferta!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $('#form-editar').attr('action', 'http://127.0.0.1:8000/editar-oferta/'+oferta_id);
+                        $('#form-editar').attr('action', 'http://18.220.82.247/editar-oferta/'+oferta_id);
                         $('#form-editar').submit();
                     }
                 });
@@ -594,7 +594,7 @@
             
         });
         $('#eliminar-oferta').on('click', function(){
-            $('#form-eliminar').attr('action', 'http://127.0.0.1:8000/borrar-oferta/'+oferta_id);
+            $('#form-eliminar').attr('action', 'http://18.220.82.247/borrar-oferta/'+oferta_id);
             Swal.fire({
                 title: '¿Estas seguro?',
                 text: "¡No podrás revertir esto!",
