@@ -25,7 +25,6 @@
                 <div class="px-3 flex justify-center md:text-lg lg:text-xl font-bold mb-5" id="nombre-modal">
                     
                 </div>
-                <form id="form-oferta" action="{{route('crear-oferta')}}" method="POST">
                     @csrf
                     <div id="method"></div>
                     
@@ -96,13 +95,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-center m-10 crear acciones-1">
-                        <button id="crear-oferta" type="button" class="btn-tienda">
-                            Crear Oferta
-                        </button>
-                    </div>
-                </form>
-                    <div class="flex justify-evenly m-10 hidden editar acciones-2">
+                
+                    <div class="flex justify-center m-10">
                         <div>
                             <form id="form-editar" method="POST">
                                 @csrf
@@ -115,56 +109,8 @@
                                 </button>
                             </form>
                         </div>
-                 
-                        <form id="form-eliminar" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('DELETE')
-                            <button id="eliminar-oferta" type="button" class="btn-tienda">
-                                Eliminar Oferta
-                            </button>
-                        </form>
                     </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div id="modal-cantidad" class="hidden">
-    <div id="overlay-modal-cantidad" class="z-40 bg-black h-screen w-screen opacity-40 fixed"></div>
-    <div class="flex justify-center">
-        <div class="top-1/5 rounded-md w-9/10 md:w-4/10 lg:w-3/10 xl:w-2/10  z-50 bg-white fixed outline-none">
-            <div class="flex justify-end pt-3 pr-5">
-                <button id="cerrar-modal-cantidad" class="hover:text-lime-500">
-                    <i class="fa fa-x"></i>
-                </button>
-            </div>
-            <div class="flex justify-center mb-2 text-lg font-bold crear">
-                Aumentar stock para Producto:
-            </div>
-            <div class="flex justify-center mb-5 text-lg md:text-lg lg:text-xl font-bold " id="nombre-modal-cantidad">
-
-            </div>
-            <form id="form-stock" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="flex justify-center my-5 space-x-3">
-                    <div id="menos" class="flex items-center py-2 px-3 border-2 bg-lime-500 text-white rounded-md active:bg-white active:text-lime-500">
-                        <i class="fa fa-minus"></i>
-                    </div>
-                    <input name="cantidad_stock" id="cantidad-producto-modal" class="py-2 px-3 border-2 w-20 text-center" type="text">
-                    <div id="mas" class="flex items-center py-2 px-3 border-2 bg-lime-500 text-white rounded-md active:bg-white active:text-lime-500">
-                        <i class="fa fa-plus"></i>
-                    </div>
-                </div>
-                <div class="flex justify-center">
-                    <span class="text-sm errores mb-5" style="color:red"><small>@error('cantidad_stock'){{$message}}@enderror</small></span>
-                </div>
-                <div class="flex justify-center mb-10">
-                    <button class="btn-tienda">
-                        Aumentar Stock
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
@@ -174,14 +120,14 @@
     <div class="container w-full md:w-4/5 xl-3/5 mx-auto px-2 mt-10">
         <div class="">
             <a class="text-lime-500" href="{{route('backoffice')}}">Back Office</a> / 
-                <a class="text-lime-500" href="{{route('listado-productos')}}">Lista de Productos</a>
+                <a class="text-lime-500" href="{{route('mostrarOfertas')}}">Lista de Ofertas</a>
         </div>
             <div class="flex justify-center">
                 <p class="text-3xl font-bold my-3">
-                    Listado de Productos
+                    Listado de Ofertas
                 </p>
             </div>
-        <div class="grid grid-cols-2 lg:grid-cols-4 mb-3">
+        {{-- <div class="grid grid-cols-2 lg:grid-cols-4 mb-3">
             <div class="col-span-1 col-start-1 lg:col-start-1">
                 <div class="flex justify-start relative">
                     <button class="btn-tienda orden">
@@ -216,7 +162,7 @@
                 </form>
                 
             </div>
-        </div>
+        </div> --}}
         <div class="overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-100 ">
@@ -236,23 +182,18 @@
                         <th hidden scope="col" class="py-3 px-6">
                             Oferta Id
                         </th>
+                        
                         <th scope="col" class="py-3 px-6">
-                            Oferta
-                        </th>
-                        <th hidden scope="col" class="py-3 px-6">
                             Precio Oferta
                         </th>
-                        <th hidden scope="col" class="py-3 px-6">
+                        <th scope="col" class="py-3 px-6">
                             Fecha Inicio
                         </th>
-                        <th hidden scope="col" class="py-3 px-6">
+                        <th scope="col" class="py-3 px-6">
                             Fecha Termino
                         </th>
                         <th scope="col" class="py-3 px-6">
-                            Agregar Stock
-                        </th>
-                        <th scope="col" class="py-3 px-6">
-                            Editar
+                            Oferta
                         </th>
                         <th scope="col" class="py-3 px-6">
                             Eliminar
@@ -281,54 +222,37 @@
                         <td class="py-4 px-6">
                             {{$producto->categoria->nombre_categoria}}
                         </td>
-                        <td class="py-4 px-6">
-                           @if ($producto->oferta_id == 0)
-                           <button id ="{{$producto->id}}" class="boton-oferta btn-tienda">
-                            Agregar
-                            </button>
-                            @else
-                                <button id ="{{$producto->id}}" class="boton-detalle btn-tienda">
-                                    Ver Oferta
-                                </button>
-                           @endif
-                        </td>
+                        
                         <td id="oferta-id-{{$producto->id}}" class="py-4 px-6 hidden">
                             @if($producto->oferta_id != 0)
                                 {{$producto->oferta->id}}
                             @endif
-                        <td class="py-4 px-6 hidden" id="oferta-hidden-{{$producto->id}}">
+                        <td class="py-4 px-6" id="oferta-hidden-{{$producto->id}}">
                             @if($producto->oferta_id != 0)
                                 ${{$producto->oferta->precio_oferta}}
                             @endif
                         </td>
-                        <td class="py-4 px-6 hidden" id="fecha-inicio-hidden-{{$producto->id}}">
+                        <td class="py-4 px-6 " id="fecha-inicio-hidden-{{$producto->id}}">
                             @if($producto->oferta_id != 0)
                                 {{$producto->oferta->fecha_inicio}}
                             @endif
                         </td>
-                        <td class="py-4 px-6 hidden" id="fecha-termino-hidden-{{$producto->id}}">
+                        <td class="py-4 px-6" id="fecha-termino-hidden-{{$producto->id}}">
                             @if($producto->oferta_id != 0)
                                 {{$producto->oferta->fecha_fin}}
                             @endif
                         </td>
                         <td class="py-4 px-6">
-                            <button id="boton-stock-{{$producto->id}}" class="btn-tienda stock">
-                                Agregar
+                            <button id ="{{$producto->id}}" class="boton-detalle btn-tienda">
+                                Ver Oferta
                             </button>
                         </td>
                         <td class="py-4 px-6">
                             <div class="flex justify-center">
-                                <a href="{{route('editarProducto', $producto->id)}}" class="btn-tienda flex space-x-2">
-                                   <p>Editar</p><i class="fa fa-pencil"></i>
-                                </a>
-                            </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <div class="flex justify-center">
-                                <form id="form-borrar-{{$producto->id}}" action="{{route('borrarProducto', $producto->id)}}" method="POST">
+                                <form id="form-borrar-{{$producto->id}}" action="{{route('borrarOferta', $producto->oferta->id)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button id="boton-borrar-producto-{{$producto->id}}" type="button" class="borrar btn-tienda bg-red-500 px-10">
+                                    <button id="boton-borrar-oferta-{{$producto->id}}" type="button" class="borrar btn-tienda bg-red-500 px-10">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </form>
@@ -353,7 +277,7 @@
         </div>
         @endif
     </div>
-@endsection
+
 
 @section('js')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -363,73 +287,11 @@
 
 <script>
 
-    $(document).ready(function(){
-        $('#mas').on('click', function(){
-            var cantidad = $('#cantidad-producto-modal').val();
-            cantidad = parseInt(cantidad);
-            if(cantidad<1000){
-                cantidad = cantidad + 1;
-            }
-            $('#cantidad-producto-modal').val(cantidad);
-        });
-        $('#menos').on('click', function(){
-            var cantidad = $('#cantidad-producto-modal').val();
-            cantidad = parseInt(cantidad);
-            if(cantidad > 0){
-                cantidad = cantidad - 1;
-            }
-            $('#cantidad-producto-modal').val(cantidad);
-        });
-    });
-
-    $(document).ready(function(){
-        $('.stock').on('click', function(){
-            id = $(this).attr('id');
-            id = id.replace('boton-stock-', '');
-            $('#form-stock').attr('action', 'http://127.0.0.1:8000/aumentar-stock/'+id);
-            $('#producto-id').val(id);
-            $('#modal-cantidad').removeClass('hidden');
-            var nombre = $('#nombre-producto-'+id).text();
-            $('#nombre-modal-cantidad').text(nombre);
-            var cantidad = $('#cantidad-producto-'+id).text();
-            cantidad = $.trim(cantidad);
-            $('#cantidad-producto-modal').val(cantidad);
-            $('#cantidad-producto-modal').on('keyup',function(){
-                this.value = this.value.replace(/[^0-9]/g,'');
-                if(this.value>1000){
-                    this.value = 1000;
-                }
-            });
-        });
-    });
-
-    $(document).ready(function(){
-        $('.orden').on('click', function(){
-            $('.ordenar').removeClass('hidden');
-        });
-        //click on anything else
-        $(document).on('click', function(e){
-            if(!$(e.target).closest('.orden').length){
-                $('.ordenar').addClass('hidden');
-            }
-        });
-    });
-
-    $(document).ready(function(){
-        $('#cerrar-modal-cantidad').on('click', function(){
-            $('#modal-cantidad').addClass('hidden');
-            $('.errores').addClass('hidden');
-        });
-        $('#overlay-modal-cantidad').on('click', function(){
-            $('#modal-cantidad').addClass('hidden');
-            $('.errores').addClass('hidden');
-        });
-    });
-
-    $(document).ready(function(){
+$(document).ready(function(){
         $('.borrar').on('click', function(){
             id = $(this).attr('id');
-            id = id.replace('boton-borrar-producto-', '');
+            id = id.replace('boton-borrar-oferta-', '');
+            console.log(id);
             Swal.fire({
                 title: '¿Estas seguro?',
                 text: "¡No podrás revertir esto!",
@@ -437,7 +299,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, borrar producto!'
+                confirmButtonText: 'Si, borrar oferta!'
             }).then((result) => {
                 if (result.isConfirmed) {
                    $('#form-borrar-'+id).submit();
@@ -446,31 +308,173 @@
         });
     });
 
-    $(document).ready(function(){
-        $('#crear-oferta').on('click', function(){
-            if($('#precio-oferta').val() == '' || $('#fecha_ini').val() == '' || $('#fecha_ter').val() == ''){
-                $('#crear-oferta').attr('type', 'submit');
-            }else{
-           
-                $('#crear-oferta').attr('type', 'button');
+@if(session()->get('message')=='error-oferta-editar')
+        $('#modal-oferta').removeClass('hidden');
+        $('.editar').removeClass('hidden');
+        $('.crear').addClass('hidden');
+        $('#nombre-modal').text('{{session('nombre')}}');
+        $('#precio-antiguo').val('$'+'{{session('precio_antiguo')}}');
+        $('#id-producto').val('{{session('id_producto')}}');
+        $('#precio-antiguo-hidden').val('{{session('precio_antiguo')}}');
+        $('#precio-oferta').val('{{session('precio_oferta')}}');
+        $('#fecha_ini').val('{{session('fecha_ini')}}');
+        $('#fecha_ter').val('{{session('fecha_ter')}}');
+        var oferta_id = {{Session::get('id_oferta')}};
+        oferta_id = $.trim(oferta_id);
+        oferta_id = $.trim(oferta_id);
+        console.log(oferta_id);
+        $('#editar-oferta').on('click', function(){
+            console.log(oferta_id);
+            $('#precio-oferta').attr('disabled', false);
+            $('#fecha_ini').attr('disabled', false);
+            $('#fecha_ter').attr('disabled', false);
+            $(this).text('Guardar');
+            //swal fire
+            $('#editar-oferta').on('click', function(){
                 Swal.fire({
-                    title: '¿Estas seguro?',
-                    text: "¡No podrás revertir esto!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Si, crear oferta!'
+                title: '¿Estas seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, editar oferta!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $('#form-oferta').submit();
+                        $('#form-editar').attr('action', 'http://127.0.0.1:8000/editar-oferta/'+oferta_id);
+                        $('#form-editar').submit();
                     }
-                })
-            }          
+                });
+            });
+            
+        });
+    @endif
+
+    $(document).ready(function(){
+        $("#fecha_ini").datepicker({
+            closeText: 'Cerrar',
+            prevText: '<Ant',
+            nextText: 'Sig>',
+            currentText: 'Hoy',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+            weekHeader: 'Sm',
+            dateFormat: 'y-m-d',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+       
+        });
+        $('#fecha_ter').datepicker({
+            closeText: 'Cerrar',
+            prevText: '<Ant',
+            nextText: 'Sig>',
+            currentText: 'Hoy',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+            weekHeader: 'Sm',
+            dateFormat: 'y-m-d  ',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+        });
+
+    });
+
+    $(document).ready(function(){
+        $('#overlay-modal-oferta').on('click', function(){
+            $('#modal-oferta').addClass('hidden');
+            $('.errores').addClass('hidden');
+            $('.crear').removeClass('hidden');
+            $('.editar').addClass('hidden');
+            $('#editar-oferta').text('editar oferta');
+            //empty inputs
+            $('#precio-oferta').val('');
+            $('#fecha_ini').val('');
+            $('#fecha_ter').val('');
+
+
+        });
+        $('#cerrar-modal-oferta').on('click', function(){
+            $('#modal-oferta').addClass('hidden');
+            $('.errores').addClass('hidden');
+            $('.crear').removeClass('hidden');
+            $('.editar').addClass('hidden');
+            $('#editar-oferta').text('editar oferta');
         });
     });
 
-    
+    $(document).ready(function(){
+        var date = new Date();
+        $('#fecha_ini').datepicker('option', 'minDate', date);
+    });
+
+    $('#fecha_ini').on('change', function(){
+        $('#fecha_ter').removeAttr("disabled");
+        var fecha_ini_min = $('#fecha_ini').datepicker('getDate');
+        var fecha_ter_min = new Date();
+        fecha_ter_min.setDate(fecha_ini_min.getDate() + 1);
+        $('#fecha_ter').datepicker('option', 'minDate', fecha_ter_min);
+    });
+    let id;
+
+    $(document).ready(function(){
+        $('#fecha_ini').on('change', function(){
+            var fecha_ini = $('#fecha_ini').val();
+            $('#fecha-ini-oculto').val(fecha_ini);
+        });
+    });
+
+    $(document).ready(function(){
+        $('#fecha_ter').on('change', function(){
+            var fecha_ter = $('#fecha_ter').val();
+            $('#fecha-ter-oculto').val(fecha_ter);
+        });
+    });
+
+    $('#precio-oferta').on('keyup', function(e){
+        let precio = $(this).val();
+        //remove dollar
+        precio = precio.replace('$', '');
+        let precio2 = precio.replace(/[^0-9]/g, '');
+        
+        if(precio2 == NaN){
+            precio2 = 1;
+        }
+        if(precio2<0){
+            precio2 = 0;
+        }
+        if(precio2>100000){
+            precio2 = 100000;
+        }
+        let precio3 = precio2.toString();
+        precio3 = precio3.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        //if first char is 0 remove it
+        if(precio3.charAt(0) == '0'){
+            precio3 = precio3.substring(1);
+        }
+        //add dollar
+        precio3 = '$'+precio3;
+        $(this).val(precio3);
+        $('#precio-oferta-oculto').val(precio3);
+    });
+
+
+    @if (session()->get('message') == 'error-oferta')
+        $('#modal-oferta').removeClass('hidden');
+        $('#nombre-modal').text('{{session('nombre')}}');
+        $('#precio-antiguo').val('$'+'{{session('precio_antiguo')}}');
+        $('#id-producto').val('{{session('id_producto')}}');
+        $('#precio-antiguo-hidden').val('{{session('precio_antiguo')}}');
+    @endif
 
     $('.boton-detalle').on('click', function(){
         var id = $(this).attr('id');
@@ -529,232 +533,25 @@
             });
             
         });
-        $('#eliminar-oferta').on('click', function(){
-            $('#form-eliminar').attr('action', 'http://127.0.0.1:8000/borrar-oferta/'+oferta_id);
-            Swal.fire({
-                title: '¿Estas seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, eliminar oferta!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#form-eliminar').submit();
-                }
-            })
-        });
+        // $('#eliminar-oferta').on('click', function(){
+        //     $('#form-eliminar').attr('action', 'http://127.0.0.1:8000/borrar-oferta/'+oferta_id);
+        //     Swal.fire({
+        //         title: '¿Estas seguro?',
+        //         text: "¡No podrás revertir esto!",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Si, eliminar oferta!'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             $('#form-eliminar').submit();
+        //         }
+        //     })
+        // });
+       
   
     });
-
-    @if(session()->get('message') == 'error-cantidad')
-        $('#modal-cantidad').removeClass('hidden');
-        $('#cantidad-producto-modal').val('{{session('cantidad')}}');
-    @endif
-   
-    @if(session()->get('message')=='error-oferta-editar')
-        $('#modal-oferta').removeClass('hidden');
-        $('.editar').removeClass('hidden');
-        $('.crear').addClass('hidden');
-        $('#nombre-modal').text('{{session('nombre')}}');
-        $('#precio-antiguo').val('$'+'{{session('precio_antiguo')}}');
-        $('#id-producto').val('{{session('id_producto')}}');
-        $('#precio-antiguo-hidden').val('{{session('precio_antiguo')}}');
-        $('#precio-oferta').val('{{session('precio_oferta')}}');
-        $('#fecha_ini').val('{{session('fecha_ini')}}');
-        $('#fecha_ter').val('{{session('fecha_ter')}}');
-        var oferta_id = {{Session::get('id_oferta')}};
-        oferta_id = $.trim(oferta_id);
-        oferta_id = $.trim(oferta_id);
-        console.log(oferta_id);
-        $('#editar-oferta').on('click', function(){
-            console.log(oferta_id);
-            $('#precio-oferta').attr('disabled', false);
-            $('#fecha_ini').attr('disabled', false);
-            $('#fecha_ter').attr('disabled', false);
-            $(this).text('Guardar');
-            //swal fire
-            $('#editar-oferta').on('click', function(){
-                Swal.fire({
-                title: '¿Estas seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, editar oferta!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#form-editar').attr('action', 'http://127.0.0.1:8000/editar-oferta/'+oferta_id);
-                        $('#form-editar').submit();
-                    }
-                });
-            });
-            
-        });
-        $('#eliminar-oferta').on('click', function(){
-            $('#form-eliminar').attr('action', 'http://127.0.0.1:8000/borrar-oferta/'+oferta_id);
-            Swal.fire({
-                title: '¿Estas seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, eliminar oferta!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#form-eliminar').submit();
-                }
-            })
-        });
-    @endif
-
-
-    @if (session()->get('message') == 'error-oferta')
-        $('#modal-oferta').removeClass('hidden');
-        $('#nombre-modal').text('{{session('nombre')}}');
-        $('#precio-antiguo').val('$'+'{{session('precio_antiguo')}}');
-        $('#id-producto').val('{{session('id_producto')}}');
-        $('#precio-antiguo-hidden').val('{{session('precio_antiguo')}}');
-    @endif
-
-    $(document).ready(function(){
-        $("#fecha_ini").datepicker({
-            closeText: 'Cerrar',
-            prevText: '<Ant',
-            nextText: 'Sig>',
-            currentText: 'Hoy',
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-            weekHeader: 'Sm',
-            dateFormat: 'y-m-d',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: '',
-       
-        });
-        $('#fecha_ter').datepicker({
-            closeText: 'Cerrar',
-            prevText: '<Ant',
-            nextText: 'Sig>',
-            currentText: 'Hoy',
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-            weekHeader: 'Sm',
-            dateFormat: 'y-m-d  ',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: '',
-        });
-
-    });
-
-    $(document).ready(function(){
-        $('#overlay-modal-oferta').on('click', function(){
-            $('#modal-oferta').addClass('hidden');
-            $('.errores').addClass('hidden');
-            $('.crear').removeClass('hidden');
-            $('.editar').addClass('hidden');
-            $('#editar-oferta').text('editar oferta');
-            $('#precio-oferta').val('');
-            $('#fecha_ini').val('');
-            $('#fecha_ter').val('');
-        });
-        $('#cerrar-modal-oferta').on('click', function(){
-            $('#modal-oferta').addClass('hidden');
-            $('.errores').addClass('hidden');
-            $('.crear').removeClass('hidden');
-            $('.editar').addClass('hidden');
-            $('#editar-oferta').text('editar oferta');
-        });
-    });
-    
-    $(document).ready(function(){
-        var date = new Date();
-        $('#fecha_ini').datepicker('option', 'minDate', date);
-    });
-
-    $('#fecha_ini').on('change', function(){
-        $('#fecha_ter').removeAttr("disabled");
-        var fecha_ini_min = $('#fecha_ini').datepicker('getDate');
-        var fecha_ter_min = new Date();
-        fecha_ter_min.setDate(fecha_ini_min.getDate() + 1);
-        $('#fecha_ter').datepicker('option', 'minDate', fecha_ter_min);
-    });
-    let id;
-
-    $(document).ready(function(){
-        $('#fecha_ini').on('change', function(){
-            var fecha_ini = $('#fecha_ini').val();
-            $('#fecha-ini-oculto').val(fecha_ini);
-        });
-    });
-
-    $(document).ready(function(){
-        $('#fecha_ter').on('change', function(){
-            var fecha_ter = $('#fecha_ter').val();
-            $('#fecha-ter-oculto').val(fecha_ter);
-        });
-    });
-
-    $('.boton-oferta').click(function(){
-        $('#precio-oferta').prop('disabled', false);
-        $('#fecha_ini').prop('disabled', false);
-        $('#fecha_ter').prop('disabled', false);
-        var id = $(this).attr('id');
-        $('#modal-oferta').removeClass('hidden');
-        var precio = $('#precio-producto-'+id).text();
-        var nombre = $('#nombre-producto-'+id).text();
-        //if nombre strlen > 30 make nombre 30 char
-        precio = $.trim(precio);
-        nombre = $.trim(nombre);
-        $('#nombre-modal').text(nombre);
-        $('#precio-antiguo').val(precio);
-        var precio_antiguo = precio.replace(/[$'.']/g, '');
-        $('#precio-antiguo-hidden').val(precio_antiguo);
-        $('#id-producto').val(id);
-        $('.acciones-2').addClass('hidden');
-        $('.acciones-1').removeClass('hidden');
-    });
-
-    $('#precio-oferta').on('keyup', function(e){
-        let precio = $(this).val();
-        //remove dollar
-        precio = precio.replace('$', '');
-        let precio2 = precio.replace(/[^0-9]/g, '');
-        
-        if(precio2 == NaN){
-            precio2 = 1;
-        }
-        if(precio2<0){
-            precio2 = 0;
-        }
-        if(precio2>100000){
-            precio2 = 100000;
-        }
-        let precio3 = precio2.toString();
-        precio3 = precio3.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-        //if first char is 0 remove it
-        if(precio3.charAt(0) == '0'){
-            precio3 = precio3.substring(1);
-        }
-        //add dollar
-        precio3 = '$'+precio3;
-        $(this).val(precio3);
-        $('#precio-oferta-oculto').val(precio3);
-    });
-
-
-
-</script> 
+</script>
+@endsection
 @endsection

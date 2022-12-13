@@ -7,7 +7,7 @@
                     <a href="{{route('detalles',$producto->id)}}">
                             <img class="rounded-t-md shadow-sm" src="{{asset('storage/imagenes/'.$producto->imagenes[0])}}"  alt="">
                     </a>
-                    @if($producto->oferta_id && $producto->oferta->estado_oferta!=0)
+                    @if($producto->oferta_id != 0 && $producto->oferta->estado_oferta!=0)
                         @if ($contador%2 != 0 && $contador!=0)
                                   
                             <div class="absolute top-0 -right-12 text-white text-xs font-bold rotate-45">
@@ -120,9 +120,16 @@
                 </div>
                 <div class="py-5 space-y-1">
                     <div class="flex justify-center">
-                        <p class="font-medium text-gray-700">
+                        <p class="font-medium text-gray-700 hidden md:block">
                             @if(strlen($producto->nombre_producto) > 20)
                                 {{substr($producto->nombre_producto,0,20)}}...
+                            @else
+                                {{$producto->nombre_producto}}
+                            @endif
+                        </p>
+                        <p class="font-medium text-gray-700 md:hidden">
+                            @if(strlen($producto->nombre_producto) > 10)
+                                {{substr($producto->nombre_producto,0,10)}}...
                             @else
                                 {{$producto->nombre_producto}}
                             @endif
@@ -132,7 +139,7 @@
                         @php
                             $original = $producto->precio 
                         @endphp
-                        @if($producto->oferta_id!=0 && $producto->oferta->estado_oferta!=0)
+                        @if($producto->oferta_id!=0)
                             <div class="flex justify-center space-x-3">
                                 <div>
                                     <p class="font-semibold text-xl precio text-lime-700">

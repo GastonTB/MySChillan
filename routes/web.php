@@ -45,9 +45,25 @@ Route::get('/tienda/{id}/{minimo}/{maximo}', [tiendaController::class, 'filtrado
 Route::post('/', [carritoController::class, 'store'])->name('carrito');
 Route::get('/carrito/{id}', [carritoController::class, 'show'])->middleware('checkcarrito')->name('mostrarCarrito');
 Route::delete('/borrar-carro/{id}',[carritoController::class, 'destroy'])->name('borrarProductoCarro');
+Route::get('/borrar-carro/{id}', function(){
+    return redirect()->route('inicio');
+});
 Route::put('/carrito-agregar/{id}', [carritoController::class , 'update'])->name('actualizarCarrito');
 Route::delete('/borrar-producto/{id}', [productoController::class, 'destroy'])->middleware('isadmin', 'auth')->name('borrarProducto');
+Route::get('/borrar-producto/{id}', function(){
+    return redirect()->route('inicio');
+});
 Route::put('/carrito-actualizar/{id}', [carritoController::class, 'actualizar'])->name('actualizarCarrito2');
 Route::get('/carrito', [carritoController::class, 'miCarrito'])->name('miCarrito');
 Route::get('/producto/{id}/editar', [productoController::class, 'edit'])->name('editarProducto');
 Route::put('/producto/{id}/editar', [productoController::class, 'update'])->name('editarProducto2');
+Route::delete('/borrar-oferta/{id}', [ofertaController::class, 'destroy'])->middleware('isadmin', 'auth')->name('borrarOferta');
+Route::put('/editar-oferta/{id}', [ofertaController::class, 'update'])->middleware('isadmin', 'auth')->name('editarOferta');
+Route::get('/borrar-oferta/{id}', function(){
+    return redirect()->route('inicio');
+});
+Route::post('/buscar', [productoController::class, 'buscar'])->middleware('isadmin', 'auth')->name('buscarProductoAdmin');
+Route::get('/buscar/{id}', [productoController::class, 'buscados'])->middleware('isadmin', 'auth')->name('buscadosProductosAdmin');
+Route::put('/aumentar-stock/{id}', [productoController::class, 'stock'])->middleware('isadmin', 'auth')->name('aumentarStock');
+Route::get('/productos/ordenar/{id}', [productoController::class, 'ordenar'])->middleware('isadmin', 'auth')->name('ordenar');
+Route::get('/ofertas', [ofertaController::class, 'index'])->middleware('isadmin', 'auth')->name('mostrarOfertas');

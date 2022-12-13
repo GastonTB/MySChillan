@@ -26,15 +26,15 @@
                     <ul>
                         <li class="text-2xl font-bold mb-3">{{$producto->nombre_producto}}</li>
                         <li class="">
-                            @if($oferta!=null)
+                            @if($producto->oferta_id!=0)
                             <li class="block text-green-700 text-xl font-semibold flex">
-                                ${{ number_format($oferta->precio_oferta, 0, ",", ".")}}
+                                ${{ number_format($producto->oferta->precio_oferta, 0, ",", ".")}}
                             </li>
                             <li class="text-gray-700 line-through block mt-1">
                                 ${{ number_format($producto->precio, 0, ",", ".")}}
                             </li>
                             <li class="text-sm text-gray-700">
-                                Oferta valida hasta {{$oferta->fecha_fin}}
+                                Oferta valida hasta {{$producto->oferta->fecha_fin}}
                             </li>
                             @else
                             ${{ number_format($producto->precio, 0, ",", ".")}}

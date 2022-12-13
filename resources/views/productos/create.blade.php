@@ -15,10 +15,18 @@ input[type=number] {
     </style>
 @endsection
 @section('content')
-<div class="flex justify-center">
-    <p class="text-3xl font-semibold mt-3 mb-10">
-        Crear Nuevo Producto
-    </p>
+<div class="grid md:grid-cols-4 lg:grid-cols-8 xl:grid-cols-6 mt-5">
+    <div class="lg:col-start-3 md:col-start-1 ml-5 md:ml-10 lg:ml-0 col-span-full">
+        <a class="text-lime-500" href="{{route('backoffice')}}">Back Office</a> / 
+        <a class="text-lime-500" href="{{route('crearproducto')}}">Crear Producto</a>
+    </div>
+    <div class="col-start-1 col-span-full">
+        <div class="flex justify-center px-3 md:px-0">
+            <p class="text-3xl font-semibold mt-3 mb-10">
+                Crear Nuevo Producto
+            </p>
+        </div>
+    </div>
 </div>
 <form action="{{route('crearproducto2')}}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -442,6 +450,9 @@ input[type=number] {
                     }
                     let precio3 = precio2.toString();
                     precio3 = precio3.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+                    if(precio3.charAt(0) == '0'){
+                        precio3 = precio3.substring(1);
+                    }
                     //add dollar
                     precio3 = '$'+precio3;
                     $(this).val(precio3);

@@ -36,6 +36,9 @@ class productoController extends Controller
         foreach($productos as $producto)
         {
             $producto->precio = number_format($producto->precio, 0, ",", ".");
+            if($producto->oferta_id != 0){
+                $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
+            }
         }
 
         return view('productos.index', compact('productos'));
@@ -79,7 +82,7 @@ class productoController extends Controller
 
         if($planta == 1){
             $reglas = array(
-                'nombre' => 'required|alpha|min:3|max:50',
+                'nombre' => 'required|regex:/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/u|min:3|max:50',
                 'precio' => 'required|numeric|min:3|max:100000',
                 'cantidad' => 'required|numeric|min:1|max:1000',
                 'descripcion_text' => 'required|min:10|max:999',
@@ -100,11 +103,12 @@ class productoController extends Controller
                 'max' => 'El campo :attribute debe tener como máximo :max caracteres',
                 'integer' => 'El campo :attribute debe ser un número entero',
                 'required_without_all' => 'Debe subir al menos una imagen',
+                'regex:/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/u' => 'El nombre debe ser una palabra'
             );
             
         }else{
             $reglas = array(
-                'nombre' => 'required|alpha|min:3|max:50',
+                'nombre' => 'required|regex:/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/u|min:3|max:50',
                 'precio' => 'required|integer|min:990|max:999999',
                 'cantidad' => 'required|integer|min:1|max:999',
                 'descripcion_text' => 'required|min:10|max:999',
@@ -435,6 +439,61 @@ class productoController extends Controller
             }
         }
         
+        if($request->has('temporada_text'))
+        {
+            $tamaño =  count($request->temporada_text);
+            for($i = 0; $i < $tamaño; $i++)
+            {   
+    
+                $temp[$i] = $request->temporada_text[$i];
+    
+                switch ($temp[$i]) {
+                    case 1:
+                        $temp[$i] = 'Otoño';
+                        break;
+                    case 2:
+                        $temp[$i] = 'Invierno';
+                        break;
+                    case 3:
+                        $temp[$i] = 'Primavera';
+                        break;
+                    case 4:
+                        $temp[$i] = 'Verano';
+                        break;
+                }
+            }
+        }
+        
+
+        if($planta == 1){
+            
+            $temporada = implode('--', $temp);
+            $descripcion_array =
+                [
+                    $request->descripcion_text,
+                    $request->caracteristicas_text,
+                    $request->cuidados_text,
+                    $temporada,
+                ];
+        }else{
+            $descripcion_array =
+                [
+                    $request->descripcion_text,
+                    $request->caracteristicas_text,
+                ];
+        }
+        
+
+        
+        $descripcion = implode('||', $descripcion_array);
+
+        $producto = Producto::findOrFail($id);
+        $producto->nombre = $request->nombre;
+        $producto->precio = $request->precio;
+        $producto->cantidad = $request->cantidad;
+        
+        
+        
 
 
     }
@@ -446,7 +505,7 @@ class productoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {   
         $producto = Producto::findOrFail($id);
         //delete images
         $imagenes = explode('|', $producto->imagenes);
@@ -491,5 +550,79 @@ class productoController extends Controller
         return 0;
 
 
+    }
+
+    public function buscar(Request $request)
+    {
+
+        return redirect()->route('buscadosProductosAdmin', $request->buscar);
+    }
+
+    public function buscados($producto)
+    {
+        $productos = Producto::where('nombre_producto', 'like', '%'.$producto.'%')->paginate(10);
+        if(count($productos) == 0){
+            Alert::error('No se encontraron resultados', 'No se encontraron productos con el nombre ');
+        }
+        return view('productos.index', compact('productos'));
+    }
+
+    public function stock(Request $request, $id)
+    {       
+        $reglas = array(
+            'cantidad_stock' => 'required|numeric|min:1|max:1000',
+        );
+        $mensaje = array(
+            'cantidad_stock.required' => 'Por favor ingrese una cantidad',
+            'cantidad_stock.numeric' => 'La cantidad debe ser un numero',
+            'cantidad_stock.min' => 'La cantidad debe ser mayor a 0',
+            'cantidad_stock.max' => 'La cantidad debe ser menor a 1000',
+        );
+        $validador = Validator::make($request->all(), $reglas, $mensaje);
+        if($validador->fails()){
+            return Redirect::back()
+            ->withErrors($validador)
+            ->withInput()
+            ->with('message', 'error-cantidad')
+            ->with('cantidad', $request->cantidad_stock);
+        }
+
+        $producto = Producto::findOrFail($id);
+        $producto->cantidad = $request->cantidad_stock;
+        $producto->save();
+        Alert::success('El stock se ha actualizado con exito', 'La nueva cantidad estara disponible para comprar');
+        return redirect()->back();
+    }
+
+    public function ordenar($id){
+
+        switch($id){
+            case 1:
+                $productos = Producto::orderBy('nombre_producto', 'asc')->paginate(10);
+                break;
+            case 2:
+                $productos = Producto::orderBy('precio', 'asc')->paginate(10);
+                break;
+            case 3:
+                $productos = Producto::orderBy('categoria_id', 'asc')->paginate(10);
+                break;
+            case 4:
+                $productos = Producto::orderBy('cantidad', 'desc')->paginate(10);
+                break;
+            case 5:
+                $productos = Producto::latest()->paginate(10);
+                break;
+            default:
+                $productos = Producto::latest()->paginate(10);
+                break;
+
+            
+        }
+        
+        foreach($productos as $producto){
+            $producto->precio = number_format($producto->precio, 0, ',', '.');
+        }
+
+        return view('productos.index', compact('productos'));
     }
 }

@@ -242,8 +242,13 @@ class Helpers
 
     public static function getOfertas()
     {
-        $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
 
+        // $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
+        //ofertas are producto where producto oferta_id not 0 and oferta estado_oferta not 0
+        $ofertas = Producto::whereHas('oferta', function($query){
+            $query->where('estado_oferta', '!=', '0');
+        })->latest()->take(7)->get();
+        
         foreach($ofertas as $oferta)
         {
             $oferta->imagenes = explode('|', $oferta->imagenes);
@@ -260,6 +265,9 @@ class Helpers
         {
             $ultimo->imagenes = explode('|', $ultimo->imagenes);
             $ultimo->imagenes = $ultimo->imagenes[0];
+            if($ultimo->oferta_id !=0){
+                $ultimo->precio = $ultimo->oferta->precio_oferta;
+            }
         }
 
         return $ultimos;
