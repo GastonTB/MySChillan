@@ -21,10 +21,7 @@
         <div id="categoria" class="border-2 md:text-lg lg:text-md">
             <ul class="pl-2">
                 <li class="py-2 mt-2 hover:text-lime-500 hover:text-xl"><a href="#">Crear Oferta</a></li>
-                <li class="py-2 hover:text-lime-500 hover:text-xl"><a href="#">Ver Ofertas Vigentes</a></li>
-                <li class="py-2 hover:text-lime-500 hover:text-xl"><a href="#">Modificar Oferta</a></li>
-                <li class="py-2 hover:text-lime-500 hover:text-xl"><a href="#">Ver Ofertas Pasadas</a></li>
-                <li class="py-2 hover:text-lime-500 hover:text-xl"><a href="#">Eliminar Ofertas</a></li>
+                <li class="py-2 hover:text-lime-500 hover:text-xl"><a href="{{route('mostrarOfertas')}}">Ver Ofertas Vigentes</a></li>
             </ul>
         </div>
     </div>

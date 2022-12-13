@@ -32,7 +32,11 @@
                                     <ul>
                                         <li>
                                             <p class="ml-3">
-                                                {{$ultimo->nombre_producto}}
+                                                @if(strlen($ultimo->nombre_producto) > 10)
+                                                {{substr($ultimo->nombre_producto, 0, 10)}}...
+                                                @else
+                                                    {{$ultimo->nombre_producto}}
+                                                @endif
                                             </p>
                                         </li>
                                         <li>
@@ -59,7 +63,11 @@
                                     <ul>
                                         <li>
                                             <p class="ml-3">
-                                                {{$ultimo->nombre_producto}}
+                                                @if(strlen($ultimo->nombre_producto) > 10)
+                                                {{substr($ultimo->nombre_producto, 0, 10)}}...
+                                                @else
+                                                    {{$ultimo->nombre_producto}}
+                                                @endif
                                             </p>
                                         </li>
                                         <li>
@@ -88,22 +96,14 @@
                         <div class="">
                             <img class="h-52" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}" alt="">
                             <div class="">
-                                {{-- <div class="flex justify-start">
-                                    <div>
-                                        <p class="font-semibold">
-                                            {{$ultimo->nombre_producto}}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold">
-                                            ${{ number_format($ultimo->precio, 0, ",", ".")}}
-                                        </p>
-                                    </div>
-                                </div> --}}
                                 <div class="flex justify-start">
                                     <div class="mt-3">
                                         <p class="font-semibold">
-                                            {{$ultimo->nombre_producto}}
+                                            @if(strlen($ultimo->nombre_producto) > 15)
+                                                {{substr($ultimo->nombre_producto, 0, 15)}}...
+                                            @else
+                                                {{$ultimo->nombre_producto}}
+                                            @endif
                                         </p>
                                         <div class="flex items-end">
                                             <p class="font-semibold">

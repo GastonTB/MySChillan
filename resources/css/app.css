@@ -6,6 +6,14 @@ input[type="text"]:focus ~ .input-text{
     @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
 }
 
+input[type="text"]:focus ~ .input-text-red{
+    @apply text-red-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
+
+input[type="text"]:not(:placeholder-shown) ~ .input-text-red{
+    @apply text-red-500 transform -translate-y-6 -translate-x-1 bg-white;
+}
+
 input[type="password"]:focus ~ .input-text-password{
     @apply text-lime-500 transform -translate-y-6 -translate-x-1 bg-white;
 }

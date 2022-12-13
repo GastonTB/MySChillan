@@ -31,7 +31,11 @@
                                 <ul>
                                     <li>
                                         <p class="ml-3">
-                                            {{$oferta->nombre_producto}}
+                                            @if (strlen($oferta->nombre_producto)>10)
+                                                    {{substr($oferta->nombre_producto, 0, 10)}}...
+                                                @else
+                                                    {{$oferta->nombre_producto}}
+                                                @endif
                                         </p>
                                     </li>
                                     <li>
@@ -62,7 +66,11 @@
                                     <ul>
                                         <li>
                                             <p class="ml-3">
-                                                {{$oferta->nombre_producto}}
+                                                @if (strlen($oferta->nombre_producto)>10)
+                                                    {{substr($oferta->nombre_producto, 0, 15)}}...
+                                                @else
+                                                    {{$oferta->nombre_producto}}
+                                                @endif
                                             </p>
                                         </li>
                                         <li>
@@ -95,7 +103,11 @@
                                 <ul>
                                     <li>
                                         <p class="ml-3">
-                                            {{$oferta->nombre_producto}}
+                                            @if (strlen($oferta->nombre_producto)>10)
+                                                    {{substr($oferta->nombre_producto, 0, 15)}}...
+                                                @else
+                                                    {{$oferta->nombre_producto}}
+                                                @endif
                                         </p>
                                     </li>
                                     <li>
@@ -131,7 +143,11 @@
                                 <ul>
                                     <li>
                                         <p class="ml-3">
-                                            {{$oferta->nombre_producto}}
+                                            @if (strlen($oferta->nombre_producto)>10)
+                                                    {{substr($oferta->nombre_producto, 0, 15)}}...
+                                                @else
+                                                    {{$oferta->nombre_producto}}
+                                                @endif
                                         </p>
                                     </li>
                                     <li>
@@ -168,7 +184,11 @@
                                         <ul>
                                             <li>
                                                 <p class="ml-3">
+                                                    @if (strlen($oferta->nombre_producto)>10)
+                                                    {{substr($oferta->nombre_producto, 0, 15)}}...
+                                                @else
                                                     {{$oferta->nombre_producto}}
+                                                @endif
                                                 </p>
                                             </li>
                                             <li>
@@ -200,7 +220,11 @@
                                         <ul>
                                             <li>
                                                 <p class="ml-3">
+                                                    @if (strlen($oferta->nombre_producto)>10)
+                                                    {{substr($oferta->nombre_producto, 0, 15)}}...
+                                                @else
                                                     {{$oferta->nombre_producto}}
+                                                @endif
                                                 </p>
                                             </li>
                                             <li>
@@ -238,7 +262,11 @@
                             <div class="flex justify-start">
                                 <div class="mt-3">
                                     <p class="font-semibold">
-                                        {{$oferta->nombre_producto}}
+                                        @if (strlen($oferta->nombre_producto)>10)
+                                                    {{substr($oferta->nombre_producto, 0, 10)}}...
+                                                @else
+                                                    {{$oferta->nombre_producto}}
+                                                @endif
                                     </p>
                                     <div class="flex justify-center space-x-3">
                                         <p class="font-semibold flex items-end">
