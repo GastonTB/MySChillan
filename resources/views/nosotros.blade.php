@@ -1,8 +1,8 @@
 @extends('layaouts.master')
 @section('content')
     <div class="my-10">
-        <div class="grid xl:grid-cols-5 lg:grid-cols-7 bg-gray-100 mx-5">
-            <div class="lg:col-start-2 xl:col-start-2 xl:col-span-3 lg:col-span-5  bg-gray-100 hidden lg:block">
+        <div class="grid xl:grid-cols-5 lg:grid-cols-7 ">
+            <div class="bg-gray-100 mx-5 lg:col-start-2 xl:col-start-2 xl:col-span-3 lg:col-span-5  bg-gray-100 hidden lg:block">
                 <div class="grid lg:grid-cols-3 text-gray-700">
                     <div class="col-span-1 px-5 text-justify py-5">
                         <p class="text-lg font-semibold">Quienes Somos:</p>
