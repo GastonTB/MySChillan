@@ -329,6 +329,14 @@ $(document).ready(function(){
             $('#fecha_ini').attr('disabled', false);
             $('#fecha_ter').attr('disabled', false);
             $(this).text('Guardar');
+            $(this).removeClass('hover:bg-white');
+            $(this).removeClass('hover:text-lime-500');
+            $(this).removeClass('text-lime-500');
+            $(this).removeClass('bg-lime-500');
+            $(this).addClass('bg-lime-500');
+            $(this).addClass('text-white');
+            $(this).addClass('hover:bg-white');
+            $(this).addClass('hover:text-lime-500');
             //swal fire
             $('#editar-oferta').on('click', function(){
                 Swal.fire({
@@ -509,7 +517,6 @@ $(document).ready(function(){
         oferta_id = $.trim(oferta_id);
         oferta_id = $.trim(oferta_id);
         $('#editar-oferta').on('click', function(){
-            console.log(oferta_id);
             $('#precio-oferta').attr('disabled', false);
             $('#fecha_ini').attr('disabled', false);
             $('#fecha_ter').attr('disabled', false);
@@ -526,6 +533,7 @@ $(document).ready(function(){
                 confirmButtonText: 'Si, editar oferta!'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        console.log(oferta_id);
                         $('#form-editar').attr('action', 'http://18.220.82.247/editar-oferta/'+oferta_id);
                         $('#form-editar').submit();
                     }

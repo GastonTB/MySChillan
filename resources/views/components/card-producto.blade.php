@@ -92,7 +92,7 @@
                                     </div>
                                     <div class="w-11  overflow-hidden inline-block">
                                         <div class=" h-16  bg-lime-500 -rotate-45 transform origin-bottom-right">
-                                            <div class=" my-1">
+                                            <div class="my-1">
                                                 <p class="text-lg -rotate-45 transform origin-top-left">
                                                 &nbsp;
                                                 </p>
@@ -118,7 +118,7 @@
                     </div>
                     @endif
                 </div>
-                <div class="py-5 space-y-1">
+                <div class="xl:py-5 lg:py-2 xl:space-y-1 lg:space-x-0">
                     <div class="flex justify-center">
                         <p class="font-medium text-gray-700 hidden md:block">
                             @if(strlen($producto->nombre_producto) > 20)
@@ -163,13 +163,13 @@
                     <input type="hidden" name="cantidad" value="1">
                     <input type="hidden" name="producto" value="{{$producto->id}}">
                     @if($producto->cantidad > 0)
-                        <div class="flex justify-center md:px-0">
+                        <div class="flex justify-center md:px-0 lg:px-3">
                             <button type="submit" class="btn-tienda">
                                 Añadir al Carrito
                             </button>
                         </div>
                     @else
-                        <div class="flex justify-center md:px-0">
+                        <div class="flex justify-center md:px-0 lg:px-3">
                             <button type="button" class="btn-tienda text-xs">
                                 <a href="{{route('detalles',$producto->id)}}">
                                     Detalles del Producto

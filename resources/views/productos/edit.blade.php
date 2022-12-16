@@ -320,7 +320,7 @@ input[type=number] {
         </div>
         <div class="flex justify-center pb-10 pt-10 md:pt-0">
             <button class="btn-tienda">
-                crear producto
+                editar producto
             </button>
         </div>
     </form>
@@ -510,19 +510,6 @@ input[type=number] {
                 });
             });
 
-            // $(document).ready(function(){
-            //     $('.borrar').on('click', function(){
-            //         var numero = $(this).attr('id').split('-')[2];
-            //         var preview = '#preview-imagen-'+numero;
-            //         $(preview).attr('src', '');
-            //         var borrar = '#borrar-boton-'+numero;
-            //         $(borrar).addClass('hidden');
-            //         // var alerta = '#alerta-'+numero;
-            //         // $(alerta).removeClass('hidden');
-            //         var input = '#imagen-'+numero;
-            //         $(input).val('');         
-            //     });
-            // });
 
             $(document).ready(function(){
                 $('#nombre').on('change', function(){
@@ -530,7 +517,6 @@ input[type=number] {
                     var nombre = $('#nombre').val();
                     var nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);
                     var nombre = nombre.replace(/[^a-zA-Z\u00C0-\u00FF ]/g, "");
-
                     $('#nombre').val(nombre);
 
                 });

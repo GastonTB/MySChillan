@@ -122,10 +122,10 @@
                             <div id="opciones-admin" class="space-y-2 fixed hidden z-10 bg-white">
                                 <ul clas="">
                                     <li class=" hover:text-black">
-                                        PRODUCTOS
+                                       <a href="{{route('listado-productos')}}">PRODUCTOS</a>
                                     </li>
                                     <li class=" hover:text-black">
-                                        OFERTAS
+                                        <a href="{{route('mostrarOfertas')}}">OFERTAS</a>
                                     </li>
                                     <li class=" hover:text-black">
                                         USUARIOS
@@ -143,7 +143,7 @@
                         @endauth
                         <div>
                             <p class=" hover:text-black">
-                                SOBRE NOSOTROS
+                                <a href="{{route('nosotros')}}">SOBRE NOSOTROS</a>
                             </p>
                         </div>
                     </div>
