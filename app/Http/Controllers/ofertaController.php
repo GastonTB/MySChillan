@@ -224,7 +224,6 @@ class ofertaController extends Controller
      */
     public function update(Request $request, $id)
     {   
-
         $oferta = Oferta::findOrfail($id);
         $producto = Producto::where('oferta_id', $id)->first();
         if($request->precio_oferta_oculto == null){

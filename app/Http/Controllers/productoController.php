@@ -31,7 +31,7 @@ class productoController extends Controller
     {
        
         $productos = new Producto;
-        $productos = Producto::latest()->paginate(10);
+        $productos = Producto::latest()->paginate(5);
 
         foreach($productos as $producto)
         {
@@ -325,7 +325,6 @@ class productoController extends Controller
      */
     public function update(Request $request, $id)
     {   
-        return $request;
         $planta = 1;
         if($request->has('categorias'))
         {
@@ -344,7 +343,7 @@ class productoController extends Controller
 
         if($planta == 1){
             $reglas = array(
-                'nombre' => 'required|alpha|min:3|max:50',
+                'nombre' => 'required|regex:/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/u|min:3|max:50',
                 'precio' => 'required|integer|min:990|max:100000',
                 'cantidad' => 'required|integer|min:1|max:1000',
                 'descripcion_text' => 'required|min:10|max:999',
@@ -361,7 +360,7 @@ class productoController extends Controller
             
             $mensaje = array(
                 'required' => 'El campo :attribute es obligatorio',
-                'alpha' => 'El campo :attribute solo puede contener letras',
+                'regex' => 'El campo :attribute solo puede contener letras y espacios',
                 'min' => 'El campo :attribute debe tener al menos :min caracteres',
                 'max' => 'El campo :attribute debe tener como máximo :max caracteres',
                 'integer' => 'El campo :attribute debe ser un número entero',
@@ -423,22 +422,13 @@ class productoController extends Controller
 
             ]
         );
-        $mensaje = $this->validacion($request);
 
         if($validador->fails()){
+           
             return Redirect::back()
             ->withErrors($validador)
-            ->withInput($request->except(['imagen_1', 'imagen_2', 'imagen_3', 'imagen_4']))
-            // ->withInput()
-            ->with('message',$mensaje);
-        }else{
-            if($mensaje != 0){
-                return Redirect::back()
-                ->withInput($request->except(['imagen_1', 'imagen_2', 'imagen_3', 'imagen_4']))
-                ->with('message',$mensaje);
-            }
+            ->withInput() ;
         }
-        
         if($request->has('temporada_text'))
         {
             $tamaño =  count($request->temporada_text);
@@ -463,7 +453,7 @@ class productoController extends Controller
                 }
             }
         }
-        
+
 
         if($planta == 1){
             
@@ -483,14 +473,27 @@ class productoController extends Controller
                 ];
         }
         
+        //request nombre first char of every word to uppercase the rest lowercase
+        $request->nombre = ucwords(strtolower($request->nombre));
 
-        
+
+
+
+        $categorias = $request->categorias;
+        //explode categorias
+        $categorias = implode(',', $categorias);
         $descripcion = implode('||', $descripcion_array);
-
         $producto = Producto::findOrFail($id);
-        $producto->nombre = $request->nombre;
+        $producto->nombre_producto = $request->nombre;
         $producto->precio = $request->precio;
         $producto->cantidad = $request->cantidad;
+        $producto->descripcion = $descripcion;
+        $producto->categoria_id = $categorias;
+        $producto->save();
+
+        //alert
+        Alert::success('El producto se ha editado con exito', 'Los nuevos valores serán visibles a los visitantes de la página');
+        return redirect()->route('listado-productos');
         
         
         
@@ -554,7 +557,10 @@ class productoController extends Controller
 
     public function buscar(Request $request)
     {
-
+        //if request is empty
+        if($request->buscar == null){
+            return redirect()->route('listado-productos');
+        }
         return redirect()->route('buscadosProductosAdmin', $request->buscar);
     }
 
@@ -598,22 +604,39 @@ class productoController extends Controller
 
         switch($id){
             case 1:
-                $productos = Producto::orderBy('nombre_producto', 'asc')->paginate(10);
+                $productos = Producto::orderBy('nombre_producto', 'asc')->paginate(5);
+                $titulo = 'Ordenado Por Nombre Ascendente';
                 break;
             case 2:
-                $productos = Producto::orderBy('precio', 'asc')->paginate(10);
+                $productos = Producto::orderBy('nombre_producto', 'desc')->paginate(5);
+                $titulo = 'Ordenado Por Nombre Descendente';
                 break;
             case 3:
-                $productos = Producto::orderBy('categoria_id', 'asc')->paginate(10);
+                $productos = Producto::orderBy('precio', 'asc')->paginate(5);
+                $titulo = 'Ordenado Por Precio Menor a Mayor';
                 break;
             case 4:
-                $productos = Producto::orderBy('cantidad', 'desc')->paginate(10);
+                $productos = Producto::orderBy('precio', 'desc')->paginate(5);
+                $titulo = 'Ordenado Por Precio Mayor a Menor';
                 break;
             case 5:
-                $productos = Producto::latest()->paginate(10);
+                $productos = Producto::orderBy('categoria_id', 'asc')->paginate(5);
+                $titulo = 'Ordenado Por Categoria';
+                break;
+            case 6:
+                $productos = Producto::orderBy('cantidad', 'asc')->paginate(5);
+                $titulo = 'Ordenado Por Stock Menor a Mayor';
+                break;
+            case 7:
+                $productos = Producto::orderBy('cantidad', 'desc')->paginate(5);
+                $titulo = 'Ordenado Por Stock Mayor a Menor';
+                break;
+            case 8:
+                $productos = Producto::latest()->paginate(5);
+                $titulo = 'Ordenado Por Fecha de Creacion';
                 break;
             default:
-                $productos = Producto::latest()->paginate(10);
+                $productos = Producto::latest()->paginate(5);
                 break;
 
             
@@ -623,6 +646,6 @@ class productoController extends Controller
             $producto->precio = number_format($producto->precio, 0, ',', '.');
         }
 
-        return view('productos.index', compact('productos'));
+        return view('productos.index', compact('productos' , 'titulo'));
     }
 }

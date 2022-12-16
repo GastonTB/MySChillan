@@ -59,6 +59,9 @@ Route::get('/producto/{id}/editar', [productoController::class, 'edit'])->name('
 Route::put('/producto/{id}/editar', [productoController::class, 'update'])->name('editarProducto2');
 Route::delete('/borrar-oferta/{id}', [ofertaController::class, 'destroy'])->middleware('isadmin', 'auth')->name('borrarOferta');
 Route::put('/editar-oferta/{id}', [ofertaController::class, 'update'])->middleware('isadmin', 'auth')->name('editarOferta');
+Route::get('/editar-oferta/{id}', function(){
+    return redirect()->route('inicio');
+});
 Route::get('/borrar-oferta/{id}', function(){
     return redirect()->route('inicio');
 });
@@ -67,3 +70,4 @@ Route::get('/buscar/{id}', [productoController::class, 'buscados'])->middleware(
 Route::put('/aumentar-stock/{id}', [productoController::class, 'stock'])->middleware('isadmin', 'auth')->name('aumentarStock');
 Route::get('/productos/ordenar/{id}', [productoController::class, 'ordenar'])->middleware('isadmin', 'auth')->name('ordenar');
 Route::get('/ofertas', [ofertaController::class, 'index'])->middleware('isadmin', 'auth')->name('mostrarOfertas');
+Route::get('/sobre-nosotros', [inicioController::class, 'nosotros'])->name('nosotros');

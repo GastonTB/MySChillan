@@ -92,14 +92,14 @@
                                     <a id="back-office" class="active:text-lime-500" href="#">Back Office <i id="abajo-bo" class="fa fa-chevron-down fa-sm"></i><i id="arriba-bo" class="fa fa-chevron-up hidden fa-sm"></i></a>
                                     <ul id="lista-bo" class="pl-10 space-y-2 mt-3 pb-1 hidden">
                                         <li><a href="{{route('listado-productos')}}">Ver Listado Productos</a></li>
-                                        <li>Ver Listado Ofertas</li>
+                                        <li><a href="{{route('mostrarOfertas')}}">Ver Listado Ofertas</a></li>
                                         <li><a href="{{route('crearproducto')}}">Agregar Producto</a></li>
                                     </ul>
                                 </li>
                                 @endif
                             @endauth
                             <li class="border-b-2 pb-1 border-black border-opacity-10">
-                                <a class="active:text-lime-500" href="#">Sobre Nosotros</a>
+                                <a class="active:text-lime-500" href="{{route('nosotros')}}">Sobre Nosotros</a>
                             </li>
                         </ul>
                     </div>
@@ -126,7 +126,7 @@
                             <i class="fa fa-sm fa-phone"></i>
                         </div>
                         <div class="text-sm select-auto">
-                            <p>+569 66 419 506</p>
+                            <a href="https://walink.co/ae415b"><p>+569 66 419 506</p></a>
                         </div>
                     </div>
                     <div class="pl-5 text-gray-700 flex space-x-2 mt-2">

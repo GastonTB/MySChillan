@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use App\Models\Region;
-use App\Models\Comuna;
+use App\Models\Producto;
+use App\Models\Oferta;
+use App\Models\Categoria;
+use App\Helpers\Helpers;
 
 
 class adminController extends Controller
@@ -17,7 +19,25 @@ class adminController extends Controller
      */
     public function index()
     {   
-        return view('back-office');
+        //select nombre y cantidad from producto
+        $productos = Producto::select('nombre_producto', 'cantidad')->get();
+        //count productos by categoria_id
+        $categorias = Categoria::all();
+        $array = [];
+        foreach($categorias as $categoria){
+            $categoria->productos = Producto::where('categoria_id', $categoria->id)->count();
+            $array[] = $categoria;
+        }
+        $ofertas = Helpers::getOfertas();
+        //count productos by cantidad order by categoria
+        $array2 = [];
+        $categorias2 = Categoria::all();
+        foreach($categorias2 as $categoria2){
+            $categoria2->productos = Producto::where('categoria_id', $categoria2->id);
+            $categoria2->productos = $categoria2->productos->sum('cantidad');
+            $array2[] = $categoria2;
+        }
+        return view('back-office' , compact('productos', 'array', 'ofertas', 'array2'));
     }
 
     /**

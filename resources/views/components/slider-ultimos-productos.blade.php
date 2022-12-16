@@ -32,8 +32,8 @@
                                     <ul>
                                         <li>
                                             <p class="ml-3">
-                                                @if(strlen($ultimo->nombre_producto) > 10)
-                                                {{substr($ultimo->nombre_producto, 0, 10)}}...
+                                                @if(strlen($ultimo->nombre_producto) > 30)
+                                                {{substr($ultimo->nombre_producto, 0, 30)}}...
                                                 @else
                                                     {{$ultimo->nombre_producto}}
                                                 @endif

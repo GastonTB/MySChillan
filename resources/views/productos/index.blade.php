@@ -183,17 +183,27 @@
             </div>
         <div class="grid grid-cols-2 lg:grid-cols-4 mb-3">
             <div class="col-span-1 col-start-1 lg:col-start-1">
-                <div class="flex justify-start relative">
+                <div class="flex justify-start relative space-x-2">
                     <button class="btn-tienda orden">
                         Ordenar
                     </button>
-                    <div class="absolute left-0 top-10 w-full md:w-7/10 lg:w-7/10 xl:w-1/2 ordenar hidden">
+                    <div class="flex items-center">
+                        <p class="text-gray-700">
+                            @if(isset($titulo))
+                                {{$titulo}}
+                            @endif
+                        </p>
+                    </div>
+                    <div class="absolute left-0 top-10 w-full md:w-7/10 lg:w-full xl:w-9/10 ordenar hidden">
                         <div class=" bg-white border-2 border-lime-500 rounded-md">
-                            <a href="{{route('ordenar',1)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Nombre</a>
-                            <a href="{{route('ordenar',2)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Precio</a>
-                            <a href="{{route('ordenar',3)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Categoria</a>
-                            <a  href="{{route('ordenar',4)}}" class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Stock</a>
-                            <a href="{{route('ordenar',5)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Más Recientes</a>
+                            <a href="{{route('ordenar',1)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Nombre: Ascendente</a>
+                            <a href="{{route('ordenar',2)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Nombre: Descendente</a>
+                            <a href="{{route('ordenar',3)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Precio: Menor a Mayor</a>
+                            <a href="{{route('ordenar',4)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Precio: Mayor a Menor</a>
+                            <a href="{{route('ordenar',5)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Categoria</a>
+                            <a  href="{{route('ordenar',6)}}" class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Stock: Menor a Mayor</a>
+                            <a  href="{{route('ordenar',7)}}" class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Stock: Mayor a Menor</a>
+                            <a href="{{route('ordenar',8)}}"  class="block py-2 px-3 text-gray-700 hover:text-white active:text-white hover:bg-lime-500 active:bg-lime-500 ">Ordenar por Más Recientes</a>
                         </div>
                     </div>
                 </div>
@@ -382,26 +392,27 @@
         });
     });
 
-    $(document).ready(function(){
-        $('.stock').on('click', function(){
-            id = $(this).attr('id');
-            id = id.replace('boton-stock-', '');
-            $('#form-stock').attr('action', 'http://18.220.82.247/aumentar-stock/'+id);
-            $('#producto-id').val(id);
-            $('#modal-cantidad').removeClass('hidden');
-            var nombre = $('#nombre-producto-'+id).text();
-            $('#nombre-modal-cantidad').text(nombre);
-            var cantidad = $('#cantidad-producto-'+id).text();
-            cantidad = $.trim(cantidad);
-            $('#cantidad-producto-modal').val(cantidad);
-            $('#cantidad-producto-modal').on('keyup',function(){
-                this.value = this.value.replace(/[^0-9]/g,'');
-                if(this.value>1000){
-                    this.value = 1000;
-                }
-            });
-        });
-    });
+    // $(document).ready(function(){
+    //     $('.stock').on('click', function(){
+    //         id = $(this).attr('id');
+    //         id = id.replace('boton-stock-', '');
+    //         var action = '{{route('aumentarStock',' + id + ')}}';
+    //         $('#form-stock').attr('action', action);
+    //         $('#producto-id').val(id);
+    //         $('#modal-cantidad').removeClass('hidden');
+    //         var nombre = $('#nombre-producto-'+id).text();
+    //         $('#nombre-modal-cantidad').text(nombre);
+    //         var cantidad = $('#cantidad-producto-'+id).text();
+    //         cantidad = $.trim(cantidad);
+    //         $('#cantidad-producto-modal').val(cantidad);
+    //         $('#cantidad-producto-modal').on('keyup',function(){
+    //             this.value = this.value.replace(/[^0-9]/g,'');
+    //             if(this.value>1000){
+    //                 this.value = 1000;
+    //             }
+    //         });
+    //     });
+    // });
 
     $(document).ready(function(){
         $('.orden').on('click', function(){

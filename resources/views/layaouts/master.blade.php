@@ -52,60 +52,7 @@
 
         {{-- footer --}}
         <footer class="mt-auto">
-            <div class="py-5 bg-gray-100">
-                <div class="flex justify-center md:justify-start pb-2">
-                    <img class="object-scale-down h-12 md:h-16" src="{{asset('img/logos/logo.png')}}" alt="">
-                </div>
-                <div class="flex justify-evenly">
-                    <div class="flex justify-center md:justify-start md:ml-5">
-                        <ul>
-                            <li class="mb-2">
-                                <div class="md:hidden lg:hidden xl:hidden">
-                                    <p class="text-sm md:text-lg">
-                                        Retiro gratis en tienda y 
-                                    </p>
-                                    <p class="text-sm md:text-lg">
-                                        envios a todo Chile
-                                    </p>
-                                </div>
-                                <div class="hidden md:block">
-                                    Retiro gratis en tienda y envios a todo Chile
-                                </div>
-                            </li>
-                            <li>
-                                <p class="text-sm md:text-lg">
-                                    +56966419506
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="md:flex md:justify-end">
-                        <div class="mb-2">
-                            <p class="text-sm">
-                                correo@correo.cl
-                            </p>
-                        </div>
-                        <div>
-                            <ul class="flex justify-evenly">
-                                <li>
-                                    <p class="text-lime-500">
-                                        <a href="https://www.facebook.com/MySPlantasySuculentasChillan">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </p>  
-                                </li>
-                                <li>
-                                    <p class="text-lime-500">
-                                        <a href="https://www.instagram.com/mys_vivero/">
-                                            <i class="fa fa-instagram"></i>
-                                        </a>
-                                    </p>    
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-footer/>
         </footer>
         
 

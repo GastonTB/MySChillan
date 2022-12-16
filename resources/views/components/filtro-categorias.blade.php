@@ -15,7 +15,7 @@
         <div class="pb-5">
             <p class="ml-5 mb-5 font-black text-gray-700">Filtrar por Categorias</p>
             
-            <ul class="mx-5 border-1 rounded-md px-5 pb-5 bg-white" id="categorias2">
+            <ul class="xl:mx-5 lg:mx-3 lg:text-sm border-1 rounded-md lg:px-3 xl:px-5 pb-5 bg-white" id="categorias2">
                 <li class="py-2 hover:text-lime-500">
                     <div class="form-check">
                         <input name="categoria[]" 

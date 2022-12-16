@@ -86,7 +86,7 @@
                 @endif
             </p>
         </div>
-        <div class="grid grid-cols-5 w-full mt-5">
+        <div class="grid xl:grid-cols-5 lg:grid-cols-7 w-full mt-5">
             <div class="col-start-2 col-span-1 pt-5">
                 <div class="hidden lg:block">
                     <x-filtro-categorias :minimo="$minimo" :maximo="$maximo" :categoria="$categoria"/>
@@ -98,8 +98,8 @@
                     <x-slider-ultimos-productos :ultimos="$ultimos"/>
                 </div>
             </div>
-            <div class="lg:col-span-2">
-                <div class="grid xl:grid-cols-3 p-5 lg:grid-cols-2 gap-4 lg:px-5">
+            <div class="lg:col-span-4 xl:col-span-2 lg:px-3">
+                <div class="grid xl:grid-cols-3 p-5 lg:grid-cols-3 gap-4 lg:px-5">
                     @if (count($productos)>0)
                         @foreach ($productos as $producto)
                         <x-card-producto :categoria="$categoria" :minimo="$minimo" :maximo="$maximo" :contador="0" :producto="$producto"/>
