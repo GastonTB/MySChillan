@@ -392,27 +392,27 @@
         });
     });
 
-    // $(document).ready(function(){
-    //     $('.stock').on('click', function(){
-    //         id = $(this).attr('id');
-    //         id = id.replace('boton-stock-', '');
-    //         var action = '{{route('aumentarStock',' + id + ')}}';
-    //         $('#form-stock').attr('action', action);
-    //         $('#producto-id').val(id);
-    //         $('#modal-cantidad').removeClass('hidden');
-    //         var nombre = $('#nombre-producto-'+id).text();
-    //         $('#nombre-modal-cantidad').text(nombre);
-    //         var cantidad = $('#cantidad-producto-'+id).text();
-    //         cantidad = $.trim(cantidad);
-    //         $('#cantidad-producto-modal').val(cantidad);
-    //         $('#cantidad-producto-modal').on('keyup',function(){
-    //             this.value = this.value.replace(/[^0-9]/g,'');
-    //             if(this.value>1000){
-    //                 this.value = 1000;
-    //             }
-    //         });
-    //     });
-    // });
+    $(document).ready(function(){
+        $('.stock').on('click', function(){
+            id = $(this).attr('id');
+            id = id.replace('boton-stock-', '');
+            var action = '{{route('aumentarStock',' + id + ')}}';
+            $('#form-stock').attr('action', action);
+            $('#producto-id').val(id);
+            $('#modal-cantidad').removeClass('hidden');
+            var nombre = $('#nombre-producto-'+id).text();
+            $('#nombre-modal-cantidad').text(nombre);
+            var cantidad = $('#cantidad-producto-'+id).text();
+            cantidad = $.trim(cantidad);
+            $('#cantidad-producto-modal').val(cantidad);
+            $('#cantidad-producto-modal').on('keyup',function(){
+                this.value = this.value.replace(/[^0-9]/g,'');
+                if(this.value>1000){
+                    this.value = 1000;
+                }
+            });
+        });
+    });
 
     $(document).ready(function(){
         $('.orden').on('click', function(){
@@ -533,7 +533,7 @@
                 confirmButtonText: 'Si, editar oferta!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $('#form-editar').attr('action', 'http://18.220.82.247/editar-oferta/'+oferta_id);
+                        $('#form-editar').attr('action', 'http://127.0.0.1:8000/editar-oferta/'+oferta_id);
                         $('#form-editar').submit();
                     }
                 });
@@ -541,7 +541,7 @@
             
         });
         $('#eliminar-oferta').on('click', function(){
-            $('#form-eliminar').attr('action', 'http://18.220.82.247/borrar-oferta/'+oferta_id);
+            $('#form-eliminar').attr('action', 'http://127.0.0.1:8000/borrar-oferta/'+oferta_id);
             Swal.fire({
                 title: '¿Estas seguro?',
                 text: "¡No podrás revertir esto!",
@@ -597,7 +597,7 @@
                 confirmButtonText: 'Si, editar oferta!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $('#form-editar').attr('action', 'http://18.220.82.247/editar-oferta/'+oferta_id);
+                        $('#form-editar').attr('action', 'http://127.0.0.1:8000/editar-oferta/'+oferta_id);
                         $('#form-editar').submit();
                     }
                 });
@@ -605,7 +605,7 @@
             
         });
         $('#eliminar-oferta').on('click', function(){
-            $('#form-eliminar').attr('action', 'http://18.220.82.247/borrar-oferta/'+oferta_id);
+            $('#form-eliminar').attr('action', 'http://127.0.0.1:8000/borrar-oferta/'+oferta_id);
             Swal.fire({
                 title: '¿Estas seguro?',
                 text: "¡No podrás revertir esto!",
