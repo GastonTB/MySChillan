@@ -183,27 +183,27 @@ class tiendaController extends Controller
         }
         
         switch($orden){
-            case '1':
+            case 1:
                 $ordenar1 = 'created_at';
                 $ordenar2 = 'desc';
                 break;
-            case '2':
+            case 2:
                 $ordenar1 = 'created_at';
                 $ordenar2 = 'asc';
                 break;
-            case '3':
+            case 3:
                 $ordenar1 = 'precio';
                 $ordenar2 = 'desc';
                 break;
-            case '4':
+            case 4:
                 $ordenar1 = 'precio';
                 $ordenar2 = 'asc';
                 break;
-            case '5':
+            case 5:
                 $ordenar1 = 'nombre_producto';
                 $ordenar2 = 'asc';
                 break;
-            case '6':
+            case 6:
                 $ordenar1 = 'nombre_producto';
                 $ordenar2 = 'desc';
                 break;
