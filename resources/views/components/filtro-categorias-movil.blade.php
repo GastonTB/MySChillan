@@ -13,10 +13,10 @@
         </div>
         <form action="{{route('filtrar')}}" method="POST">
             @csrf
-            <div id="filtros" class="pb-5 hidden md:block">
+            <div id="filtros" class="pb-5 hidden  md:block">
                 <p class="ml-5 mb-5 font-black text-gray-700">Filtrar por Categorias</p>
                 
-                <ul class="mx-5 border-1 rounded-md px-5 pb-5 bg-white" id="categorias2">
+                <ul class="mx-5 border-1 rounded-md px-5 pb-5 pt-5 bg-white" id="categorias2">
                     <li class="py-2 hover:text-lime-500">
                         <div class="form-check">
                             <input name="categoria[]" 
@@ -157,6 +157,33 @@
                         <input name="maximo" type="range" min="0" max="100000" value="{{$maximo}}" step="10000" class="maximo w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700">
                     </div>
                 </div>
+                
+                <div class="px-5 mb-5">
+                    <p class="mb-2 font-black text-gray-700">Orden:</p>
+                        <select name="ordenar" id="ordenar" class="border-2 rounded-md px-5 border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-2 transition duration-200">
+                                <option value="1">
+                                    Más recientes primero
+                                </option>
+                                <option value="2">
+                                    Más antiguos primero
+                                </option>
+                                <option value="3">
+                                    Ordenar por Precio: Mayor a Menor
+                                </option>
+                                <option value="4">
+                                    Ordenar por Precio: Menor a Mayor
+                                </option>
+                                <option value="5">
+                                    Ordenar por Nombre: A-Z
+                                </option>
+                                <option value="6">
+                                    Ordenar por Nombre: Z-A
+                                </option>
+                                
+                            
+                        </select>
+                </div>
+                <input type="hidden" name="nombre_busqueda" id="nombre_busqueda_movil">
             <div class="flex justify-center lg:justify-start lg:ml-5">
                 <button type="submit" class="btn-primary">
                     <p>Filtrar</p>

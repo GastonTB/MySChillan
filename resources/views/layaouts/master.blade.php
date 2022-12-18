@@ -40,7 +40,12 @@
             <x-modal-registro :regiones="$regiones" :comunas="$comunas"/>
         </section>
         <nav>
-            <x-navbar/>
+                @if(isset($buscar))
+                    @php $buscar = $buscar; @endphp
+                @else
+                @php $buscar =''; @endphp
+                @endif
+            <x-navbar :buscar="$buscar"/>
         </nav>
 
 

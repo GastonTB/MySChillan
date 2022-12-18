@@ -3,6 +3,27 @@
 
 (function ($) {
 
+    $('#buscar').on('click', function(){
+      $('#logo').addClass('hidden');
+      $('#busqueda').show('slow');
+      $('#espacio').removeClass('hidden');
+      //make buscar and busqueda z index 10 and make a overlay
+      $('#buscar').addClass('hidden');
+      $('#busqueda').addClass('fixed');
+      $('#busqueda').addClass('z-50');
+      $('#overlay-busqueda').removeClass('hidden');
+      $('#buscar').addClass('text-lime-500');
+    });
+
+    $('#overlay-busqueda').on('click', function(){
+      $('#logo').removeClass('hidden');
+      $('#busqueda').hide();
+      $('#espacio').addClass('hidden');
+      $('#buscar').removeClass('hidden');
+      $('#buscar').removeClass('text-lime-500');
+      $('#overlay-busqueda').addClass('hidden');
+    });
+
     $('#no-tiene-cuenta').on('click', function(){
       $('#modal-login').addClass('hidden');
       $('#modal-registro').removeClass('hidden');

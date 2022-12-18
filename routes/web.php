@@ -29,7 +29,6 @@ use App\Http\Controllers\carritoController;
 
 Route::get('/', [InicioController::class, 'index'])->name('inicio');
 Route::get('/tienda', [tiendaController::class, 'index'])->name('tienda');
-
 Route::post('/registro', [registroController::class, 'store'])->name('registro');
 Route::post('/login', [loginController::class, 'login'])->name('ingresar');
 Route::get('/logout', [loginController::class, 'logout'])->name('salir');
@@ -40,8 +39,8 @@ Route::post('/producto-nuevo', [productoController::class, 'store'])->middleware
 Route::get('/producto/{id}', [productoController::class, 'show'])->name('detalles');
 Route::get('/productos',[productoController::class , 'index'])->middleware('isadmin', 'auth')->name('listado-productos');
 Route::post('/oferta', [ofertaController::class, 'store'])->middleware('isadmin', 'auth')->name('crear-oferta');
-Route::post('/tienda', [tiendaController::class, 'filtrar'])->name('filtrar');
-Route::get('/tienda/{id}/{minimo}/{maximo}', [tiendaController::class, 'filtrados'])->name('filtrados');
+
+Route::get('/tienda/{id}/{minimo}/{maximo}/{orden}/{nombre}/', [tiendaController::class, 'filtrados'])->name('filtrados');
 Route::post('/', [carritoController::class, 'store'])->name('carrito');
 Route::get('/carrito/{id}', [carritoController::class, 'show'])->middleware('checkcarrito')->name('mostrarCarrito');
 Route::delete('/borrar-carro/{id}',[carritoController::class, 'destroy'])->name('borrarProductoCarro');
@@ -71,3 +70,6 @@ Route::put('/aumentar-stock/{id}', [productoController::class, 'stock'])->middle
 Route::get('/productos/ordenar/{id}', [productoController::class, 'ordenar'])->middleware('isadmin', 'auth')->name('ordenar');
 Route::get('/ofertas', [ofertaController::class, 'index'])->middleware('isadmin', 'auth')->name('mostrarOfertas');
 Route::get('/sobre-nosotros', [inicioController::class, 'nosotros'])->name('nosotros');
+Route::post('/tienda', [tiendaController::class, 'filtrar'])->name('filtrar');
+Route::post('/tienda2', [tiendaController::class, 'buscar'])->name('buscar');
+Route::get('/tienda/{nombre}', [tiendaController::class, 'buscados'])->name('buscados');

@@ -162,7 +162,8 @@
                     </div>
                     <input type="hidden" name="cantidad" value="1">
                     <input type="hidden" name="producto" value="{{$producto->id}}">
-                    @if($producto->cantidad > 0)
+                    <div class="mb-3 px-3 md:px-0">
+                        @if($producto->cantidad > 0)
                         <div class="flex justify-center md:px-0 lg:px-3">
                             <button type="submit" class="btn-tienda">
                                 Añadir al Carrito
@@ -177,6 +178,7 @@
                             </button>
                         </div>
                     @endif
+                    </div>
                     
                 </div>
             </div>
