@@ -183,12 +183,12 @@
             </div>
         <div class="grid grid-cols-2 lg:grid-cols-4 mb-3">
             <div class="col-span-1 col-start-1 lg:col-start-1">
-                <div class="flex justify-start relative space-x-2">
+                <div class="md:flex justify-start relative md:space-x-2">
                     <button class="btn-tienda orden">
                         Ordenar
                     </button>
-                    <div class="flex items-center">
-                        <p class="text-gray-700">
+                    <div class="flex items-center mt-3 md:mt-0">
+                        <p class="text-gray-700 text-sm">
                             @if(isset($titulo))
                                 {{$titulo}}
                             @endif
@@ -259,7 +259,7 @@
                             Fecha Termino
                         </th>
                         <th scope="col" class="py-3 px-6">
-                            Agregar Stock
+                            Modificar Stock
                         </th>
                         <th scope="col" class="py-3 px-6">
                             Editar
@@ -294,11 +294,11 @@
                         <td class="py-4 px-6">
                            @if ($producto->oferta_id == 0)
                            <button id ="{{$producto->id}}" class="boton-oferta btn-tienda">
-                            Agregar
+                            Agregar <i class="fa fa-tag"></i>
                             </button>
                             @else
                                 <button id ="{{$producto->id}}" class="boton-detalle btn-tienda">
-                                    Ver Oferta
+                                    Ver Oferta <i class="fa-solid fa-tag"></i>
                                 </button>
                            @endif
                         </td>
@@ -323,7 +323,7 @@
                         </td>
                         <td class="py-4 px-6">
                             <button id="boton-stock-{{$producto->id}}" class="btn-tienda stock">
-                                Agregar
+                                Modificar
                             </button>
                         </td>
                         <td class="py-4 px-6">

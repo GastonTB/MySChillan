@@ -69,14 +69,14 @@
                                 </div>
                                 <ul id="lista-tienda" class="pl-10 space-y-2 mt-3 pb-1 hidden">
                                     <li><a href="{{route('tienda')}}">Todos los Productos</a></li>
-                                    <li><a href="{{route('filtrados', ['id' => 1, 'minimo' => 0, 'maximo' => 100000])}}">Ornamentales</a></li>
-                                    <li><a href="{{route('filtrados', ['id' => 2, 'minimo' => 0, 'maximo' => 100000])}}">Plantas de Interior</li>
-                                    <li><a href="{{route('filtrados', ['id' => 3, 'minimo' => 0, 'maximo' => 100000])}}">Plantas de Exterior</li>
-                                    <li><a href="{{route('filtrados', ['id' => 4, 'minimo' => 0, 'maximo' => 100000])}}">Suculentas</li>
-                                    <li><a href="{{route('filtrados', ['id' => 5, 'minimo' => 0, 'maximo' => 100000])}}">Arboles Frutales</li>
-                                    <li><a href="{{route('filtrados', ['id' => 6, 'minimo' => 0, 'maximo' => 100000])}}">Maceteros</li>
-                                    <li><a href="{{route('filtrados', ['id' => 7, 'minimo' => 0, 'maximo' => 100000])}}">Tierra de Hojas</li>
-                                    <li><a href="{{route('filtrados', ['id' => 8, 'minimo' => 0, 'maximo' => 100000])}}">Accesorios</li>
+                                    <li><a href="{{route('filtrados', ['id' => 1, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Ornamentales</a></li>
+                                    <li><a href="{{route('filtrados', ['id' => 2, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Plantas de Interior</li>
+                                    <li><a href="{{route('filtrados', ['id' => 3, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Plantas de Exterior</li>
+                                    <li><a href="{{route('filtrados', ['id' => 4, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Suculentas</li>
+                                    <li><a href="{{route('filtrados', ['id' => 5, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Arboles Frutales</li>
+                                    <li><a href="{{route('filtrados', ['id' => 6, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Maceteros</li>
+                                    <li><a href="{{route('filtrados', ['id' => 7, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Tierra de Hojas</li>
+                                    <li><a href="{{route('filtrados', ['id' => 8, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Accesorios</li>
                                 </ul>
                             </li>
                             <li class="border-b-2 pb-1 border-black border-opacity-10">

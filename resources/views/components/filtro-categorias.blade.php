@@ -15,7 +15,7 @@
         <div class="pb-5">
             <p class="ml-5 mb-5 font-black text-gray-700">Filtrar por Categorias</p>
             
-            <ul class="xl:mx-5 lg:mx-3 lg:text-sm border-1 rounded-md lg:px-3 xl:px-5 pb-5 bg-white" id="categorias2">
+            <ul class="xl:mx-5 lg:mx-3 lg:text-sm border-1 rounded-md lg:px-3 xl:px-5 py-5 bg-white" id="categorias2">
                 <li class="py-2 hover:text-lime-500">
                     <div class="form-check">
                         <input name="categoria[]" 
@@ -158,11 +158,48 @@
                 </div>
                 <span class="text-sm ml-5 mt-10" style="color:red"><small>@error('maximo'){{$message}}@enderror</small></span>                                                           
             </div>
-        <div class="flex justify-center lg:justify-start lg:ml-5">
-            <button type="submit" class="btn-primary">
-                <p>Filtrar</p>
-            </button>
-        </div>
+
+            <div class="px-5 mb-5">
+                <p class="mb-2 font-black text-gray-700">Orden:</p>
+                    <select name="ordenar" id="ordenar" class="border-2 rounded-md px-5 border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-2 transition duration-200">
+                            <option value="1">
+                                Más recientes primero
+                            </option>
+                            <option value="2">
+                                Más antiguos primero
+                            </option>
+                            <option value="3">
+                                Ordenar por Precio: Mayor a Menor
+                            </option>
+                            <option value="4">
+                                Ordenar por Precio: Menor a Mayor
+                            </option>
+                            <option value="5">
+                                Ordenar por Nombre: A-Z
+                            </option>
+                            <option value="6">
+                                Ordenar por Nombre: Z-A
+                            </option>
+                            
+                        
+                    </select>
+            </div>
+            <input type="hidden" name="nombre_busqueda" id="nombre_busqueda">
+            <div class="flex justify-center lg:justify-start lg:ml-5">
+                <button type="submit" class="btn-primary">
+                    <p>Filtrar</p>
+                </button>
+            </div>
+            {{-- if errors print all --}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         </div>
     </form>
 </div>

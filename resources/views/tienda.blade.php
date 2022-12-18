@@ -77,6 +77,7 @@
         </div>
 
     <div class="hidden lg:block xl:block mb-10">
+        
         <div class="my-5 text-center flex-justify-center" style="background-image: url('{{asset('img/banner/close-up-macro-of-green-leaf-1641721.jpg')}}')">            
             <p class="select-none font-black uppercase text-black bg-white text-8xl mix-blend-lighten">
                 @if(isset($titulo))
@@ -106,7 +107,13 @@
                         @endforeach     
                     @else
                         <div class="col-span-2 mb-20 flex items-center">
-                            <p class="text-center text-gray-700 font-bold text-3xl">Lo sentimos hay productos en esta categoría</p>
+                            <p class="text-center text-gray-700 font-bold text-3xl">
+                                @if(isset($buscar))
+                                    No se encontraron resultados para la busqueda: {{$buscar}}
+                                @else
+                                    Lo sentimos hay productos en esta categoría
+                                @endif
+                            </p>
                         </div>
                                        
                    @endif 
@@ -126,7 +133,44 @@
 
 <script>
 
-    //load page
+    $(document).ready(function(){
+        $('#buscador_movil').on('keyup', function(){
+            var busqueda = $('#buscador_movil').val();
+            $('#buscador').val(busqueda);
+            if(busqueda==''){
+                $('#nombre_busqueda').val('');
+                $('#nombre_busqueda_movil').val('');
+            }else{
+                $('#nombre_busqueda').val(busqueda);
+                $('#nombre_busqueda_movil').val(busqueda);
+            }
+        });
+        $('#buscador').on('keyup', function(){
+            var busqueda = $('#buscador').val();
+            $('#buscador_movil').val(busqueda);
+            if(busqueda==''){
+                $('#nombre_busqueda').val('');
+                $('#nombre_busqueda_movil').val('');
+            }else{
+                $('#nombre_busqueda').val(busqueda);
+                $('#nombre_busqueda_movil').val(busqueda);
+            }
+        });
+    });
+
+    $(document).ready(function(){
+        if($('#buscador').val()!='' || $('#buscador_movil').val()!=''){
+            $('#nombre_busqueda').val($('#buscador').val());
+            $('#nombre_busqueda_movil').val($('#buscador_movil').val());
+            console.log($('#buscador').val());
+
+        }else{
+            $('#nombre_busqueda').val('');
+            $('#nombre_busqueda_movil').val('');
+        }
+    });
+
+
     $(document).ready(function(){
 
 

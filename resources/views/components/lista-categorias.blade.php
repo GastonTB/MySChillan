@@ -19,14 +19,14 @@
     </div>
     <div id="lista" class="border-2 md:text-lg lg:text-md bg-white hidden lg:block">
         <ul class="pl-2">
-            <li class="py-1 xl:py-1 lg:py-1.5 mt-1 xl:mt-4 lg:mt-3 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 1, 'minimo' => 0, 'maximo' => 100000])}}">Ornamentales</a></li>
-            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 2, 'minimo' => 0, 'maximo' => 100000])}}">Plantas de Interior</a></li>
-            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 3, 'minimo' => 0, 'maximo' => 100000])}}">Plantas de Exterior</a></li>
-            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 4, 'minimo' => 0, 'maximo' => 100000])}}">Suculentas</a></li>
-            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 5, 'minimo' => 0, 'maximo' => 100000])}}">Arboles Frutales</a></li>
-            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 6, 'minimo' => 0, 'maximo' => 100000])}}">Maceteros</a></li>
-            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 7, 'minimo' => 0, 'maximo' => 100000])}}">Tierra de Hojas</a></li>
-            <li class="py-1 xl:py-1 lg:py-1.5 mb-1 lg:mb-3 xl:mb-4 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 8, 'minimo' => 0, 'maximo' => 100000])}}">Accesorios</a></li>
+            <li class="py-1 xl:py-1 lg:py-1.5 mt-1 xl:mt-4 lg:mt-3 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 1, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Ornamentales</a></li>
+            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 2, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Plantas de Interior</a></li>
+            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 3, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Plantas de Exterior</a></li>
+            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 4, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Suculentas</a></li>
+            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 5, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Arboles Frutales</a></li>
+            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 6, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Maceteros</a></li>
+            <li class="py-1 xl:py-1 lg:py-1.5 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 7, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Tierra de Hojas</a></li>
+            <li class="py-1 xl:py-1 lg:py-1.5 mb-1 lg:mb-3 xl:mb-4 hover:text-lime-500 hover:text-xl"><a href="{{route('filtrados', ['id' => 8, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Accesorios</a></li>
         </ul>
     </div>
 </div>
