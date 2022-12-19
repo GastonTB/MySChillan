@@ -70,6 +70,6 @@ Route::put('/aumentar-stock/{id}', [productoController::class, 'stock'])->middle
 Route::get('/productos/ordenar/{id}', [productoController::class, 'ordenar'])->middleware('isadmin', 'auth')->name('ordenar');
 Route::get('/ofertas', [ofertaController::class, 'index'])->middleware('isadmin', 'auth')->name('mostrarOfertas');
 Route::get('/sobre-nosotros', [inicioController::class, 'nosotros'])->name('nosotros');
-Route::post('/tienda', [tiendaController::class, 'filtrar'])->name('filtrar');
-Route::post('/tienda2', [tiendaController::class, 'buscar'])->name('buscar');
+Route::post('/tienda-filtrar', [tiendaController::class, 'filtrar'])->name('filtrar');
+Route::post('/tienda', [tiendaController::class, 'buscar'])->name('buscar');
 Route::get('/tienda/{nombre}', [tiendaController::class, 'buscados'])->name('buscados');

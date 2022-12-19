@@ -14,11 +14,12 @@ class filtro-categorias extends Component
     public $categoria;
     public $minimo;
     public $maximo;
-    public function __construct($categoria, $minimo, $maximo)
+    public function __construct($categoria, $minimo, $maximo, $orden)
     {
         $this->categoria = $categoria;
         $this->minimo = $minimo;
         $this->maximo = $maximo;
+        $this->orden = $orden;
     }
 
     /**

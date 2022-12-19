@@ -5,11 +5,11 @@
                 Mejor Calificados
             </p>
         </div>
-        <div class="flex">
-            <div class="py-1 mx-1 px-1 bg-gray-200">
+        <div class="flex h-50" >
+            <div class="py-1 mx-1 px-1 bg-gray-200  rounded-md">
                 <i class="fa fa-chevron-left"></i>
             </div>
-            <div class="py-1 px-1 bg-gray-200">
+            <div class="py-1 px-1 bg-gray-200  rounded-md">
                 <i class="fa fa-chevron-right"></i>
             </div>
         </div>

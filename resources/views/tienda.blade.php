@@ -22,7 +22,7 @@
             <div class="md:grid md:grid-cols-7 gap-1">
                 <div class="md:col-span-3">
                     <div class="mb-5 px-5 md:pt-4">
-                        <x-filtro-categorias-movil :minimo="$minimo" :maximo="$maximo" :categoria="$categoria"/>                           
+                        <x-filtro-categorias-movil :orden="$orden" :minimo="$minimo" :maximo="$maximo" :categoria="$categoria"/>                           
                     </div>
                     <div class="mb-5 hidden md:block">
                         <x-slider-ofertas :ofertas="$ofertas"/>
@@ -90,7 +90,7 @@
         <div class="grid xl:grid-cols-5 lg:grid-cols-7 w-full mt-5">
             <div class="col-start-2 col-span-1 pt-5">
                 <div class="hidden lg:block">
-                    <x-filtro-categorias :minimo="$minimo" :maximo="$maximo" :categoria="$categoria"/>
+                    <x-filtro-categorias :orden="$orden" :minimo="$minimo" :maximo="$maximo" :categoria="$categoria"/>
                 </div>
                 <div class="mt-10">
                     <x-slider-ofertas :ofertas="$ofertas"/>
