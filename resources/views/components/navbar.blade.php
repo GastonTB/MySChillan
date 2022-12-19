@@ -24,10 +24,11 @@
                                 @if(isset($buscar))
                                     value="{{$buscar}}"
                                 @endif
-                                type="text" class="py-1 text-sm border-1 md:border-2 md:py-1.5 rounded-l-md border-black border-opacity-20 outline-none focus:border-lime-500 w-52 px-5 transition duration-200" placeholder=" " id="buscador_movil">
+                                type="text" class="w-64 py-1 border-2 px-5 text-sm border-1 md:border-2 md:py-1.5 rounded-l-md border-black border-opacity-20 outline-none focus:border-lime-500 transition duration-200" placeholder=" " id="buscador_movil">
                                 <input type="hidden" name="categoria_busqueda" value="9" id="categoria_busqueda_movil">
                                 <input type="hidden" name="minimo_busqueda" value="0" id="minimo_busqueda_movil">
                                 <input type="hidden" name="maximo_busqueda" value="100000" id="maximo_busqueda_movil">
+                                <input type="hidden" name="orden_busqueda" value="1" id="orden_busqueda_movil">
                                 <button type="submit" class="bg-lime-500 md:py-1.5 py-1 px-2 rounded-r-md rounded-l-none text-sm md:text-base">
                                     <i class="fa fa-magnifying-glass"></i>
                                 </button>
@@ -193,6 +194,7 @@
                             <input type="hidden" name="categoria_busqueda" value="9" id="categoria_busqueda">
                             <input type="hidden" name="minimo_busqueda" value="0" id="minimo_busqueda">
                             <input type="hidden" name="maximo_busqueda" value="100000" id="maximo_busqueda">
+                            <input type="hidden" name="orden_busqueda" value="1" id="orden_busqueda">
                             <button type="submit" class="bg-lime-500 py-1.5  px-2 rounded-r-md rounded-l-none text-sm md:text-base">
                                 <i class="fa fa-magnifying-glass"></i>
                             </button>

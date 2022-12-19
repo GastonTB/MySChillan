@@ -274,7 +274,7 @@
                     @foreach ($productos as $producto)
                     <tr class="bg-white border-b  hover:bg-gray-100">
                         <td id="nombre-producto-{{$producto->id}}" scope="row" class="line py-4 px-6 font-medium text-gray-700 whitespace-nowrap ">
-                          <a href="{{route('detalles', $producto->id)}}">
+                          <a class="text-lime-500 font-semibold" href="{{route('detalles', $producto->id)}}">
                             @if(strlen($producto->nombre_producto) > 20)
                                 {{substr($producto->nombre_producto, 0, 20)}}...
                             @else
@@ -396,7 +396,7 @@
         $('.stock').on('click', function(){
             id = $(this).attr('id');
             id = id.replace('boton-stock-', '');
-            var action = '{{route('aumentarStock',' + id + ')}}';
+            var action = 'http://127.0.0.1:8000/aumentar-stock/'+id;
             $('#form-stock').attr('action', action);
             $('#producto-id').val(id);
             $('#modal-cantidad').removeClass('hidden');

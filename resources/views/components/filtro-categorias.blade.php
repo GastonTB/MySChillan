@@ -162,25 +162,61 @@
             <div class="px-5 mb-5">
                 <p class="mb-2 font-black text-gray-700">Orden:</p>
                     <select name="ordenar" id="ordenar" class="border-2 rounded-md px-5 border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-2 transition duration-200">
-                            <option value="1">
-                                Más recientes primero
-                            </option>
-                            <option value="2">
-                                Más antiguos primero
-                            </option>
-                            <option value="3">
-                                Ordenar por Precio: Mayor a Menor
-                            </option>
-                            <option value="4">
-                                Ordenar por Precio: Menor a Mayor
-                            </option>
-                            <option value="5">
-                                Ordenar por Nombre: A-Z
-                            </option>
-                            <option value="6">
-                                Ordenar por Nombre: Z-A
-                            </option>
-                            
+                        <option 
+                        @if(isset($orden))
+                            @if($orden == 1)
+                                selected
+                            @endif
+                        @endif
+                        value="1">
+                        Más recientes primero
+                        </option>
+                        <option
+                        @if(isset($orden))
+                            @if($orden == 2)
+                                selected
+                            @endif
+                        @endif
+                        value="2">
+                            Más antiguos primero
+                        </option>
+                        <option
+                        @if(isset($orden))
+                            @if($orden == 3)
+                                selected
+                            @endif
+                        @endif
+                        value="3">
+                            Ordenar por Precio: Mayor a Menor
+                        </option>
+                        <option
+                        @if(isset($orden))
+                            @if($orden == 4)
+                                selected
+                            @endif
+                        @endif
+                        value="4">
+                            Ordenar por Precio: Menor a Mayor
+                        </option>
+                        <option
+                        @if(isset($orden))
+                            @if($orden == 5)
+                                selected
+                            @endif  
+                        @endif
+                        value="5">
+                            Ordenar por Nombre: A-Z
+                        </option>
+                        <option
+                        @if(isset($orden))
+                            @if($orden == 6)
+                                selected
+                            @endif
+                        @endif
+                        value="6">
+                            Ordenar por Nombre: Z-A
+                        </option>
+                        
                         
                     </select>
             </div>
@@ -190,16 +226,6 @@
                     <p>Filtrar</p>
                 </button>
             </div>
-            {{-- if errors print all --}}
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
         </div>
     </form>
 </div>

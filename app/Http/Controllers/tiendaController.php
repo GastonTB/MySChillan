@@ -125,25 +125,13 @@ class tiendaController extends Controller
 
         $orden = $request->ordenar;
         
-
-        if($categoria != 9)
-        {
-            $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $request->minimo)->where('precio', '<=', $request->maximo)->orderBy($ordenar1, $ordenar2)->paginate(12);
-        }else{
-
-            $productos = Producto::where('precio', '>=', $request->minimo)->where('precio', '<=', $request->maximo)->orderBy($ordenar1, $ordenar2)->paginate(12);
-        }
-
-        foreach($productos as $producto)
-        {
-            $producto->imagenes = explode('|', $producto->imagenes);
-        }
-
-        $nombre = $request->nombre_busqueda;
         $ordenar = $request->ordenar;
         $minimo = $request->minimo;
         $maximo = $request->maximo;
         $nombre = $request->nombre_busqueda;
+        if($nombre == null){
+            $nombre = 999;
+        }
         // return view('tienda', compact('productos', 'ultimos', 'ofertas', 'categoria', 'titulo' ,'minimo', 'maximo'));
         
         return redirect()->route('filtrados', array('id' => $categoria, 'minimo' => $minimo, 'maximo' => $maximo, 'nombre' => $nombre, 'orden' => $orden));
@@ -236,8 +224,7 @@ class tiendaController extends Controller
             $producto->imagenes = explode('|', $producto->imagenes);
         }
 
-
-        return view('tienda', compact('productos', 'categoria', 'ofertas', 'ultimos', 'titulo', 'minimo', 'maximo', 'buscar'));
+        return view('tienda', compact('productos', 'categoria', 'ofertas', 'ultimos', 'titulo', 'minimo', 'maximo', 'buscar', 'orden'));
 
     }
 
@@ -245,8 +232,10 @@ class tiendaController extends Controller
     {   
 
         $buscar = $request->buscar;
+        if($buscar == NULL){
+            return redirect()->route('tienda');
+        }
 
-        //return function buscados
         return redirect()->route('buscados', array('nombre' => $buscar));
         
     }
@@ -260,7 +249,7 @@ class tiendaController extends Controller
             $categoria = 9;
             $titulo = 'TIENDA';
        
-
+        $orden = 1;
        
             if($categoria != 9){
                 $productos = Producto::where('categoria_id', $categoria)->where('nombre_producto', 'like', '%'.$buscar.'%')->where('precio', '>=', $minimo)->latest()->where('precio', '<=', $maximo)->latest()->paginate(12);
@@ -278,7 +267,7 @@ class tiendaController extends Controller
         }
 
 
-        return view('tienda', compact('productos', 'categoria', 'ofertas', 'ultimos', 'titulo', 'minimo', 'maximo', 'buscar'));
+        return view('tienda', compact('productos', 'categoria', 'ofertas', 'ultimos', 'titulo', 'minimo', 'maximo', 'buscar', 'orden'));
 
     }
 

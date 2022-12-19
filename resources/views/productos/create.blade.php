@@ -259,7 +259,6 @@ input[type=number] {
 </form>
 
     @section('js')
-
         <script>     
             
             $(document).ready(function(){
@@ -269,18 +268,22 @@ input[type=number] {
                     $('#descripcion-text').attr('cols', 38);
                     $('#caracteristicas-text').attr('cols', 38);
                     $('#cuidados-text').attr('cols', 38);
+                    console.log('regla 1')
                 }else if($('#regla-2').is(':visible')){
                     $('#descripcion-text').attr('cols', 46);
                     $('#caracteristicas-text').attr('cols', 46);
                     $('#cuidados-text').attr('cols', 46);
+                    console.log('regla 2')
                 }else if($('#regla-3').is(':visible')){
                     $('#descripcion-text').attr('cols', 46);
                     $('#caracteristicas-text').attr('cols', 46);
                     $('#cuidados-text').attr('cols', 46);
+                    console.log('regla 3')
                 }else if($('#regla-4').is(':visible')){
                     $('#descripcion-text').attr('cols', 46);
                     $('#caracteristicas-text').attr('cols', 46);
                     $('#cuidados-text').attr('cols', 46);
+                    console.log('regla 4')
                 }
                 
             });
@@ -320,12 +323,16 @@ input[type=number] {
                     $(this).addClass('bg-gray-100');
                     //show forms
                     var id = $(this).attr('id');
-                    console.log(id);
                     $('.texto').addClass('hidden');
                     $('#'+id+'-text').removeClass('hidden');
-                    
-                    // $('.texto').(this).removeClass('hidden');
-
+                    if($('#regla-1').is(':visible') || $('#regla-2').is(':visible')){
+                        //focus id titulo
+                        $('#titulo').focus();
+                    }else{
+                        //focus on footer
+                        $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+                        return false;
+                    }
 
                 });
             });

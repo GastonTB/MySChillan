@@ -574,7 +574,7 @@ class productoController extends Controller
     }
 
     public function stock(Request $request, $id)
-    {       
+    {   
         $reglas = array(
             'cantidad_stock' => 'required|numeric|min:1|max:1000',
         );
