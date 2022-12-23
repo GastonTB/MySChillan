@@ -3,6 +3,11 @@
 
 (function ($) {
 
+    $('#boton-login').on('click', function(){
+      swal.close();
+      $('#modal-login').removeClass('hidden');
+    });
+
     $('#buscar').on('click', function(){
       $('#logo').addClass('hidden');
       $('#busqueda').show('slow');

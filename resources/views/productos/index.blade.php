@@ -144,9 +144,9 @@
             <div class="flex justify-center mb-5 text-lg md:text-lg lg:text-xl font-bold " id="nombre-modal-cantidad">
 
             </div>
-            <form id="form-stock" method="POST">
+            <form id="form-stock" method="POST" action="{{route('aumentarStock')}}">
                 @csrf
-                @method('PUT')
+                <input type="hidden" name="id_producto" id="producto-id">
                 <div class="flex justify-center my-5 space-x-3">
                     <div id="menos" class="flex items-center py-2 px-3 border-2 bg-lime-500 text-white rounded-md active:bg-white active:text-lime-500">
                         <i class="fa fa-minus"></i>
@@ -396,8 +396,6 @@
         $('.stock').on('click', function(){
             id = $(this).attr('id');
             id = id.replace('boton-stock-', '');
-            var action = 'http://127.0.0.1:8000/aumentar-stock/'+id;
-            $('#form-stock').attr('action', action);
             $('#producto-id').val(id);
             $('#modal-cantidad').removeClass('hidden');
             var nombre = $('#nombre-producto-'+id).text();

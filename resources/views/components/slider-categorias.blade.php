@@ -1,6 +1,6 @@
 <div>
     <div class="flex justify-center mb-5 mt-5 md:mb-10">
-        <p class="text-2xl md:text-3xl font-black">¿Qué Estas Buscando?</p>
+        <p class="text-2xl md:text-3xl font-black text-gray-700">¿Qué Estas Buscando?</p>
     </div>
     <div class="swiper categorias" id="categorias">
         <div class="swiper-wrapper">

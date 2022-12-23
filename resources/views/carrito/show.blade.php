@@ -120,17 +120,16 @@ input[type=number] {
                 </li>
                 <li class="flex">
                    <div class="flex items-start">
-                        <p> Envío: </p>
-                   <div class="px-5 mb-5">
+                        <div>
+                            <p> Envío: </p>
+                        </div>
+                   <div class="px-5 mb-5 flex items-center">
                     <label class="relative">
-                        <select id="envio" name="envio" class="font-medium bg-gray-50 border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1 px-5 transition duration-200">
+                        <select id="envio" name="envio" class="font-medium border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1 px-5 transition duration-200">
                             <option disabled selected>Seleccione una opción</option>
                             <option value="0">Retiro En Tienda (Gratis)</option>
                             <option value="1"><i class="fa fa-shipping-fast"></i> A Domicilio (Envio por Pagar)</option>
                         </select>
-                        <span class="font-medium normal-case text-opacity-30 text-black absolute text-xs md:text-sm left-0 top-0 mx-3 px-2 transition duration-200 input-select-invitado">
-                            Envio
-                        </span>
                     </label>
                 </div>
                 </div>
@@ -164,9 +163,22 @@ input[type=number] {
         </div>
         <div>
             <div class="flex justify-center pb-5">
-                <button class="bg-lime-500 text-white font-semibold text-lg uppercase py-2 px-4 rounded-sm mt-5">
-                    Pagar
-                </button>
+                @auth
+                    @php
+                    $id_carrito = $id_carrito
+                    @endphp
+                @endauth
+                @guest
+                @php
+                $id_carrito = Session::get('id_carrito')
+                @endphp
+                @endguest
+                <form action="{{route('comprar', $id_carrito)}}" method="POST">
+                    @csrf
+                    <button class="bg-lime-500 text-white font-semibold text-lg uppercase py-2 px-4 rounded-sm mt-5">
+                        Pagar
+                    </button>
+                </form>
             </div>
         </div>
     </div>
