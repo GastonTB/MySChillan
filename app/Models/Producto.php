@@ -41,4 +41,9 @@ class Producto extends Model
         return $this->belongsToMany(Carrito::class)->withPivot('cantidad_carrito');
     }
 
+    public function ordenes_compra()
+    {
+        return $this->belongsToMany(OrdenCompra::class)->withPivot('cantidad_orden_compra', 'precio_orden_compra');
+    }
+
 }

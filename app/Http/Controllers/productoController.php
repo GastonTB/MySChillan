@@ -573,8 +573,9 @@ class productoController extends Controller
         return view('productos.index', compact('productos'));
     }
 
-    public function stock(Request $request, $id)
+    public function stock(Request $request)
     {   
+        
         $reglas = array(
             'cantidad_stock' => 'required|numeric|min:1|max:1000',
         );
@@ -592,7 +593,7 @@ class productoController extends Controller
             ->with('message', 'error-cantidad')
             ->with('cantidad', $request->cantidad_stock);
         }
-
+        $id = $request->id_producto;
         $producto = Producto::findOrFail($id);
         $producto->cantidad = $request->cantidad_stock;
         $producto->save();

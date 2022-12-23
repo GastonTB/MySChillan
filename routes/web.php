@@ -9,6 +9,8 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\productoController;
 use App\Http\Controllers\ofertaController;
 use App\Http\Controllers\carritoController;
+use App\Http\Controllers\compraController;
+use App\Http\Controllers\WebpayController;
 
 
 
@@ -66,10 +68,27 @@ Route::get('/borrar-oferta/{id}', function(){
 });
 Route::post('/buscar', [productoController::class, 'buscar'])->middleware('isadmin', 'auth')->name('buscarProductoAdmin');
 Route::get('/buscar/{id}', [productoController::class, 'buscados'])->middleware('isadmin', 'auth')->name('buscadosProductosAdmin');
-Route::put('/aumentar-stock/{id}', [productoController::class, 'stock'])->middleware('isadmin', 'auth')->name('aumentarStock');
+Route::post('/aumentar-stock/', [productoController::class, 'stock'])->middleware('isadmin', 'auth')->name('aumentarStock');
 Route::get('/productos/ordenar/{id}', [productoController::class, 'ordenar'])->middleware('isadmin', 'auth')->name('ordenar');
 Route::get('/ofertas', [ofertaController::class, 'index'])->middleware('isadmin', 'auth')->name('mostrarOfertas');
 Route::get('/sobre-nosotros', [inicioController::class, 'nosotros'])->name('nosotros');
 Route::post('/tienda-filtrar', [tiendaController::class, 'filtrar'])->name('filtrar');
 Route::post('/tienda', [tiendaController::class, 'buscar'])->name('buscar');
 Route::get('/tienda/{nombre}', [tiendaController::class, 'buscados'])->name('buscados');
+Route::post('/comprar/{id}', [compraController::class, 'show'])->name('comprar');
+Route::get('/comprar/{id}',  function(){
+    return redirect()->route('inicio');
+});
+
+
+
+
+Route::get('/webpay', [WebpayController::class, 'webpayInicio'])->name('webpayInicio');
+Route::get('/webpay/pagar', [WebpayController::class, 'webpayPagar'])->name('webpayPagar');
+Route::get('/webpay/respuesta', [WebpayController::class, 'webpayRespuesta'])->name('webpayRespuesta');
+//if route webpayRespuesta is trying to be accessed from post method, it will be redirected to inicio
+Route::post('/webpay/respuesta', function(){
+    return redirect()->route('inicio');
+});
+
+

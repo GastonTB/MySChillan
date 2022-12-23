@@ -154,6 +154,11 @@ return [
     |
     */
 
+    //custom env variables
+    'webpay_url' => env('WEBPAY_URL'),
+    'webpay_id' => env('WEBPAY_ID'),
+    'webpay_secret' => env('WEBPAY_SECRET'),
+
     'providers' => [
 
         /*
