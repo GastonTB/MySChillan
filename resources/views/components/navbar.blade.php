@@ -87,7 +87,7 @@
                                         <i class="fa fa-user"></i>
                                     </div>
                                     <p>
-                                        <a id="usuario" href="#">{{Auth::user()->name}} {{ session('apellido_paterno')}} {{ session('apellido_materno')}}</a>
+                                        <a id="usuario" href="{{route('perfil', encrypt(Auth::user()->id))}}">{{Auth::user()->name}}</a>
                                     </p>
                                 @endauth
                             </div>
@@ -166,7 +166,7 @@
                         @auth
                             <div>
                                 <p class=" hover:text-black">
-                                    PERFIL
+                                    <a href="{{route('perfil', encrypt(Auth::user()->id))}}">PERFIL</a>
                                 </p>
                             </div>
                         @endauth

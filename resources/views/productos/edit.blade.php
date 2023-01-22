@@ -21,11 +21,11 @@ input[type=number] {
     </p>
 </div>
 <div>
-    <form action="{{route('editarProducto2', $producto->id)}}" method="POST" enctype="multipart/form-data">
+    <form id="formulario_editar" action="{{route('editarProducto2', $producto->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="grid md:grid-cols-4 lg:grid-cols-8 xl:grid-cols-6">
-            <div class="md:col-span-2 md:col-start-1 lg:col-start-3 xl:col-start-3 lg:col-span-2 xl:col-span-1 md:pl-5 lg:pl-0 mb-10 md:mb-0 order-1 md:order-1">
+            <div class="md:col-span-2 md:col-start-1 lg:col-start-2 xl:col-start-2 lg:col-span-3 xl:col-span-2 md:pl-5 lg:pl-0 mb-10 md:mb-0 order-1 md:order-1">
                 <div class="mt-5 px-5">
                     <label class="relative">
                         <input name="nombre" value="{{old('nombre', $producto->nombre_producto)}}" type="text" class="border-2 text-gray-700 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" " id="nombre">
@@ -92,116 +92,126 @@ input[type=number] {
                 </div>
                
             </div>
-            <div class="md:col-span-2 md:col-start-3 g:col-start-5 lg:col-span-2 xl:col-start-4 xl:col-span-1 md:pl-10 lg:pl-0 order-3 md:order-2">
+            <div class="md:col-span-2 md:col-start-3 g:col-start-5 lg:col-span-3 xl:col-start-4 xl:col-span-2 md:pl-10 lg:pl-0 order-3 md:order-2">
                 <input value="{{$imagenes}}" name="cantidad_imagenes" id="cantidad_imagenes" type="hidden" data-cantidad="{{$imagenes}}">
-                <div class="flex justify-center space-x-5 px-5 mt-5">     
-                    <div>
-                        <div>
-                            <img id="preview-imagen-1" src="{{asset('storage/imagenes/'.$producto->imagenes[0])}}" alt="">
-                            <input val="" type="hidden" name="imagen_oculta_1">
+                <div class="grid grid-cols-2">
+                    <div class="col-span-1">
+                        <div class="flex justify-center space-x-5 px-5 mt-5">     
+                            <div>
+                                <div>
+                                    <img id="preview-imagen-1" src="{{asset('storage/imagenes/'.$producto->imagenes[0])}}" alt="">
+                                    <input  type="hidden" id="imagen_oculta_1" name="imagen_oculta_1">
+                                </div>
+                                <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Imagen 1</label>
+                                <input accept="image/png, image/jpeg, image/jpeg" name="imagen_1" id="imagen-1" class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" type="file">
+                                <span class="text-sm" style="color:red"><small>@error('imagen_0'){{$message}}@enderror</small></span>
+                            </div>
+                
+                                
+                       
+                            <div class="flex items-end">
+                                <i id="borrar-boton-1" class="fa fa-trash borrar hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400 hidden pb-2"></i>
+                            </div>
                         </div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Imagen 1</label>
-                        <input accept="image/png, image/jpeg, image/jpeg" name="imagen_1" id="imagen-1" class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" type="file">
-                        <span class="text-sm" style="color:red"><small>@error('imagen_0'){{$message}}@enderror</small></span>
+                        <div id="alerta-1" class="px-5 hidden">
+                            <span class="text-sm md:text-md" style="color:red"><small>La imagen debe tener una proporcion de 3:4 (ancho:alto)</small></span>
+                        </div>
+                        <div id="formato-1" class="px-5 hidden">
+                            <span class="text-sm md:text-md" style="color:red"><small>Formato de archivo no soportado, formatos soportados 'jpg', 'png', 'jpeg'</small></span>
+                        </div>
                     </div>
-        
+                    <div class="col-span-1">
+                        <div class="flex justify-center space-x-5 px-5 mt-5">
                         
-               
-                    <div class="flex items-end">
-                        <i id="borrar-boton-1" class="fa fa-trash borrar hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400 hidden pb-2"></i>
-                    </div>
-                </div>
-                <div id="alerta-1" class="px-5 hidden">
-                    <span class="text-sm md:text-md" style="color:red"><small>La imagen debe tener una proporcion de 3:4 (ancho:alto)</small></span>
-                </div>
-                <div id="formato-1" class="px-5 hidden">
-                    <span class="text-sm md:text-md" style="color:red"><small>Formato de archivo no soportado, formatos soportados 'jpg', 'png', 'jpeg'</small></span>
-                </div>
-                <div class="flex justify-center space-x-5 px-5 mt-5">
-                    
-                    <div>
-                        <div>
-                            <img id="preview-imagen-2"  
-                            {{-- if variable exist --}}
-                            @if(isset($producto->imagenes[1]))
-                                src="{{asset('storage/imagenes/'.$producto->imagenes[1])}}"
-                            @else
-                                src=""
-                            @endif
-                            alt="">
-                            <input type="hidden" name="imagen_oculta_2">
+                            <div>
+                                <div>
+                                    <img id="preview-imagen-2"  
+                                    {{-- if variable exist --}}
+                                    @if(isset($producto->imagenes[1]))
+                                        src="{{asset('storage/imagenes/'.$producto->imagenes[1])}}"
+                                    @else
+                                        src=""
+                                    @endif
+                                    alt="">
+                                    <input type="hidden" id="imagen_oculta_2" name="imagen_oculta_2">
+                                </div>
+                                <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Imagen 2</label>
+                                <input accept="image/png, image/jpeg, image/jpeg" name="imagen_2" id="imagen-2" class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" type="file">
+                                <span class="text-sm" style="color:red"><small>@error('imagen_1'){{$message}}@enderror</small></span>
+            
+                            </div>
+                            <div class="flex items-end">
+                                <i id="borrar-boton-2" class="fa fa-trash borrar hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400 hidden pb-2"></i>
+                            </div>
                         </div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Imagen 2</label>
-                        <input accept="image/png, image/jpeg, image/jpeg" name="imagen_2" id="imagen-2" class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" type="file">
-                        <span class="text-sm" style="color:red"><small>@error('imagen_1'){{$message}}@enderror</small></span>
-    
-                    </div>
-                    <div class="flex items-end">
-                        <i id="borrar-boton-2" class="fa fa-trash borrar hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400 hidden pb-2"></i>
-                    </div>
-                </div>
-                <div id="alerta-2" class="px-5 hidden">
-                    <span class="text-sm md:text-md" style="color:red"><small>La imagen debe tener una proporcion de 3:4 (ancho:alto)</small></span>
-                </div>
-                <div id="formato-2" class="px-5 hidden">
-                    <span class="text-sm md:text-md" style="color:red"><small>Formato de archivo no soportado, formatos soportados 'jpg', 'png', 'jpeg'</small></span>
-                </div>
-                <div class="flex justify-center space-x-5 px-5 mt-5">
-                    
-                    <div>
-                        <div>
-                            <img id="preview-imagen-3" 
-                            @if(isset($producto->imagenes[2]))
-                                src="{{asset('storage/imagenes/'.$producto->imagenes[2])}}"
-                            @else
-                                src=""
-                            @endif
-                            alt="">
-                            <input type="hidden" name="imagen_oculta_3">
+                        <div id="alerta-2" class="px-5 hidden">
+                            <span class="text-sm md:text-md" style="color:red"><small>La imagen debe tener una proporcion de 3:4 (ancho:alto)</small></span>
                         </div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Imagen 3</label>
-                        <input accept="image/png, image/jpeg, image/jpeg" name="imagen_3" id="imagen-3" class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" type="file">
-                        <span class="text-sm" style="color:red"><small>@error('imagen_2'){{$message}}@enderror</small></span>
-    
-                    </div>
-                    <div class="flex items-end">
-                        <i id="borrar-boton-3" class="fa fa-trash borrar hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400 hidden pb-2"></i>
-                    </div>
-                </div>
-                <div id="alerta-3" class="px-5 hidden">
-                    <span class="text-sm md:text-md" style="color:red"><small>La imagen debe tener una proporcion de 3:4 (ancho:alto)</small></span>
-                </div>
-                <div id="formato-3" class="px-5 hidden">
-                    <span class="text-sm md:text-md" style="color:red"><small>Formato de archivo no soportado, formatos soportados 'jpg', 'png', 'jpeg'</small></span>
-                </div>
-                <div class="flex justify-center space-x-5 px-5 mt-5">
-                    
-                    <div>
-                        <div>
-                            <img id="preview-imagen-4" 
-                            @if(isset($producto->imagenes[3]))
-                                src="{{asset('storage/imagenes/'.$producto->imagenes[3])}}"
-                            @else
-                                src=""
-                            @endif
-                            alt="">
-                            <input type="hidden" name="imagen_oculta_4">
+                        <div id="formato-2" class="px-5 hidden">
+                            <span class="text-sm md:text-md" style="color:red"><small>Formato de archivo no soportado, formatos soportados 'jpg', 'png', 'jpeg'</small></span>
                         </div>
-                        <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Imagen 4</label>
-                        <input accept="image/png, image/jpeg, image/jpeg" name="imagen_4" id="imagen-4" class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" type="file">
-                        <span class="text-sm" style="color:red"><small>@error('imagen_3'){{$message}}@enderror</small></span>
-                        <span class="text-sm" style="color:red"><small>@error('cantidad_imagen'){{$message}}@enderror</small></span>
-    
                     </div>
-                    <div class="flex items-end">
-                        <i id="borrar-boton-4" class="fa fa-trash borrar hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400 hidden pb-2"></i>
+                    <div class="col-span-1">
+                        <div class="flex justify-center space-x-5 px-5 mt-5">
+                        
+                            <div>
+                                <div>
+                                    <img id="preview-imagen-3" 
+                                    @if(isset($producto->imagenes[2]))
+                                        src="{{asset('storage/imagenes/'.$producto->imagenes[2])}}"
+                                    @else
+                                        src=""
+                                    @endif
+                                    alt="">
+                                    <input type="hidden" id="imagen_oculta_3" name="imagen_oculta_3">
+                                </div>
+                                <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Imagen 3</label>
+                                <input accept="image/png, image/jpeg, image/jpeg" name="imagen_3" id="imagen-3" class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" type="file">
+                                <span class="text-sm" style="color:red"><small>@error('imagen_2'){{$message}}@enderror</small></span>
+            
+                            </div>
+                            <div class="flex items-end">
+                                <i id="borrar-boton-3" class="fa fa-trash borrar hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400 hidden pb-2"></i>
+                            </div>
+                        </div>
+                        <div id="alerta-3" class="px-5 hidden">
+                            <span class="text-sm md:text-md" style="color:red"><small>La imagen debe tener una proporcion de 3:4 (ancho:alto)</small></span>
+                        </div>
+                        <div id="formato-3" class="px-5 hidden">
+                            <span class="text-sm md:text-md" style="color:red"><small>Formato de archivo no soportado, formatos soportados 'jpg', 'png', 'jpeg'</small></span>
+                        </div>
                     </div>
-                </div>
-                <div id="alerta-4" class="px-5 hidden">
-                    <span class="text-sm md:text-md" style="color:red"><small>La imagen debe tener una proporcion de 3:4 (ancho:alto)</small></span>
-                </div>
-                <div id="formato-4" class="px-5 hidden">
-                    <span class="text-sm md:text-md" style="color:red"><small>Formato de archivo no soportado, formatos soportados 'jpg', 'png', 'jpeg'</small></span>
+                   <div class="col-span-1">
+                    <div class="flex justify-center space-x-5 px-5 mt-5">
+                        
+                        <div>
+                            <div>
+                                <img id="preview-imagen-4" 
+                                @if(isset($producto->imagenes[3]))
+                                    src="{{asset('storage/imagenes/'.$producto->imagenes[3])}}"
+                                @else
+                                    src=""
+                                @endif
+                                alt="">
+                                <input type="hidden" id="imagen_oculta_4" name="imagen_oculta_4">
+                            </div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Imagen 4</label>
+                            <input accept="image/png, image/jpeg, image/jpeg" name="imagen_4" id="imagen-4" class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" type="file">
+                            <span class="text-sm" style="color:red"><small>@error('imagen_3'){{$message}}@enderror</small></span>
+                            <span class="text-sm" style="color:red"><small>@error('cantidad_imagen'){{$message}}@enderror</small></span>
+        
+                        </div>
+                        <div class="flex items-end">
+                            <i id="borrar-boton-4" class="fa fa-trash borrar hover:animate-pulse text-lime-500 hover:text-gray-500 active:text-red-400 hidden pb-2"></i>
+                        </div>
+                    </div>
+                    <div id="alerta-4" class="px-5 hidden">
+                        <span class="text-sm md:text-md" style="color:red"><small>La imagen debe tener una proporcion de 3:4 (ancho:alto)</small></span>
+                    </div>
+                    <div id="formato-4" class="px-5 hidden">
+                        <span class="text-sm md:text-md" style="color:red"><small>Formato de archivo no soportado, formatos soportados 'jpg', 'png', 'jpeg'</small></span>
+                    </div>
+                   </div>
                 </div>
             </div>
             <div class="md:col-start-2 lg:col-start-3 xl:col-start-3 md:col-span-2 lg:col-span-4 xl:col-span-2 order-2 md:oder-3 px-5 md:px-0">
@@ -289,9 +299,9 @@ input[type=number] {
                                 @endif
                             </div>
                             <textarea id="caracteristicas-text" class="border-2 texto hidden" name="caracteristicas_text" id="" cols="49" rows="7">{{old('caracteristicas_text', $producto->descripcion[1])}}</textarea>
-                            
+                       
                             <textarea id="cuidados-text" class="border-2 texto hidden" name="cuidados_text" id="" cols="49" rows="7">
-                                 @if ($temporadas!=null)
+                                @if ($temporadas!=null)
                                     {{old('cuidados_text', $producto->descripcion[2])}}
                                 @else
                                     {{old('cuidados_text')}}    
@@ -344,13 +354,7 @@ input[type=number] {
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             
-            // $(document).ready(function(){
-            //     $('.borrar').one('click', function(){
-            //         var id = $(this).attr('id');
-            //         id = 
-            //     });
-            // });
-
+            
             $(document).ready(function(){
                 if($('.categoria')[5].checked || $('.categoria')[6].checked || $('.categoria')[7].checked){
                     $('#temporada').addClass('hidden');
@@ -363,9 +367,60 @@ input[type=number] {
                 for(let i = 1; i < 5; i++){
                     if($('#preview-imagen-'+i).attr('src') != ""){
                         $('#borrar-boton-'+i).removeClass('hidden');
-                        $('#imagen_oculta_'+i).val(1);
+                        $('#imagen_oculta_'+i).val('original');
+                    }else{
+                        $('#imagen_oculta_'+i).val('vacio');
                     }
                 }
+            });
+            
+            $(document).ready(function(){
+                $('input:file').on('change', function(){
+                    var numero = $(this).attr('id').split('-')[1];
+                    var file = this.files[0];
+                    var imagefile = file.type;
+                    var match = ["image/jpeg","image/png","image/jpg"];
+                    if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+                        //append mensaje
+                        $('#formato-'+numero).removeClass('hidden');
+                        $('#preview-imagen-'+numero).attr('src', '');
+                        $('#borrar-boton-'+numero).addClass('hidden');
+                        $(this).val('');
+                        return false;
+                    }else{
+                        var reader = new FileReader();
+                        reader.onload = imageIsLoaded;
+                        reader.readAsDataURL(this.files[0]);
+                        function imageIsLoaded(e) {
+                            var img = new Image();
+                            img.src = e.target.result;
+                            img.onload = function () {
+                                var width = this.width;
+                                var height = this.height;
+                                if(width/height != 0.75){
+                                    var alerta = '#alerta-'+numero;
+                                    $(alerta).removeClass('hidden');
+                                    $('#preview-imagen-'+numero).attr('src', '');
+                                    $('#imagen-'+ numero).val('');
+                                    $('#borrar-boton-'+numero).addClass('hidden');
+                                    $('#imagen_oculta_'+numero).val('vacio');
+                                    return false;
+                                }else{                                   
+                                    var preview = '#preview-imagen-'+numero;
+                                    $(preview).attr('src', e.target.result);
+                                    $(preview).attr('width', '100%');
+                                    $(preview).attr('height', '100%');
+                                    var borrar = '#borrar-boton-'+numero;
+                                    $(borrar).removeClass('hidden');
+                                    var alerta = '#alerta-'+numero;
+                                    $(alerta).addClass('hidden');
+                                    $('#formato-'+numero).addClass('hidden');
+                                    $('#imagen_oculta_'+numero).val('nueva');
+                                }
+                            };
+                        };
+                    }
+                });
             });
 
             $(document).ready(function(){

@@ -22,4 +22,9 @@ class Comuna extends Model
     {
         return $this->hasMany(UserMetadata::class);
     }
+
+    public function ordenesCompra()
+    {
+        return $this->hasMany(OrdenCompra::class);
+    }
 }

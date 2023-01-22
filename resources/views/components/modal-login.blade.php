@@ -50,7 +50,7 @@
                             <div id="olvidar-contraseña" class="mx-3">
                                 <p class="text-sm text-gray-500">¿Olvidó su contraseña?</p>
                             </div>
-                            <div id="no-tiene-cuenta" class="mx-3">
+                            <div id="no-tiene-cuenta" class="mx-3 cursor-pointer">
                                 <p class="text-sm text-gray-500">¿No tiene una cuenta? Registrarse</p>
                             </div>
                         </div>

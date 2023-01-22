@@ -13,6 +13,12 @@ class OrdenCompra extends Model
         'user_id', 
         'total', 
         'estado',
+        'envio',
+        'telefono',
+        'direccion',
+        'comuna_id',
+        'estado_retiro',
+        'correo',
     ];
 
     public function user(){
@@ -21,6 +27,10 @@ class OrdenCompra extends Model
 
     public function productos(){
         return $this->belongsToMany(Producto::class)->withPivot('cantidad_orden_compra', 'precio_orden_compra');
+    }
+
+    public function comuna(){
+        return $this->belongsTo(Comuna::class);
     }
 
     use HasFactory;

@@ -351,7 +351,7 @@ class productoController extends Controller
                 'categorias' => 'required',
                 'temporada_text' => 'required',
                 'cuidados_text' => 'required|min:10|max:999',
-                'imagen_0' => 'image|mimes:jpeg,png,jpg',
+                'imagen_0' => 'image|mimes:jpeg,png,jpg,max:',
                 'imagen_1' => 'image|mimes:jpeg,png,jpg',
                 'imagen_2' => 'image|mimes:jpeg,png,jpg',
                 'imagen_3' => 'image|mimes:jpeg,png,jpg',
@@ -483,7 +483,12 @@ class productoController extends Controller
         //explode categorias
         $categorias = implode(',', $categorias);
         $descripcion = implode('||', $descripcion_array);
-        $producto = Producto::findOrFail($id);
+        try{
+            $producto = Producto::findOrFail($id);
+        }catch(\Exception $e){
+            Alert::error('Error', 'Intente Nuvamente');
+            return redirect()->back();
+        }
         $producto->nombre_producto = $request->nombre;
         $producto->precio = $request->precio;
         $producto->cantidad = $request->cantidad;

@@ -140,7 +140,7 @@
       $options = $comunas.find('option');
 
       $regiones.on( 'change', function() {
-        $comunas.html( $options.filter( '[value="' + this.value + '"]' ) );
+        $comunas.html( $options.filter( '[data-region="' + this.value + '"]' ) );
       } ).trigger( 'change' );
       }
 

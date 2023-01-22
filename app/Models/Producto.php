@@ -25,6 +25,8 @@ class Producto extends Model
     ];
 
     public $timestamps = true;
+    
+    
 
     public function categoria()
     {

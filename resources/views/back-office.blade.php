@@ -3,21 +3,92 @@
 @section('content')
     <div class="lg:grid lg:grid-cols-5 mt-10">
         <div class="lg:grid lg:col-start-2 lg:col-span-3">
-            <div class="md:grid md:grid-cols-3">
+            <div class="md:grid md:grid-cols-3 gap-3">
                 <div>
-                    <div class="px-5 py-5">
+                    <div class=" py-5">
                         <x-crud-productos/>
                     </div>
                 </div>
                 <div>
-                    <div class="px-5 py-5">
+                    <div class=" py-5">
                         <x-crud-ofertas/>
                     </div>
                 </div>
-                <div class="lg:flex lg:items-center lg:justify-center px-5 py-5">
+                <div class="lg:flex lg:items-center lg:justify-center py-5">
                     <x-crud-usuarios/>
                 </div> 
             </div>
+            <div class="md:grid md:grid-cols-3">
+              <div class="">
+                <div class="flex justify-center">
+                    <p class="font-semibold text-xl">
+                        Ultimas Ventas
+                    </p>
+                </div>
+                  <table class="border-2">
+                        <thead class="bg-lime-500 text-white font-semibold">
+                            <tr>
+                                <th class="px-4 py-2">Fecha</th>
+                                <th class="px-4 py-2">Total</th>
+                                <th class="px-4 py-2">Tipo de Envio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orden as $orden)
+                                <tr class="border-b">
+                                    <td class=" px-4 py-2">
+                                        {{date('d-m-Y', strtotime($orden->created_at))}}
+                                    </td>
+                                    <td class=" px-4 py-2">
+                                        ${{number_format($orden->total, 0, ',', '.')}}
+                                    </td>
+                                    <td class=" px-4 py-2">
+                                        @if($orden->envio == 1)
+                                            Envio a Domicilio
+                                        @else
+                                            Retiro en Tienda
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                  </table>
+              </div>
+              <div class="">
+                <div class="flex justify-center">
+                    <p class="font-semibold text-xl">
+                        Ultimas Ofertas
+                    </p>
+                </div>
+                  <table class="border-2">
+                        <thead class="bg-lime-500 text-white font-semibold">
+                            <tr>
+                                <th class="px-4 py-2">Producto</th>
+                                <th class="px-4 py-2">Fecha Inicio</th>
+                                <th class="px-4 py-2">Fecha Fin</th>
+                                <th class="px-4 py-2">Precio Original</th>
+                                <th class="px-4 py-2">Precio Oferta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orden as $orden)
+                                <tr class="border-b">
+                                    <td class=" px-4 py-2">
+                                    </td>
+                                    <td class=" px-4 py-2">
+                                    </td>
+                                    <td class=" px-4 py-2">
+                                       
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                  </table>
+                </div>
+              <div class="lg:flex lg:items-center lg:justify-center px-5 py-5">
+                  <x-crud-usuarios/>
+              </div> 
+          </div>
             <div class="md:grid lg:grid-cols-3 md:grid-cols-2 space-x-3">   
                 <div class="border-2">
                     <div class="flex justify-center mb-3">

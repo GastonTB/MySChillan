@@ -8,6 +8,7 @@ use App\Models\Producto;
 use App\Models\Oferta;
 use App\Models\Categoria;
 use App\Helpers\Helpers;
+use App\Models\OrdenCompra;
 
 
 class adminController extends Controller
@@ -19,7 +20,6 @@ class adminController extends Controller
      */
     public function index()
     {   
-        //select nombre y cantidad from producto
         $productos = Producto::select('nombre_producto', 'cantidad')->get();
         //count productos by categoria_id
         $categorias = Categoria::all();
@@ -37,7 +37,47 @@ class adminController extends Controller
             $categoria2->productos = $categoria2->productos->sum('cantidad');
             $array2[] = $categoria2;
         }
-        return view('back-office' , compact('productos', 'array', 'ofertas', 'array2'));
+        $orden = OrdenCompra::where('estado', 1)->orderBy('created_at', 'desc')->paginate(4);
+        
+        $vendidos = OrdenCompra::where('estado', 1)->get();
+        //calcula las cantidades vendidas de cada producto siendo vendidas que aparezcan en la relacion entre orden compra y producto, orden compra con estado 1
+        $array3 = [];
+        foreach($productos as $producto){
+            $producto->cantidad = 0;
+            foreach($vendidos as $vendido){
+                foreach($vendido->productos as $producto2){
+                    if($producto->nombre_producto == $producto2->nombre_producto){
+                        $producto->cantidad += $producto2->pivot->cantidad_orden_compra;
+                    }
+                }
+            }
+            $array3[] = $producto;
+        }
+
+        //filtrar de array 3 los productos con cantidad 0
+        $array4 = [];
+        foreach($array3 as $producto){
+            if($producto->cantidad != 0){
+                $array4[] = $producto;
+            }
+        }
+
+        //ordenar de mayor a menor por cantidad y solo dame 5
+        $array5 = [];
+        $i = 0;
+        foreach($array4 as $producto){
+            if($i < 5){
+                $array5[] = $producto;
+            }
+            $i++;
+        }
+        $array5 = collect($array5)->sortByDesc('cantidad')->values()->all();
+        $vendidos = $array5;
+        
+        $ofertas_activas = Oferta::all();
+        
+        
+        return view('back-office' , compact('productos', 'array', 'ofertas', 'array2', 'orden'));
     }
 
     /**
