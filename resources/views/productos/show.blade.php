@@ -1,4 +1,14 @@
 @extends('layaouts.master')
+@section('css')
+{{-- remove arrows from input number --}}
+<style>
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+    }
+</style>
+@endsection
 @section('content')
 
     <section>
@@ -101,7 +111,7 @@
                                 $id_carrito = Session::get('id_carrito');
                             @endphp
                         @endguest
-                        <form action="{{route('actualizarCarrito',$id_carrito)}}" method="POST">
+                        <form id="formulario_agregar" action="{{route('actualizarCarrito',$id_carrito)}}" method="POST">
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="producto_id" value="{{$producto->id}}">
@@ -116,7 +126,7 @@
                                     <i class="fa fa-plus"></i>
                                 </div>
                                 <div class="col-span-5">
-                                    <button class="btn-tienda col-span-5">
+                                    <button type="button" id="agregar" class="btn-tienda col-span-5">
                                         agregar al carrito
                                     </button>
                                 </div>
@@ -135,6 +145,13 @@
 
     @section('js')
         <script>
+
+            $(document).ready(function(){
+                $('#agregar').on('click', function(){
+                    $('#formulario_agregar').submit();
+                
+                });
+            });
 
             $(document).ready(function(){
                 const cantidad_fotos = $('#fotos').data('cantidad');

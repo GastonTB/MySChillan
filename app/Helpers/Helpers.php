@@ -47,7 +47,7 @@ class Helpers
                     $total = 0;
                     foreach($carrito->productos as $prod){
                         $contador += $prod->pivot->cantidad_carrito;
-                        if($prod->oferta_id !=0 && $prod->oferta->estado_oferta != 0){
+                        if($prod->oferta_id !=0 ){
                                 $prod->precio = $prod->oferta->precio_oferta;
                         }else{
                             $prod->precio = $prod->precio;
@@ -75,7 +75,7 @@ class Helpers
                 foreach($carrito as $prod){
                     $producto = Producto::findOrFail($prod['producto_id']);
                     if($producto->oferta_id != 0){
-                       if($producto->oferta->estado_oferta != 0 && $producto->oferta->estado_oferta!=0){
+                       if($producto->oferta->estado_oferta != 0){
                            $producto->precio = $producto->oferta->precio_oferta;
                        }else{
                            $producto->precio = $producto->precio;
@@ -114,10 +114,10 @@ class Helpers
                     $carritoProductos[$i]['imagenes'] = explode('|', $carritoProductos[$i]['imagenes']);
                     $carritoProductos[$i]['imagenes'] = $carritoProductos[$i]['imagenes'][0];
                     if($carritoProductos[$i]['oferta_id'] != 0){
+                       
                         $ofer = Oferta::find($carritoProductos[$i]['oferta_id']);
-                        if($ofer->estado_oferta!=0){
-                            $carritoProductos[$i]['precio'] = $ofer->precio_oferta;
-                        }
+                        $carritoProductos[$i]['precio'] = $ofer->precio_oferta;
+                         
                     }
                     $cat = Categoria::all();
                     $carritoProductos[$i]['categoria'] = $cat[$carritoProductos[$i]['categoria_id']-1]->nombre_categoria;

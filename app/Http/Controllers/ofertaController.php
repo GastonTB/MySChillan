@@ -47,7 +47,7 @@ class ofertaController extends Controller
      */
     public function store(Request $request)
     {   
-        // return $request;
+            // return $request;
         $id = $request->id_producto;
         $producto = Producto::findOrFail($id);
         $nombre_producto = $producto->nombre_producto;
@@ -73,11 +73,21 @@ class ofertaController extends Controller
         //     ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden);
         // }
 
+        //transforma request fehcas a formato yy-mm-dd
+        $fecha_ini = $request->fecha_ini;
+        $fecha_ini = str_replace("/", "-", $fecha_ini);
+        $fecha_ini = date("Y-m-d", strtotime($fecha_ini));  
+        $request->merge(['fecha_ini' => $fecha_ini]);
+        $fecha_ter = $request->fecha_ter;
+        $fecha_ter = str_replace("/", "-", $fecha_ter);
+        $fecha_ter = date("Y-m-d", strtotime($fecha_ter));
+        $request->merge(['fecha_ter' => $fecha_ter]);
 
+        
         $reglas = array(
             'oferta' => 'required || integer || min:100 || lt:precio_antiguo_hidden',
-            'fecha_ini' => 'required || date_format:y-m-d',
-            'fecha_ter' => 'required || date_format:y-m-d',
+            'fecha_ini' => 'required || date_format:Y-m-d',
+            'fecha_ter' => 'required || date_format:Y-m-d',
         );
 
         $mensajes = array(

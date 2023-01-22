@@ -55,7 +55,7 @@ class compraController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {   
         if(Auth::check()){
             $carrito = Carrito::where('user_id', Auth::user()->id)->get();
             if($carrito->isEmpty()){
@@ -71,6 +71,8 @@ class compraController extends Controller
             Alert::html('Debes iniciar sesión para continuar', '<button id="boton-login" class="btn-tienda" href="">Iniciar sesión</button>');
             return redirect()->back();
         }
+
+        
         return view('compra.show', compact('carrito', 'user', 'meta', 'region_user', 'comuna_user'));
     }
 

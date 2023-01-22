@@ -88,9 +88,9 @@
                                 </a>
                             </div>
                             <div class="flex justify-center">
-                                <button class="btn-tienda">
+                                <a  href="{{route('comprar', $id_carrito)}}" class="btn-tienda">
                                     Comprar
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -102,7 +102,7 @@
                                             <label class="relative">
                                                 <select name="comuna" id="comunas" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-2 px-5 transition duration-200">
                                                     @foreach ($comunas as $comuna)
-                                                        <option value="{{$comuna->region_id}}">
+                                                        <option data-region="{{$comuna->region_id}}" value="{{$comuna->id}}">
                                                             {{$comuna->nombre_comuna}}
                                                         </option>
                                                     @endforeach

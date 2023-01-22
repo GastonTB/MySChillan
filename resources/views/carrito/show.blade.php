@@ -16,8 +16,8 @@ input[type=number] {
 @endsection
 @section('content')
 
-<div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 w-full gap-4 grid-flow-row mt-5 mb-10 select-none relative lg:grid-cols-7 md:px-5 lg:px-0 px-3">
-    <div class="col-span-1 md:col-start-1 lg:col-start-2 lg:col-span-3 md:col-span-2 xl:col-start-2 xl:col-span-2 mt-5 order-1">
+<div class="grid xl:grid-cols-5 lg:grid-cols-7 md:grid-cols-4 gap-5 mt-10 px-5 lg:px-0">
+    <div class="lg:col-start-2 lg:col-span-3 xl:col-start-2 md:col-span-3 xl:col-span-2 bg-gray-100 order-1">
         <div class="bg-gray-100 rounded-sm">
             <div class="text-gray-700 font-semibold text-xl uppercase pt-2 pl-5">
                 CARRITO
@@ -107,35 +107,17 @@ input[type=number] {
             @endfor
         </div>
     </div>
-    <div class="col-span-1 mt-5 bg-gray-100 rounded-sm lg:absolute lg:h-70 lg:left-6/10 order-3 md:order-2 md:h-min">
+    <div class="xl:col-span-1 lg:col-span-2 bg-gray-100 relative h-min order-3 md:order-2 mb-10 md:mb-0">
         <div class="uppercase text-gray-700 text-xl font-semibold pt-2 pl-5">
             Total
         </div>
-        <div class="uppercase mt-10 text-gray-700 font-semibold pl-5">
-            <ul class="space-y-3">
-                <li class="flex items-center">
-                    <p>Total: </p> &nbsp; <p id="subtotal" class="text-lime-500 text-lg">
-                        ${{number_format($carro['total'], 0, ',', '.')}}
-                    </p>
-                </li>
-                <li class="flex">
-                   <div class="flex items-start">
-                        <div>
-                            <p> Envío: </p>
-                        </div>
-                   <div class="px-5 mb-5 flex items-center">
-                    <label class="relative">
-                        <select id="envio" name="envio" class="font-medium border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1 px-5 transition duration-200">
-                            <option disabled selected>Seleccione una opción</option>
-                            <option value="0">Retiro En Tienda (Gratis)</option>
-                            <option value="1"><i class="fa fa-shipping-fast"></i> A Domicilio (Envio por Pagar)</option>
-                        </select>
-                    </label>
-                </div>
-                </div>
-                  
-                </li>
-            </ul>
+        <div class="uppercase mt-5 text-gray-700 font-semibold pl-5">
+            <div class="flex items-end">
+                <p>Total: </p> &nbsp; <p id="subtotal" class="text-lime-500 lg:text-lg">
+                    ${{number_format($carro['total'], 0, ',', '.')}}
+                </p>
+            
+            </div>
         </div>
         <div id="retiro-tienda" class="text-gray-700 px-3 text-sm hidden">
             <div class="flex  text-justify">
@@ -182,31 +164,29 @@ input[type=number] {
             </div>
         </div>
     </div>
-    <div class="col-span-1 xl:col-start-2 lg:col-start-3 md:col-span-2 mt-1 order-2 md:order-3">
-       <form action="{{route('actualizarCarrito2', $id_carrito)}}" method="POST">
-        @csrf
-        @method('PUT')
-        @for ($i = 0; $i<count($carrito); $i++)
-        <div class="hidden">
-            <input name="id_producto[]" type="hidden" value="{{$id_producto}}">
-            <input  name="precio_oculto[]" type="hidden" id="precio{{$i}}" value="{{$carrito[$i]['precio']}}">
-            @auth
-            <input name="cantidad_oculta[]" type="number" id="cantidad-oculta{{$i}}" val="{{$carrito[$i]['pivot']['cantidad_carrito']}}">
-            @endauth
-            @guest
-            <input name="cantidad_oculta[]" type="number" id="cantidad-oculta{{$i}}" val="{{$carrito[$i]['cantidad_carrito']}}">
-            @endguest
-        </div>
-        @endfor
-        <div class="flex justify-end">
-            <button class="btn-tienda">
-                Actualizar Carrito
-            </button>
-        </div>
-       </form>
-    </div>
-
-    
+    <div class="col-span-1 xl:col-start-2 lg:col-start-2 md:col-span-2 md:col-start-2 mt-1 order-2 md:order-3 mb-10">
+        <form action="{{route('actualizarCarrito2', $id_carrito)}}" method="POST">
+         @csrf
+         @method('PUT')
+         @for ($i = 0; $i<count($carrito); $i++)
+         <div class="hidden">
+             <input name="id_producto[]" type="hidden" value="{{$id_producto}}">
+             <input  name="precio_oculto[]" type="hidden" id="precio{{$i}}" value="{{$carrito[$i]['precio']}}">
+             @auth
+             <input name="cantidad_oculta[]" type="number" id="cantidad-oculta{{$i}}" val="{{$carrito[$i]['pivot']['cantidad_carrito']}}">
+             @endauth
+             @guest
+             <input name="cantidad_oculta[]" type="number" id="cantidad-oculta{{$i}}" val="{{$carrito[$i]['cantidad_carrito']}}">
+             @endguest
+         </div>
+         @endfor
+         <div class="flex justify-end">
+             <button class="btn-tienda">
+                 Actualizar Carrito
+             </button>
+         </div>
+        </form>
+     </div>
 </div>
 
 @endsection

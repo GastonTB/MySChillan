@@ -11,6 +11,9 @@ use App\Models\Rol;
 use App\Models\Comuna;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\EmailController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegistroMail;
+
 
 
 class registroController extends Controller
@@ -43,14 +46,13 @@ class registroController extends Controller
      */
     public function store(Request $request)
     {
-        //reglas de validacion
         $reglas = array(
-            'nombre' => 'required|alpha|min:3|max:35|',
+            'nombre' => 'required|alpha|min:3|max:15|',
              'direccion' => 'required|min:7|max:100',
-             'apellido_paterno'=>'required|alpha|min:3|max:35',
-             'apellido_materno'=>'required|alpha|min:3|max:35',
-             'email' => 'required|email:rfc,dns|unique:users',
-             'contraseña' => 'required|min:8|confirmed',
+             'apellido_paterno'=>'required|alpha|min:3|max:15',
+             'apellido_materno'=>'required|alpha|min:3|max:15',
+             'email' => 'required|email:rfc,dns|unique:users|max:50',
+             'contraseña' => 'required|min:8|confirmed|max:20',
              'telefono' => 'required|digits:9|unique:users_metadata'
         );
 
@@ -58,8 +60,8 @@ class registroController extends Controller
             'required' => 'El campo :attribute es obligatorio',
             'alpha' => 'El campo :attribute debe contener solo letras',
             'min' => 'El campo :attribute debe contener al menos :min caracteres',
-            'max' => 'El campo :attribute debe contener al menos :max caracteres',
-            'email' => 'El campo :attribute no es un email valido',
+            'max' => 'El campo :attribute debe contener como maximo :max caracteres',
+            'email' => 'El correo electronico ingresado no es un email valido',
             'unique' => 'El campo :attribute ya existe',
             'confirmed' => 'Las contraseñas no coinciden',
             'digits' => 'El campo :attribute debe contener :digits digitos',
@@ -74,7 +76,24 @@ class registroController extends Controller
             ->withInput($request->except('contraseña'));
         }
         
+        $request->merge([
+            'nombre' => ucfirst($request->input('nombre')),
+            'apellido_paterno' => ucfirst($request->input('apellido_paterno')),
+            'apellido_materno' => ucfirst($request->input('apellido_materno')),
+            'direccion' => ucfirst($request->input('direccion'))
+        ]);
         
+        //try catch request comuna with model comuna
+        try{
+            $comuna = Comuna::findOrFail($request->input('comuna'));
+        }catch(\Exception $e){
+            Alert::error('Error', 'Comuna no valida');
+            return Redirect::back()
+            ->with('message', 'error-registro')
+            ->withErrors($validador)
+            ->withInput($request->except('contraseña'));
+        }
+
 
         $user = User::create(
             [
@@ -92,12 +111,12 @@ class registroController extends Controller
                 'apellido_materno' => $request->input('apellido_materno'),
                 'telefono' => $request->input('telefono'),
                 'direccion' => $request->input('direccion'),
-                'comuna_id' => $request->input('comuna'),
+                'comuna_id' => $comuna->id,
                 'rol_id' => 2
             ]
         );
 
-        // $correo = (new EmailController)->email_enviar($user, $metauser);
+        Mail::to($user->email)->send(new RegistroMail($user));
          
         Alert::success('Su cuenta ha sido creada de forma exitosa', 'Ingrese a su cuenta para comenzar a comprar');
         return redirect()->back();
