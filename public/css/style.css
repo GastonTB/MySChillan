@@ -60,3 +60,16 @@ body {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 
 }
+
+
+.swal2-confirm {
+    background-color: #84CC16 !important;
+    border-color: #84CC16 !important;
+    color: white !important;
+  }
+
+  .swal2-cancel {
+    background-color: #EF4444 !important;
+    border-color: #EF4444 !important;
+    color: white !important;
+  }

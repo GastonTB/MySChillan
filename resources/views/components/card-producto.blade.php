@@ -119,7 +119,7 @@
                     @endif
                 </div>
                 <div class="xl:py-5 lg:py-2 xl:space-y-1 lg:space-x-0">
-                    <div class="flex justify-center">
+                    <div class="flex justify-center mt-3 md:mt-0">
                         <p class="font-medium text-gray-700 hidden md:block">
                             @if(strlen($producto->nombre_producto) > 20)
                                 {{substr($producto->nombre_producto,0,20)}}...

@@ -262,29 +262,24 @@ input[type=number] {
         <script>     
             
             $(document).ready(function(){
-                //if .regla is visible console.log .regla.text()
             
-                if($('#regla-1').is(':visible')){
-                    $('#descripcion-text').attr('cols', 38);
-                    $('#caracteristicas-text').attr('cols', 38);
-                    $('#cuidados-text').attr('cols', 38);
-                    console.log('regla 1')
-                }else if($('#regla-2').is(':visible')){
-                    $('#descripcion-text').attr('cols', 46);
-                    $('#caracteristicas-text').attr('cols', 46);
-                    $('#cuidados-text').attr('cols', 46);
-                    console.log('regla 2')
-                }else if($('#regla-3').is(':visible')){
-                    $('#descripcion-text').attr('cols', 46);
-                    $('#caracteristicas-text').attr('cols', 46);
-                    $('#cuidados-text').attr('cols', 46);
-                    console.log('regla 3')
-                }else if($('#regla-4').is(':visible')){
-                    $('#descripcion-text').attr('cols', 46);
-                    $('#caracteristicas-text').attr('cols', 46);
-                    $('#cuidados-text').attr('cols', 46);
-                    console.log('regla 4')
-                }
+                if ($('#regla-1').is(':visible')) {
+                $('#descripcion-text').attr('cols', 38);
+                $('#caracteristicas-text').attr('cols', 38);
+                $('#cuidados-text').attr('cols', 38);
+            } else if ($('#regla-2').is(':visible')) {
+                $('#descripcion-text').attr('cols', 70);
+                $('#caracteristicas-text').attr('cols', 70);
+                $('#cuidados-text').attr('cols', 70);
+            } else if ($('#regla-3').is(':visible')) {
+                $('#descripcion-text').attr('cols', 100);
+                $('#caracteristicas-text').attr('cols', 100);
+                $('#cuidados-text').attr('cols', 100);
+            } else if ($('#regla-4').is(':visible')) {
+                $('#descripcion-text').attr('cols', 100);
+                $('#caracteristicas-text').attr('cols', 100);
+                $('#cuidados-text').attr('cols', 100);
+            }
                 
             });
 

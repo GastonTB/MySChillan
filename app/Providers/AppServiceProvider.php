@@ -8,6 +8,7 @@ use App\Models\Region;
 use App\Models\Comuna;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helpers;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -44,6 +45,8 @@ class AppServiceProvider extends ServiceProvider
         $carrito = Helpers::getCarrito();
         
         $id_carrito = Helpers::getIdCarrito();
+
+        
 
     }
 

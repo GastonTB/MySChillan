@@ -11,9 +11,11 @@ class slider-mejor-calificados extends Component
      *
      * @return void
      */
-    public function __construct()
+    public $calificados;
+
+    public function __construct($calificados)
     {
-        //
+        $this->calificados = $calificados;
     }
 
     /**

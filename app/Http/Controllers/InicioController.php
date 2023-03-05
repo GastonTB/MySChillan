@@ -8,6 +8,8 @@ use App\Models\Comuna;
 use App\Models\Producto;
 use App\Models\Carrito;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\Helpers;
+
 
 
 class InicioController extends Controller
@@ -23,20 +25,19 @@ class InicioController extends Controller
         // $regiones = Region::all();
         $comunas = new Comuna;
         $comunas = Comuna::all();
-        $ultimos = Producto::latest()->take(7)->get();
-        foreach($ultimos as $ultimo)
-        {
-            $ultimo->imagenes = explode('|', $ultimo->imagenes);
-            $ultimo->imagenes = $ultimo->imagenes[0];
-        }
-        $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
+        $ultimos = Helpers::getUltimos();
+ 
+        // $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
+        $ofertas = Helpers::getOfertas();
 
-        foreach($ofertas as $oferta)
-        {
-            $oferta->imagenes = explode('|', $oferta->imagenes);
-            $oferta->imagenes = $oferta->imagenes[0];
-        }
-        return view('inicio', compact('ultimos' , 'ofertas'));
+        $calificados = Helpers::getCalificados();
+        
+        // foreach($ofertas as $oferta)
+        // {
+        //     $oferta->imagenes = explode('|', $oferta->imagenes);
+        //     $oferta->imagenes = $oferta->imagenes[0];
+        // }
+        return view('inicio', compact('ultimos' , 'ofertas', 'calificados'));
         
     }
 

@@ -66,5 +66,8 @@ class Kernel extends HttpKernel
         'isadmin' => \App\Http\Middleware\IsAdmin::class,
         'checkcarrito' => \App\Http\Middleware\CheckCarrito::class,
         'visita' => \App\Http\Middleware\Visitantes::class,
+        'cinco' => \App\Http\Middleware\cincodias::class,
+        'checkUserId' => \App\Http\Middleware\CheckUserId::class,
+        'checkOrderOwnership' => \App\Http\Middleware\CheckOrderOwnership::class,
     ];  
 }

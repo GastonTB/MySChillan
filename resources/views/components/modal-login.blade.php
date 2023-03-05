@@ -48,10 +48,12 @@
                         </div>
                         <div>
                             <div id="olvidar-contraseña" class="mx-3">
-                                <p class="text-sm text-gray-500">¿Olvidó su contraseña?</p>
+                                <p class="text-sm text-gray-500 cursor-pointer hover:text-lime-500">
+                                    <a href="{{route('password.request')}}">¿Olvidó su contraseña?</a>
+                                </p>
                             </div>
-                            <div id="no-tiene-cuenta" class="mx-3 cursor-pointer">
-                                <p class="text-sm text-gray-500">¿No tiene una cuenta? Registrarse</p>
+                            <div id="no-tiene-cuenta" class="mx-3 cursor-pointer hover:text-lime-500">
+                                <p class="text-sm text-gray-500 hover:cursor-pointer hover:text-lime-500">¿No tiene una cuenta? Registrarse</p>
                             </div>
                         </div>
                         <div>

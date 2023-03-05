@@ -8,6 +8,8 @@ use App\Models\Producto;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
+//carbon
+use Carbon\Carbon;
 
 
 class ofertaController extends Controller
@@ -18,15 +20,17 @@ class ofertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
 
-        $productos = Producto::where('oferta_id','!=',0)->with('oferta')->latest()->paginate(10);
-        foreach($productos as $producto){
+        $productos = Producto::where('oferta_id', '!=', 0)->with('oferta')->latest()->paginate(10);
+        foreach ($productos as $producto) {
             $producto->precio = number_format($producto->precio, 0, ",", ".");
             $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
         }
+        if (count($productos) == 0) {
+            $productos->mensaje = 'No hay Ofertas disponibles';
+        }
         return view('ofertas.index', compact('productos'));
-        
     }
 
     /**
@@ -34,9 +38,19 @@ class ofertaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        
+    public function create($id)
+    {   
+        $producto = Producto::find($id);
+        if ($producto == null) {
+            Alert::error('Error', 'El producto ingresado no existe');
+            return redirect()->route('backoffice');
+        }
+        if ($producto->oferta != null) {
+            Alert::error('Error', 'El producto ingresado ya posee oferta');
+            return redirect()->route('backoffice');
+        }
+
+        return view('ofertas.create', compact('producto'));
     }
 
     /**
@@ -46,161 +60,91 @@ class ofertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
-            // return $request;
+    {
         $id = $request->id_producto;
-        $producto = Producto::findOrFail($id);
-        $nombre_producto = $producto->nombre_producto;
-        $oferta = $request->oferta;
-        //remove dollar
-        $oferta = str_replace("$", "", $oferta);
-        //remove dot
-        $oferta = str_replace(".", "", $oferta);
-        //to int
-        $oferta = (int)$oferta;
-        //merge with request oferta
-        $request->merge(['oferta' => $oferta]);
-        $precio_antiguo_hidden = str_replace("$", "", $request->precio_antiguo_hidden);
-        $precio_antiguo_hidden = str_replace(".", "", $precio_antiguo_hidden);
-        $precio_antiguo_hidden = (int)$precio_antiguo_hidden;
-        $request->merge(['precio_antiguo_hidden' => $precio_antiguo_hidden]);
-        // if($request->precio_antiguo_hidden<$request->oferta){
-        //     return Redirect::back()
-        //     ->with('message', 'error-oferta')
-        //     ->with('nombre', $nombre_producto)
-        //     ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-        //     ->with('id_producto', $id)
-        //     ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden);
-        // }
-
-        //transforma request fehcas a formato yy-mm-dd
-        $fecha_ini = $request->fecha_ini;
-        $fecha_ini = str_replace("/", "-", $fecha_ini);
-        $fecha_ini = date("Y-m-d", strtotime($fecha_ini));  
-        $request->merge(['fecha_ini' => $fecha_ini]);
-        $fecha_ter = $request->fecha_ter;
-        $fecha_ter = str_replace("/", "-", $fecha_ter);
-        $fecha_ter = date("Y-m-d", strtotime($fecha_ter));
-        $request->merge(['fecha_ter' => $fecha_ter]);
-
-        
-        $reglas = array(
-            'oferta' => 'required || integer || min:100 || lt:precio_antiguo_hidden',
-            'fecha_ini' => 'required || date_format:Y-m-d',
-            'fecha_ter' => 'required || date_format:Y-m-d',
-        );
-
-        $mensajes = array(
-            'oferta.required' => 'El campo oferta es obligatorio',
-            'oferta.integer' => 'El campo oferta debe ser un numero',
-            'oferta.lt' => 'El campo oferta debe tener como maximo el valor del campo Precio Producto',
-            'oferta.min' => 'El campo oferta debe tener como minimo el valor de $100',
-            'fecha_ini.required' => 'El campo fecha de inicio es obligatorio',
-            'fecha_ini.date_format' => 'El campo fecha de inicio debe tener el formato aaaa-mm-dd',
-            'fecha_ter.required' => 'El campo fecha de termino es obligatorio',
-            'fecha_ter.date_format' => 'El campo fecha de termino debe tener el formato aaaa-mm-dd',
-        );
-
-        $validador = Validator::make($request->all(), $reglas, $mensajes);
-
-        // $precio_antiguo = number_format($producto->precio, 0, ",", ".");
-        // $oferta = number_format($request->oferta, 0, ",", ".");
-        // $oferta = "$".$oferta;
-
-        
-     
-        $hoy = date("Y-m-d");
-        $fecha_ini = $request->fecha_ini;
-        $fecha_ter = $request->fecha_ter;
-
-        //convert fecha_ini to date y-m-d
-        $fecha_ini = str_replace("/", "-", $fecha_ini);
-        $fecha_ini = date("Y-m-d", strtotime($fecha_ini));
-        //convert fecha_ter to date y-m-d
-        $fecha_ter = str_replace("/", "-", $fecha_ter);
-        $fecha_ter = date("Y-m-d", strtotime($fecha_ter));
-        
-        // if($fecha_ini < $hoy && $fecha_ter < $hoy){
-        //     return Redirect::back()
-        //     ->with('message', 'error-oferta')
-        //     ->with('nombre', $nombre_producto)
-        //     ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-        //     ->with('id_producto', $id)
-        //     ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-        //     ->with('error_fi', 'La fecha de inicio no puede ser menor a la fecha actual')
-        //     ->with('error_ft', 'La fecha de termino no puede ser menor a la fecha actual');
-        // }
-
-        // if($fecha_ini <  $hoy){
-        //     return Redirect::back()
-        //     ->with('message', 'error-oferta')
-        //     ->with('nombre', $nombre_producto)
-        //     ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-        //     ->with('id_producto', $id)
-        //     ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-        //     ->with('error_fi', 'La fecha de inicio no puede ser menor a la fecha actual');
-        // }
-
-        // if($fecha_ter <  $hoy){
-        //     return Redirect::back()
-        //     ->with('message', 'error-oferta')
-        //     ->with('nombre', $nombre_producto)
-        //     ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-        //     ->with('id_producto', $id)
-        //     ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-        //     ->with('error_ft', 'La fecha de termino no puede ser menor a la fecha actual');
-        // }
-
-
-        if($fecha_ini >= $fecha_ter){
-            return Redirect::back()
-            ->with('message', 'error-oferta')
-            ->with('nombre', $nombre_producto)
-            ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-            ->with('id_producto', $id)
-            ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-            ->with('error_ft', 'La fecha de inicio no puede ser mayor o igual a la fecha de termino');
+        $producto = Producto::find($id);
+        if ($producto == null) {
+            Alert::error('Error', 'El producto ingresado no existe');
+            return redirect()->back();
+        }
+        $oferta = Oferta::find($producto->oferta_id);
+        if ($oferta != null) {
+            Alert::error('Error', 'El producto ya tiene una oferta');
+            return redirect()->back();
         }
 
-        if($validador->fails()){
-            return Redirect::back()
-            ->with('message', 'error-oferta')
-            ->with('nombre', $nombre_producto)
-            ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-            ->with('id_producto', $id)
-            ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-            ->withErrors($validador);
-        }
-        
-
-        if($fecha_ini ==  $hoy  && $fecha_ter >  $hoy){
-            $oferta = Oferta::create(
-                [
-                    'fecha_inicio'  => $request->fecha_ini,
-                    'fecha_fin' => $request->fecha_ter,
-                    'precio_oferta' => $oferta,
-                    'estado_oferta' => 1,
-                ]
-            );
+        $oferta = str_replace('.', '', $request->oferta); // quitar puntos
+        $oferta = str_replace('$', '', $oferta); // quitar el signo $
+        if (!is_numeric($oferta) || $oferta < 100 || $oferta >= $producto->precio) {
+            Alert::error('Error', 'La oferta debe ser mayor o igual a $100 y menor que el precio del producto.');
+            return redirect()->back();
         }
 
-        if($fecha_ini > $hoy && $fecha_ter > $hoy){
-            $oferta = Oferta::create(
-                [
-                    'fecha_inicio'  => $request->fecha_ini,
-                    'fecha_fin' => $request->fecha_ter,
-                    'precio_oferta' => $oferta,
-                    'estado_oferta' => 0,
-                ]
-            );
+        $messages = [
+            'fecha_ini.required' => 'El campo Fecha Inicio es obligatorio.',
+            'fecha_ini.date' => 'El campo Fecha Inicio debe ser una fecha válida.',
+            'fecha_ini.after_or_equal' => 'El campo Fecha Inicio debe ser igual o posterior a hoy.',
+            'fecha_ini.before' => 'El campo Fecha Inicio debe ser anterior a Fecha Termino.',
+            'fecha_ini.date_format' => 'El campo Fecha Inicio debe tener formato AAAA-MM-DD.',
+            'fecha_ter.required' => 'El campo Fecha Termino es obligatorio.',
+            'fecha_ter.date' => 'El campo Fecha Termino debe ser una fecha válida.',
+            'fecha_ter.after' => 'El campo Fecha Termino debe ser posterior a Fecha Inicio.',
+            'fecha_ter.date_format' => 'El campo Fecha Termino debe tener formato AAAA-MM-DD.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'fecha_ini' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today', 'before:fecha_ter'],
+            'fecha_ter' => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_ini'],
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
+
+
+        $fechaIni = Carbon::createFromFormat('Y-m-d', $request->fecha_ini);
+        $fechaFin = Carbon::createFromFormat('Y-m-d', $request->fecha_ter);
+        if ($fechaFin->diffInDays($fechaIni) < 1) {
+            Alert::error('Error', 'Debe haber al menos un día de diferencia entre la fecha de inicio y la fecha de término de la oferta.');
+            return redirect()->back()->withInput();
+        }
+
+        $activa = 0;
+        $fechaIni = Carbon::createFromFormat('Y-m-d', $request->fecha_ini);
+        if ($fechaIni->isToday()) {
+            $activa = 1;
+        }
+
+        $oferta = str_replace(array('$', '.'), '', $request->oferta);
+        if (!is_numeric($oferta)) {
+            Alert::error('Error', 'El campo "oferta" debe ser un valor numérico.');
+            return redirect()->back()->withInput();
+        }
+        if ($oferta < 100) {
+            Alert::error('Error', 'La oferta debe ser de al menos $100.');
+            return redirect()->back()->withInput();
+        }
+        if ($oferta > $producto->precio - 1) {
+            Alert::error('Error', 'La oferta no puede superar el precio del producto menos $1.');
+            return redirect()->back()->withInput();
+        }
+
+        // Si todas las validaciones pasan, crear la nueva oferta
+
+
+        $oferta = new Oferta([
+            'precio_oferta' => $oferta,
+            'fecha_inicio' => $request->fecha_ini,
+            'fecha_fin' => $request->fecha_ter,
+            'estado_oferta' => $activa
+        ]);
+        $oferta->save();
 
         $producto->oferta_id = $oferta->id;
         $producto->save();
-        Alert::success('Oferta Creada de Forma Exitosa', 'El nuevo precio sera visible para los clientes');
-        return redirect()->back();
 
-                
+        Alert::success('La oferta', 'ha sido aplicada correctamente sobre el producto');
+        return redirect()->route('backoffice');
     }
 
     /**
@@ -221,8 +165,21 @@ class ofertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+        
+        $producto = Producto::find($id);
+        if ($producto == null) {
+            Alert::error('Error', 'El producto ingresado no existe');
+            return redirect()->route('backoffice');
+        }
+        $oferta = Oferta::find($producto->oferta_id);
+        if ($oferta == null) {
+            Alert::error('Error', 'El producto no tiene una oferta');
+            return redirect()->route('backoffice');
+        }
+
+        return view('ofertas.edit', compact('producto'));
+
     }
 
     /**
@@ -232,188 +189,113 @@ class ofertaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {   
-        $oferta = Oferta::findOrfail($id);
-        $producto = Producto::where('oferta_id', $id)->first();
-        if($request->precio_oferta_oculto == null){
-            $precio = $oferta->precio_oferta;
-            //merge with request
-            $request->merge(['precio_oferta_oculto' => $precio]);
-            if($request->precio_oferta_oculto > $producto->precio){
-                $precio_oferta = $request->precio_oferta_oculto;
-                $precio_oferta = number_format($precio_oferta, 0, ",", ".");
-                //add dollar
-                $precio_oferta = "$" . $precio_oferta;
-                return Redirect::back()
-                ->with('message', 'error-oferta-editar')
-                ->with('nombre', $producto->nombre_producto)
-                ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-                ->with('precio_oferta', $precio_oferta)
-                ->with('fecha_ini', $oferta->fecha_inicio)
-                ->with('fecha_ter', $oferta->fecha_fin)
-                ->with('id_producto', $id)
-                ->with('id_oferta', $oferta->id)
-                ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-                ->with('error_oferta', 'El precio de la oferta no puede ser mayor o igual al precio del producto');
-            }
-        }else{
-            $precio_oferta = $request->precio_oferta_oculto;
-            //remove dot
-            $precio_oferta = str_replace(".", "", $precio_oferta);
-            //remove dollar
-            $precio_oferta = str_replace("$", "", $precio_oferta);
-            //int
-            $precio_oferta = (int)$precio_oferta;
-            //merge with request
-            $request->merge(['precio_oferta_oculto' => $precio_oferta]);
-            if($request->precio_oferta_oculto >= $producto->precio){
-                $precio_oferta = $request->precio_oferta_oculto;
-                $precio_oferta = number_format($precio_oferta, 0, ",", ".");
-                //add dollar
-                $precio_oferta = "$" . $precio_oferta;
-                return Redirect::back()
-                ->with('message', 'error-oferta-editar')
-                ->with('nombre', $producto->nombre_producto)
-                ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-                ->with('precio_oferta', $precio_oferta)
-                ->with('fecha_ini', $oferta->fecha_inicio)
-                ->with('fecha_ter', $oferta->fecha_fin)
-                ->with('id_producto', $id)
-                ->with('id_oferta', $oferta->id)
-                ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-                ->with('error_oferta', 'El precio de la oferta no puede ser mayor o igual al precio del producto');
-            }
-        }
-        if($request->fecha_ini_oculto == null){
-            $fecha_ini = $oferta->fecha_inicio;
-            //merge with request
-            $request->merge(['fecha_ini_oculto' => $fecha_ini]);
-        }
-        if($request->fecha_ter_oculto == null){
-            $fecha_ter = $oferta->fecha_fin;
-            //merge with request
-            $request->merge(['fecha_ter_oculto' => $fecha_ter]);
-        }
-
-        //fecha_ini to date
-        $fecha_ini = date_create($request->fecha_ini_oculto);
-        //fecha_ter to date
-        $fecha_ter = date_create($request->fecha_ter_oculto);
-        //merge
-        //format date to y-m-d
-        $fecha_ini = date_format($fecha_ini, 'y-m-d');
-        $fecha_ter = date_format($fecha_ter, 'y-m-d');
-        $request->merge(['fecha_ini_oculto' => $fecha_ini]);
-        $request->merge(['fecha_ter_oculto' => $fecha_ter]);
+    public function update(Request $request)
+    {  
         
-
-        $reglas = array(
-            'precio_oferta_oculto' => 'integer || min:100 || max:99999',
-            'fecha_ini_oculto' => 'date_format:y-m-d',
-            'fecha_ter_oculto' => 'date_format:y-m-d',
-        );
-
-
-        $nombre_producto = $producto->nombre_producto;
-        $precio_oferta = $request->precio_oferta_oculto;
-        $precio_oferta = number_format($precio_oferta, 0, ",", ".");
-        //add dollar
-        $precio_oferta = "$" . $precio_oferta;
-
-        //transform fecha_ini_oculto to date
-        $fecha_ini = date_create($request->fecha_ini_oculto);
-        $fecha_ini = date_format($fecha_ini, 'Y-m-d');
-
-
-        //if fecha ini is less than today
-        $hoy = date('Y-m-d');
-        if($fecha_ini < $hoy){
-            return Redirect::back()
-            ->with('message', 'error-oferta-editar')
-            ->with('nombre', $nombre_producto)
-            ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-            ->with('precio_oferta', $precio_oferta)
-            ->with('fecha_ini', $oferta->fecha_inicio)
-            ->with('fecha_ter', $oferta->fecha_fin)
-            ->with('id_producto', $id)
-            ->with('id_oferta', $oferta->id)
-            ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-            ->with('error_fi', 'La fecha de inicio no puede ser menor a la fecha actual');
+        $id = $request->id_producto;
+       
+        if ($id == null) {
+            Alert::error('Error', 'No se pudo editar la oferta');
+            return redirect()->route('backoffice');
         }
 
-        //transform fecha_ter_oculto to date
-        $fecha_ter = date_create($request->fecha_ter_oculto);
-        $fecha_ter = date_format($fecha_ter, 'Y-m-d');
-        //if fecha ini is less than today
-        if($fecha_ter < $hoy){
-            return Redirect::back()
-            ->with('message', 'error-oferta-editar')
-            ->with('nombre', $nombre_producto)
-            ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-            ->with('precio_oferta', $precio_oferta)
-            ->with('fecha_ini', $oferta->fecha_inicio)
-            ->with('fecha_ter', $oferta->fecha_fin)
-            ->with('id_producto', $id)
-            ->with('id_oferta', $oferta->id)
-            ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-            ->with('error_ft', 'La fecha de termino no puede ser menor a la fecha actual');
+        $producto = Producto::find($id);
+
+        if ($producto == null) {
+            Alert::error('Error', 'Existe el producto');
+            return redirect()->route('backoffice');
         }
 
-        //if fecha ini is greater than fecha ter
-        if($fecha_ini > $fecha_ter){
-            return Redirect::back()
-            ->with('message', 'error-oferta-editar')
-            ->with('nombre', $nombre_producto)
-            ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-            ->with('precio_oferta', $precio_oferta)
-            ->with('fecha_ini', $oferta->fecha_inicio)
-            ->with('fecha_ter', $oferta->fecha_fin)
-            ->with('id_producto', $id)
-            ->with('id_oferta', $oferta->id)
-            ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-            ->with('error_ft', 'La fecha de inicio no puede ser mayor a la fecha de termino');
+        $oferta_id = $producto->oferta_id;
+
+
+        $oferta = Oferta::find($oferta_id);
+
+        if ($oferta == null) {
+            Alert::error('Error', 'No se pudo editar la oferta');
+            return redirect()->route('backoffice');
         }
 
+        $producto = Producto::find($id);
+        if ($producto == null) {
+            Alert::error('Error', 'El producto ingresado no existe');
+            return redirect()->route('backoffice');
+        }
+        $oferta = Oferta::find($producto->oferta_id);
+        if ($oferta == null) {
+            Alert::error('Error', 'El producto no tiene una oferta');
+            return redirect()->route('backoffice');
+        }
 
-        $mensajes = array(
-            'precio_oferta_oculto.integer' => 'El precio de la oferta debe ser un numero entero',
-            'precio_oferta_oculto.min' => 'El precio de la oferta debe ser mayor a 100',
-            'precio_oferta_oculto.max' => 'El precio de la oferta debe ser menor a 99999',
-            'fecha_ini_oculto.date_format' => 'La fecha de inicio debe tener el formato yyyy-mm-dd',
-            'fecha_ter_oculto.date_format' => 'La fecha de termino debe tener el formato yyyy-mm-dd',
-        );
-        
-        $validator = Validator::make($request->all(), $reglas, $mensajes);
+        $oferta = str_replace('.', '', $request->oferta); // quitar puntos
+        $oferta = str_replace('$', '', $oferta); // quitar el signo $
+        if (!is_numeric($oferta) || $oferta < 100 || $oferta >= $producto->precio) {
+            Alert::error('Error', 'La oferta debe ser mayor o igual a $100 y menor que el precio del producto.');
+            return redirect()->back();
+        }
+
+        $messages = [
+            'fecha_ini.required' => 'El campo Fecha Inicio es obligatorio.',
+            'fecha_ini.date' => 'El campo Fecha Inicio debe ser una fecha válida.',
+            'fecha_ini.after_or_equal' => 'El campo Fecha Inicio debe ser igual o posterior a hoy.',
+            'fecha_ini.before' => 'El campo Fecha Inicio debe ser anterior a Fecha Termino.',
+            'fecha_ini.date_format' => 'El campo Fecha Inicio debe tener formato AAAA-MM-DD.',
+            'fecha_ter.required' => 'El campo Fecha Termino es obligatorio.',
+            'fecha_ter.date' => 'El campo Fecha Termino debe ser una fecha válida.',
+            'fecha_ter.after' => 'El campo Fecha Termino debe ser posterior a Fecha Inicio.',
+            'fecha_ter.date_format' => 'El campo Fecha Termino debe tener formato AAAA-MM-DD.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'fecha_ini' => ['required', 'date', 'date_format:Y-m-d', 'after_or_equal:today', 'before:fecha_ter'],
+            'fecha_ter' => ['required', 'date', 'date_format:Y-m-d', 'after:fecha_ini'],
+        ], $messages);
+
         if ($validator->fails()) {
-            return Redirect::back()
-            ->with('message', 'error-oferta-editar')
-            ->with('nombre', $nombre_producto)
-            ->with('precio_antiguo' , number_format($producto->precio, 0, ",", "."))
-            ->with('precio_oferta', $oferta->precio_oferta)
-            ->with('fecha_ini', $oferta->fecha_inicio)
-            ->with('fecha_ter', $oferta->fecha_fin)
-            ->with('id_producto', $id)
-            ->with('id_oferta', $oferta->id)
-            ->with('precio_antiguo_hidden', $request->precio_antiguo_hidden)
-            ->withErrors($validator);
-
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if($request->precio_oferta_oculto != null){
-            $oferta->precio_oferta = $request->precio_oferta_oculto;
+
+        $fechaIni = Carbon::createFromFormat('Y-m-d', $request->fecha_ini);
+        $fechaFin = Carbon::createFromFormat('Y-m-d', $request->fecha_ter);
+        if ($fechaFin->diffInDays($fechaIni) < 1) {
+            Alert::error('Error', 'Debe haber al menos un día de diferencia entre la fecha de inicio y la fecha de término de la oferta.');
+            return redirect()->back()->withInput();
         }
-        if($request->fecha_ini_oculto != null){
-            $oferta->fecha_inicio = $request->fecha_ini_oculto;
+
+        $activa = 0;
+        $fechaIni = Carbon::createFromFormat('Y-m-d', $request->fecha_ini);
+        if ($fechaIni->isToday()) {
+            $activa = 1;
         }
-        if($request->fecha_ter_oculto != null){
-            $oferta->fecha_fin = $request->fecha_ter_oculto;
+
+        $oferta = str_replace(array('$', '.'), '', $request->oferta);
+        if (!is_numeric($oferta)) {
+            Alert::error('Error', 'El campo "oferta" debe ser un valor numérico.');
+            return redirect()->back()->withInput();
         }
-        if($request->fecha_ini_oculto >= $hoy && $request->fecha_ter_oculto > $hoy){
-            $oferta->estado_oferta = '1';
+        if ($oferta < 100) {
+            Alert::error('Error', 'La oferta debe ser de al menos $100.');
+            return redirect()->back()->withInput();
         }
-        $oferta->save();
-        Alert::success('Oferta Editada de Forma Exitosa', 'El precio del producto se ha actualizado');
+        if ($oferta > $producto->precio - 1) {
+            Alert::error('Error', 'La oferta no puede superar el precio del producto menos $1.');
+            return redirect()->back()->withInput();
+        }
+
+        $ofer = Oferta::find($producto->oferta_id);
+        if($ofer == null){
+            Alert::error('Error', 'El producto no tiene una oferta');
+            return redirect()->route('backoffice');
+        }
+
+        $ofer->precio_oferta = $oferta;
+        $ofer->fecha_inicio = $request->fecha_ini;
+        $ofer->fecha_fin = $request->fecha_ter;
+        $ofer->estado_oferta = $activa;
+        $ofer->save();
+        
+        Alert::success('La Oferta', 'Ha sido modificada con exito');
         return redirect()->back();
 
     }
@@ -425,13 +307,61 @@ class ofertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {   
-        $oferta = Oferta::findOrFail($id);
+    {
+        $oferta = Oferta::find($id);
+        if($oferta == null){
+            Alert::errror('Error', 'No se pudo borrar la oferta');
+            return redirect()->route('backoffice');
+        }
         $producto = Producto::where('oferta_id', $id)->first();
+        if($producto == null){
+            Alert::errror('Error', 'No se pudo borrar la oferta');
+            return redirect()->route('backoffice');
+        }
         $producto->oferta_id = null;
         $producto->save();
         $oferta->delete();
         Alert::success('Oferta Eliminada de Forma Exitosa', 'El precio del producto se ha restablecido');
-        return redirect()->back();
+        return redirect()->route('backoffice');
+    }
+
+
+    public function ofertasActivas()
+    {
+
+        $productos = Producto::with(['oferta' => function ($query) {
+            $query->where('estado_oferta', 1);
+        }])
+            ->latest()
+            ->paginate(10);
+
+        $productos = $productos->filter(function ($producto) {
+            return $producto->oferta != null;
+        });
+
+        foreach ($productos as $producto) {
+            $producto->precio = number_format($producto->precio, 0, ",", ".");
+            $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
+        }
+
+        return view('ofertas.activas', compact('productos'));
+    }
+
+    public function ofertasFuturas()
+    {
+        $productos = Producto::with(['oferta' => function ($query) {
+            $query->where('fecha_inicio', '>', Carbon::now())
+                ->where('fecha_fin', '>', Carbon::now());
+        }])->whereHas('oferta', function ($query) {
+            $query->where('fecha_inicio', '>', Carbon::now())
+                ->where('fecha_fin', '>', Carbon::now());
+        })->paginate(10);
+
+        foreach ($productos as $producto) {
+            $producto->precio = number_format($producto->precio, 0, ",", ".");
+            $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
+        }
+
+        return view('ofertas.futuras', compact('productos'));
     }
 }

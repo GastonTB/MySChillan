@@ -45,7 +45,14 @@ input[type=number] {
                             <li  id="precio{{$i}}" data-precio="{{$carrito[$i]['precio']}}" class="precio text-lg font-semibold text-gray-700 flex">
                                 ${{number_format($carrito[$i]['precio'], 0, ',', '.')}}
                             </li>
-                            <li class="text-lg text-gray-700">
+                            <li class="text-lg text-gray-700 md:hidden">
+                                @if(strlen($carrito[$i]['nombre_producto'])<30)
+                                {{$carrito[$i]['nombre_producto']}}
+                                @else
+                                {{ Str::limit($carrito[$i]['nombre_producto'], $limit = 20, $end = '...') }}
+                                @endif
+                            </li>
+                             <li class="text-lg text-gray-700 hidden md:block">
                                 {{$carrito[$i]['nombre_producto']}}
                             </li>
                             <li class="text-sm text-gray-500  mb-2">
@@ -109,7 +116,10 @@ input[type=number] {
     </div>
     <div class="xl:col-span-1 lg:col-span-2 bg-gray-100 relative h-min order-3 md:order-2 mb-10 md:mb-0">
         <div class="uppercase text-gray-700 text-xl font-semibold pt-2 pl-5">
-            Total
+            {{-- Total --}}
+            <div class="flex justify-center py-3">
+                <img src="{{ asset('img/logos/logo.png') }}" class="lg:h-16 md:h-10 h-12">
+            </div>
         </div>
         <div class="uppercase mt-5 text-gray-700 font-semibold pl-5">
             <div class="flex items-end">

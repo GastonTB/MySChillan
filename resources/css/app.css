@@ -71,4 +71,12 @@ input[type="number"]:not(:placeholder-shown) ~ .input-number{
     .btn-cat{
         @apply cursor-pointer select-none active:bg-yellow-100 font-semibold px-3 bg-lime-500 text-white leading-tight uppercase rounded-sm shadow-md hover:shadow-lg focus:bg-white focus:text-lime-500 hover:bg-white hover:text-lime-500 focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out delay-150;
     }
+
+    .swal2-confirm {
+        @apply bg-lime-500 text-white;
+      }
+      
+      .swal2-cancel {
+        @apply bg-red-500 text-white;
+      }
 }

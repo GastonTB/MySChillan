@@ -216,6 +216,20 @@
                         value="6">
                             Ordenar por Nombre: Z-A
                         </option>
+                        <option
+                            @if (isset($orden)) @if ($orden == 7)
+                                        selected @endif
+                            @endif
+                            value="7">
+                            Ordenar Por Calificaciones: Mayor a Menor
+                        </option>
+                        <option
+                            @if (isset($orden)) @if ($orden == 8)
+                                        selected @endif
+                            @endif
+                            value="8">
+                            Ordenar Por Calificaciones: Menor a Mayor
+                        </option>
                         
                         
                     </select>

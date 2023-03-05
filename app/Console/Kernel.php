@@ -14,14 +14,14 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected $commands = [
+        \App\Console\Commands\RevisarOrdenCompra::class,
         \App\Console\Commands\RevisarOfertas::class,
     ];
-
+    
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('revisar:orden')->everyMinute();
         $schedule->command('revisar:ofertas')->everyMinute();
-        $schedule->command('revisar:ofertas')->dailyAt('00:00');
-        $schedule->command('revisar:orden')->everyFifteenMinutes();
     }
 
     /**
