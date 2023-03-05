@@ -15,6 +15,7 @@ use App\Models\OrdenCompra;
 use Illuminate\Support\Facades\Validator;
 //sweetalert
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -59,26 +60,23 @@ class UserController extends Controller
     public function show($id)
     {
         $id = decrypt($id);
-        $user = User::findOrFail($id);
-        $user_meta = UserMetadata::findOrFail($id);
-        $autenticado = Auth::user();
-        $autenticado_meta = UserMetadata::findOrFail($autenticado->id);
+        $user = User::findOrFail($id);        
+        $user_meta = $user->userMetadata;
         $comuna = Comuna::findOrFail($user_meta->comuna_id);
         $region_user = Region::findOrFail($comuna->region_id);
         $ordenes = OrdenCompra::where('user_id', $user->id)->where('estado', 1)->paginate(5);
-
+        $autenticado = Auth::user();
+        if(!$autenticado){
+            return redirect()->route('inicio');
+        }
         
-        if($autenticado_meta->rol_id == 2){
+        if($user_meta->rol_id == 2){
             if($autenticado->id == $user->id){
                 return view('usuario.show', compact('user', 'user_meta', 'region_user', 'ordenes'));
             }
         }else{
             return view('usuario.show', compact('user', 'user_meta', 'region_user', 'ordenes'));
         }
-       
-
-
-
         
     }
 
@@ -113,6 +111,7 @@ class UserController extends Controller
             'apellido_materno'=>'required|alpha|min:3|max:15',
             'email' => 'required|email|unique:users,email,'.$id,
             'telefono' => 'required|digits:9|unique:users_metadata,telefono,'.$usuario_meta->id,
+            'comuna' => 'required|integer|min:1|max:346',
         );
 
         $mensaje = array(
@@ -123,6 +122,7 @@ class UserController extends Controller
             'email' => 'El correo electronico ingresado no es un email valido',
             'unique' => 'El campo :attribute ya esta en uso',            
             'digits' => 'El campo :attribute debe contener :digits digitos',
+            'integer' => 'Comuna no valida',
         );
 
         $validador = Validator::make($request->all(), $reglas, $mensaje);
@@ -171,5 +171,42 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cambiarContraseña(Request $request, $id){
+        // Verifica si el usuario autenticado tiene el mismo ID que el ID en la URL
+        if (Auth::id() != $id) {
+            // Si no son iguales, muestra una alerta con SweetAlert
+            Alert::error('Error', 'No puede cambiar la contraseña de este usuario');
+
+            return redirect()->back();
+        }
+        $user = User::find($id);
+        // Valida los campos con las reglas de validación de Laravel
+        $validator = Validator::make($request->all(), [
+            'contraseña_antigua' => ['required', function ($attribute, $value, $fail) use ($user) {
+                if (!Hash::check($value, $user->password)) {
+                    $fail('La contraseña antigua no es válida');
+                }
+            }],
+            'contraseña' => ['required', 'confirmed', 'min:6', 'max:20'],
+        ]);
+
+        $validator->setAttributeNames([
+            'contraseña_antigua' => 'contraseña actual'
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+    
+        // Actualiza la contraseña del usuario
+        
+        $user->password = Hash::make($request->contraseña);
+        $user->save();
+    
+        // Muestra una alerta con SweetAlert
+        Alert::success('¡Actualización exitosa!', 'La contraseña ha sido actualizada correctamente');
+        return redirect()->back();
     }
 }

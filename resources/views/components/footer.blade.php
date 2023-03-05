@@ -35,7 +35,7 @@
                                         <i class="fa fa-sm fa-envelope"></i>
                                     </div>
                                     <div class=" select-auto">
-                                        <p>correo@correo.cl</p>
+                                        <p>contacto@mysplantaschillan.cl</p>
                                     </div>
                                 </div>
                             </div>

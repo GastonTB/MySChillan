@@ -92,7 +92,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'correo@correo.cl'),
+        'address' => env('MAIL_FROM_ADDRESS', 'ventas@mysplantaschillan.cl'),
         'name' => env('MAIL_FROM_NAME', 'App Name'),
     ],
 

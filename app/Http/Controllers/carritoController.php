@@ -47,7 +47,13 @@ class carritoController extends Controller
      */
     public function store(Request $request)
     {   
-        $producto = Producto::findOrFail($request->producto);
+        
+        $request->merge(['cantidad' => 1]);
+        $producto = Producto::find($request->producto);
+        if(!$producto){
+            Alert::error('Error', 'El producto no existe.');
+            return redirect()->route('inicio');
+        }
         if(Auth::check())
         {
             $id = Session::get('id');
@@ -178,7 +184,11 @@ class carritoController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $producto = Producto::findOrFail($request->producto_id);
+        $producto = Producto::find($request->producto_id);
+        if(!$producto){
+            Alert::error('Error','El producto no existe.');
+            return redirect()->route('inicio');
+        }
 
         if(Auth::check()){
             $id_user = Session::get('id');
@@ -271,7 +281,13 @@ class carritoController extends Controller
             }
         }
 
-        $productos=$request->id_producto;
+        $producto=$request->id_producto;
+        $producto = Producto::find($producto);
+        if(!$producto){
+            Alert::error('Error','El producto no existe.');
+            return redirect()->route('inicio');
+        }
+
         $cantidad = $request->cantidad_oculta;
         $precio = $request->precio_oculto;
 

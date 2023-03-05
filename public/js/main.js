@@ -12,7 +12,6 @@
       $('#logo').addClass('hidden');
       $('#busqueda').show('slow');
       $('#espacio').removeClass('hidden');
-      //make buscar and busqueda z index 10 and make a overlay
       $('#buscar').addClass('hidden');
       $('#busqueda').addClass('fixed');
       $('#busqueda').addClass('z-50');
@@ -32,7 +31,6 @@
     $('#no-tiene-cuenta').on('click', function(){
       $('#modal-login').addClass('hidden');
       $('#modal-registro').removeClass('hidden');
-      var selectR = selectRegion();
     });
     
     //dropdown carrito
@@ -134,15 +132,12 @@
         }
       }
   
-      function selectRegion(){
-        var $regiones = $('#regiones'),
-      $comunas = $('#comunas'),
-      $options = $comunas.find('option');
-
-      $regiones.on( 'change', function() {
-        $comunas.html( $options.filter( '[data-region="' + this.value + '"]' ) );
-      } ).trigger( 'change' );
-      }
+      $("#regiones").change(function() {
+        var regionSeleccionada = $(this).val();
+        $("#comunas option").hide();
+        $("#comunas option[data-region='" + regionSeleccionada + "']").show();
+        $("#comunas").val("");
+    });
 
 
 

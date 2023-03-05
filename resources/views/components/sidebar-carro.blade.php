@@ -25,7 +25,12 @@
                                                     <ul>
                                                         <li>
                                                             <p class="text-gray-700">
-                                                                {{$carrito[$i]['nombre_producto']}}
+                                                        
+                                                                @if($carrito[$i]['nombre_producto']>10)
+                                                                {{substr($carrito[$i]['nombre_producto'], 0,20)}}...
+                                                                @else
+                                                                    {{$carrito[$i]['nombre_producto']}}
+                                                                @endif
                                                             </p>
                                                         </li>
                                                         <li>

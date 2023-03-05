@@ -53,18 +53,23 @@ class registroController extends Controller
              'apellido_materno'=>'required|alpha|min:3|max:15',
              'email' => 'required|email:rfc,dns|unique:users|max:50',
              'contraseña' => 'required|min:8|confirmed|max:20',
-             'telefono' => 'required|digits:9|unique:users_metadata'
+             'telefono' => 'required|digits:9|unique:users_metadata',
+             'comuna' => 'required|integer|min:1|max:346'
         );
 
         $mensaje = array(
             'required' => 'El campo :attribute es obligatorio',
             'alpha' => 'El campo :attribute debe contener solo letras',
             'min' => 'El campo :attribute debe contener al menos :min caracteres',
+            'comuna.min' => 'La comuna ingresada no es valida',
+            'comuna.max' => 'La comuna ingresada no es valida',
+            'comuna.integer' => 'La comuna ingresada no es valida',
             'max' => 'El campo :attribute debe contener como maximo :max caracteres',
             'email' => 'El correo electronico ingresado no es un email valido',
             'unique' => 'El campo :attribute ya existe',
             'confirmed' => 'Las contraseñas no coinciden',
             'digits' => 'El campo :attribute debe contener :digits digitos',
+            'integer' => 'Comuna no valida'
         );
 
         $validador = Validator::make($request->all(), $reglas, $mensaje);

@@ -25,10 +25,16 @@ class CheckCarrito
             $carrito = Carrito::where('user_id', $user->id)->first();
             if($carrito->id == $request->id)
             {
-                return $next($request);
+                //if carrito empty
+                if(count($carrito->productos)>0){
+                    return $next($request);
+                }else{
+                    return redirect()->route('inicio');
+                }
             }
             else{
-                return redirect()->route('mostrarCarrito',$carrito->id);
+                return redirect()->route('inicio');
+
             }
         }else{
             //check if session has id

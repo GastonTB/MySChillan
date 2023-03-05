@@ -1,242 +1,378 @@
 @extends('layaouts.master')
 
 @section('content')
-    <div class="lg:grid lg:grid-cols-5 mt-10">
-        <div class="lg:grid lg:col-start-2 lg:col-span-3">
-            <div class="md:grid md:grid-cols-3 gap-3">
-                <div>
-                    <div class=" py-5">
-                        <x-crud-productos/>
+
+    <div class="lg:grid lg:grid-cols-7 mt-10 mb-10">
+        <div class="lg:col-start-2 md:col-span-7 lg:col-span-5 md:px-5 lg:px-0">
+            <div class="grid md:grid-cols-3 lg:grid-cols-6 gap-4 justify-center mb-10">
+                <div class="lg:col-span-2 md:col-span-1">
+                    <div class="">
+                        <div class="bg-lime-500 text-white text-lg font-semibold p-1 pl-3 uppercase">
+                            Productos
+                        </div>
+                        <div class="p-1 pl-3 border-2">
+                            <ul class="list-disc pl-4 space-y-3 mt-3">
+                                <li class="hover:text-lime-500 hover:font-semibold cursor-pointer">
+                                    <a href="{{ route('crearproducto') }}">Crear Nuevo Producto</a>
+                                </li>
+                                <li class="hover:text-lime-500 hover:font-semibold cursor-pointer">
+                                    <a href="{{ route('listado-productos') }}">Ver Listado de Productos</a>
+                                </li>
+                                <li class="hover:text-lime-500 hover:font-semibold cursor-pointer">
+                                    <a href="{{ route('sin-stock') }}">Ver Productos Sin Stock</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <div class=" py-5">
-                        <x-crud-ofertas/>
+                <div class="lg:col-span-2 md:col-span-1">
+                    <div class="">
+                        <div class="bg-lime-500 text-white text-lg font-semibold p-1 pl-3 uppercase">
+                            Ofertas
+                        </div>
+                        <div class="p-1 pl-3 border-2">
+                            <ul class="list-disc pl-4 space-y-3 mt-3">
+                                <li class="hover:text-lime-500 hover:font-semibold cursor-pointer">
+                                    <a href="{{ route('mostrarOfertas') }}">
+                                        Ver Todas las Ofertas
+                                    </a>
+                                </li>
+                                <li class="hover:text-lime-500 hover:font-semibold cursor-pointer">
+                                    <a href="{{ route('mostrarOfertasActivas') }}">
+                                        Ver Ofertas Activas
+                                    </a>
+                                </li>
+                                <li class="hover:text-lime-500 hover:font-semibold cursor-pointer">
+                                    <a href="{{ route('mostrarOfertasFuturas') }}">
+                                        Ver Ofertas Futuras
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="lg:flex lg:items-center lg:justify-center py-5">
-                    <x-crud-usuarios/>
-                </div> 
+                <div class="lg:col-span-2 md:col-span-1">
+                    <div class="">
+                        <div class="bg-lime-500 text-white text-lg font-semibold p-1 pl-3 uppercase">
+                            Compras
+                        </div>
+                        <div class="p-1 pl-3 border-2">
+                            <ul class="list-disc pl-4 space-y-3 mt-3">
+                                <li class="hover:text-lime-500 hover:font-semibold cursor-pointer">
+                                    <a href="{{ route('verCompras') }}">Ver Compras Realizadas</a>
+                                </li>
+                                <li class="pendiente hover:text-lime-500 hover:font-semibold cursor-pointer">
+                                    <a href="{{ route('verComprasRetiro') }}">Compras con Retiro en Tienda</a>
+                                </li>
+                                <li class="pendiente hover:text-lime-500 hover:font-semibold cursor-pointer">
+                                    <a href="{{ route('verComprasEnvio') }}">Compras con Envio a Domicílio</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="md:grid md:grid-cols-3">
-              <div class="">
-                <div class="flex justify-center">
-                    <p class="font-semibold text-xl">
-                        Ultimas Ventas
-                    </p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-6 gap-4 mt-15 mb-10">
+                <div class="lg:col-span-3 md:col-span-1">
+                    <div class="flex justify-center">
+                        <p class="text-lg font-black">
+                            Ultimos Pedidos Por Enviar
+                        </p>
+                    </div>
+                    <div class="md:flex md:justify-center mt-5 px-5 md:px-0">
+                        <table class="overflow-x-auto">
+                            <thead>
+                                <tr class="bg-lime-500 text-white uppercase font-semibold">
+                                    <th class="hidden">ID</th>
+                                    <th class="px-4 py-1">Nombre</th>
+                                    <th class="px-4 py-1">Fecha</th>
+                                    <th class="px-4 py-1">Telefono</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($porEnviar as $enviar)
+                                    <tr id="{{ $enviar->id }}" class="hover:font-semibold hover:text-lime-500 enviar">
+
+                                        <td class="border px-4 py-1">
+                                            <a href="{{ route('compra', $enviar->id) }}">
+                                                <p>
+                                                    {{ $enviar->user->name }}
+                                                </p>
+                                                <p>
+                                                    {{ $enviar->user->metauser->apellido_paterno }}
+                                                </p>
+                                            </a>
+
+                                        </td>
+
+                                        <td class="border px-4 py-1">
+                                            {{ date('d-m-Y', strtotime($enviar->created_at)) }}
+                                        </td>
+                                        <td class="border px-4 py-1">{{ $enviar->telefono }}</td>
+
+                                    </tr>
+                                @endforeach
+                                @if (count($porEnviar) == 0)
+                                    <tr class="pt-5">
+                                        <td colspan="7" class="text-center font-semibold">No hay productos por enviar
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-span-3 flex justify-center">
+                        {{ $porEnviar->links() }}
+                    </div>
                 </div>
-                  <table class="border-2">
-                        <thead class="bg-lime-500 text-white font-semibold">
-                            <tr>
-                                <th class="px-4 py-2">Fecha</th>
-                                <th class="px-4 py-2">Total</th>
-                                <th class="px-4 py-2">Tipo de Envio</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orden as $orden)
-                                <tr class="border-b">
-                                    <td class=" px-4 py-2">
-                                        {{date('d-m-Y', strtotime($orden->created_at))}}
-                                    </td>
-                                    <td class=" px-4 py-2">
-                                        ${{number_format($orden->total, 0, ',', '.')}}
-                                    </td>
-                                    <td class=" px-4 py-2">
-                                        @if($orden->envio == 1)
-                                            Envio a Domicilio
-                                        @else
-                                            Retiro en Tienda
+                <div class="md:col-span-1 lg:col-span-3 mt-10 md:mt-0">
+                    <div class="flex justify-center mb-5">
+                        <p class="text-lg font-black">
+                            Ultimos Pedidos Para Retirar
+                        </p>
+                    </div>
+                    <div class="flex justify-center overflow-x-auto">
+                        <table class="overflow-x-auto">
+                            <thead class="border">
+                                <tr class="bg-lime-500 text-white uppercase font-semibold">
+                                    <th class="px-4 py-1">Nombre</th>
+                                    <th class="px-4 py-1">Fecha</th>
+                                    <th class="px-4 py-1">Telefono</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($porRetirar as $retirar)
+                                    <tr class="hover:font-semibold hover:text-lime-500 enviar">
+                                        <td class="border px-4 py-1">
+                                            <a href="{{ route('compra', $retirar->id) }}">
+                                                <p class="px-5">
+                                                    {{ $retirar->user->name }}
+                                                </p>
+                                                <p class="px-5">
+                                                    {{ $retirar->user->metauser->apellido_paterno }}
+                                                </p>
+                                            </a>
+                                        </td>
+                                        <td class="border px-4 py-1">
+                                            {{ date('d-m-Y', strtotime($retirar->created_at)) }}
+                                        </td>
+                                        <td class="border px-4 py-1">{{ $retirar->telefono }}</td>
+                                    </tr>
+                                @endforeach
+                                @if (count($porRetirar) == 0)
+                                    <tr class="pt-5">
+                                        <td colspan="7" class="text-center font-semibold">No hay productos para retirar
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-span-3 flex justify-center">
+                        {{ $porRetirar->links() }}
+                    </div>
+                </div>
+            </div>
+            <div class="md:grid grid-cols-6 gap-4 mt-10">
+                <div class="lg:col-span-2 md:col-span-3 mt-5 md:mt-0">
+                    <p class="uppercase text-lg font-black flex justify-center">
+                        Productos Por Categoría
+                    </p>
+                    {{-- pie chart to show product by categoria --}}
+                    <div class="flex justify-center px-5">
+                        <canvas id="myChart2" width="400" height="400"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 md:col-span-3 mt-10 md:mt-0">
+                    <div class="flex justify-center space-x-2">
+                        <p class="uppercase text-lg font-black flex justify-center">
+                            Ventas Por Mes
+                        </p>
+                        <form id="formularioventas" action="{{ route('ventasMensuales') }}" method="POST">
+                            @csrf
+                            <select id="ventas" name="año"
+                                class="border-2 rounded-md p-1 border-black border-opacity-20 outline-none focus:border-lime-500 w-full transition duration-200">>
+                                @foreach ($añosVenta as $año)
+                                    <option
+                                        @if (isset($id)) @if ($id == $año)
+                                selected @endif
                                         @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                  </table>
-              </div>
-              <div class="">
-                <div class="flex justify-center">
-                    <p class="font-semibold text-xl">
-                        Ultimas Ofertas
-                    </p>
-                </div>
-                  <table class="border-2">
-                        <thead class="bg-lime-500 text-white font-semibold">
-                            <tr>
-                                <th class="px-4 py-2">Producto</th>
-                                <th class="px-4 py-2">Fecha Inicio</th>
-                                <th class="px-4 py-2">Fecha Fin</th>
-                                <th class="px-4 py-2">Precio Original</th>
-                                <th class="px-4 py-2">Precio Oferta</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orden as $orden)
-                                <tr class="border-b">
-                                    <td class=" px-4 py-2">
-                                    </td>
-                                    <td class=" px-4 py-2">
-                                    </td>
-                                    <td class=" px-4 py-2">
-                                       
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                  </table>
-                </div>
-              <div class="lg:flex lg:items-center lg:justify-center px-5 py-5">
-                  <x-crud-usuarios/>
-              </div> 
-          </div>
-            <div class="md:grid lg:grid-cols-3 md:grid-cols-2 space-x-3">   
-                <div class="border-2">
-                    <div class="flex justify-center mb-3">
-                        <p class="text-lg font-bold text-gray-700">Cantidad de unidades en Stock</p>
+                                        value="{{ $año }}">{{ $año }}</option>
+                                @endforeach
+                            </select>
+                        </form>
                     </div>
-                    <div>
-                        <canvas id="myChart"></canvas>
+                    <div class="flex justify-center px-5">
+                        <canvas id="myChart3" width="400" height="400"></canvas>
                     </div>
-                </div>
-                <div class="border-2">
-                    <div class="grid grid-cols-1 items-end">
-                        <div class="flex justify-center mb-3">
-                            <p class="text-lg font-bold text-gray-700">Productos por Categoria en Stock</p>
+                    <div class="flex justify-center">
+                        <p class="font-semibold">
+                            Ventas Totales:
+                        </p>
+                        <p>{{ count($ordenesCompra) }}</p>
+                    </div>
+                    @if (isset($totalcomprasanual))
+                        <div class="flex justify-center">
+                            <p class="font-semibold">
+                                Ventas durante al
+                                @if (isset($id))
+                                    {{ $id }}
+                                @elseif (isset($anio_actual))
+                                    {{ $anio_actual }}
+                                @endif
+                                :
+                            </p>
+                            <p>{{ $totalcomprasanual }}</p>
                         </div>
-                        
-                        <div class="grid ">
-                            <canvas id="myChart2"></canvas>
+                    @endif
+                </div>
+                <div class="lg:col-span-2 md:col-span-3 mt-10 md:mt-0">
+                    <div class="flex justify-center space-x-2">
+                        <p class="uppercase text-lg font-black flex justify-center">
+                            Visitas Por Mes
+                        </p>
+                        <form id="formulariovisitas" action="{{ route('visitasMensuales') }}" method="POST">
+                            @csrf
+                            <select id="visitas" name="año"
+                                class="border-2 rounded-md p-1 border-black border-opacity-20 outline-none focus:border-lime-500 w-full transition duration-200">>
+                                @foreach ($añosVisita as $año)
+                                    <option
+                                        @if (isset($añoselect)) @if ($añoselect == $año)
+                                selected @endif
+                                        @endif
+                                        value="{{ $año }}">{{ $año }}</option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div>
+                    <div class="flex justify-center px-5">
+                        <canvas id="myChart4" width="400" height="400"></canvas>
+                    </div>
+                    <div class="flex justify-center">
+                        <p class="font-semibold">
+                            Visitas Totales:
+                        </p>
+                        <p>{{ count($visita) }}</p>
+                    </div>
+                    @if (isset($totalvisitasanual))
+                        <div class="flex justify-center">
+                            <p class="font-semibold">
+                                Visitas durante al
+                                @if (isset($id))
+                                    {{ $id }}
+                                @elseif (isset($anio_actual))
+                                    {{ $anio_actual }}
+                                @endif
+                                :
+                            </p>
+                            <p>{{ $totalvisitasanual }}</p>
                         </div>
-                    </div>
-                </div>
-                <div class="border-2">
-                    <div class="flex justify-center mb-3">
-                        <p class="text-lg font-bold text-gray-700">Total Productos por Categoria en Stock</p>
-                    </div>
-                    <div class="grid items-end">
-                        <canvas id="myChart3"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="md:grid lg:grid-cols-3 md:grid-cols-2">   
-                <div class="p-5">
-                    <x-slider nombre="Más Vendidos"/>                
-                </div>
-                <div class="p-5">
-                    <x-slider nombre="Mejor Calificados"/>
-                </div>
-                <div class="p-5">
-                    <x-slider-ofertas :ofertas="$ofertas"/>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 
-@section('js')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
-
-    <script>
-        var swiper6 = new Swiper("#ofertas-slider", {
-                slidesPerView: 1,
-                spaceBetween: 10,
-                slidesPerGroup: 1,
-                loop: true,
-                loopFillGroupWithBlank: true,
-                navigation: {
-                nextEl: "#oferta-derecha",
-                prevEl: "#oferta-izquierda",
-                },
-                autoplay: {
-                    delay: 4000,
-                    disableOnInteraction: false,
-                }
+    @section('js')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
+        {{-- import sweet alert --}}
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            $(document).ready(function() {
+                $('#ventas').on('change', function() {
+                    $('#formularioventas').submit();
                 });
+            });
+            $(document).ready(function() {
+                $('#visitas').on('change', function() {
+                    $('#formulariovisitas').submit();
+                });
+            });
+        </script>
+        <script>
+            const ctx2 = document.getElementById('myChart2');
+            var categorias = [];
+            var cantidad2 = [];
+            @foreach ($array as $categoria)
+                categorias.push("{{ $categoria->nombre_categoria }}");
+                cantidad2.push("{{ $categoria->productos }}");
+            @endforeach
+            new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: categorias,
+                    datasets: [{
+                        label: 'Productos',
+                        data: cantidad2,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
 
-        const ctx = document.getElementById('myChart');
-        var productos = [];
-        var cantidad = [];
-        @foreach ($productos as $producto)
-            productos.push("{{$producto->nombre_producto}}");
-            cantidad.push("{{$producto->cantidad}}");
-        @endforeach
-
-        new Chart(ctx, {
-          type: 'pie',
-          data: {
-
-            labels: productos,
-            datasets: [{
-              label: 'Unidades',
-              data: cantidad,
-              borderWidth: 1
-            }]
-          },
-          options: {
-            scales: {
-              
-            }
-          }
-        });
-
-        const ctx2 = document.getElementById('myChart2');
-        var categorias = [];
-        var cantidad2 = [];
-        @foreach ($array as $categoria)
-            categorias.push("{{$categoria->nombre_categoria}}");
-            cantidad2.push("{{$categoria->productos}}");
-        @endforeach
-        new Chart(ctx2, {
-            type: 'bar',
-          data: {
-            labels: categorias,
-            datasets: [{
-              label: 'Productos',
-              data: cantidad2,
-              borderWidth: 1
-            }]
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 10
                 }
-              }
-            }
-          }
-        });
-
-        const ctx3 = document.getElementById('myChart3');
-        var categorias2= [];
-        var cantidad3 = [];
-        @foreach ($array2 as $categoria2)
-            categorias2.push("{{$categoria2->nombre_categoria}}");
-            cantidad3.push("{{$categoria2->productos}}");
-        @endforeach
-        new Chart(ctx3, {
-            type: 'bar',
-          data: {
-            labels: categorias2,
-            datasets: [{
-              label: 'Productos',
-              data: cantidad3,
-              borderWidth: 1
-            }]
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 100
+            });
+        </script>
+        <script>
+            var ctx = document.getElementById('myChart3');
+            var meses = [];
+            var cantidad3 = [];
+            @foreach ($array6 as $item)
+                meses.push("{{ $item['mes'] }}");
+            @endforeach
+            @foreach ($array6 as $item)
+                cantidad3.push("{{ $item['cantidad'] }}");
+            @endforeach
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: [{
+                        label: 'Cantidad de Ventas',
+                        data: cantidad3,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
                 }
-              }
-              
-            }
-          }
-        });
-
-      </script>
-@endsection
+            });
+        </script>
+        <script>
+            var ctx = document.getElementById('myChart4');
+            var meses2 = [];
+            var cantidad4 = [];
+            @foreach ($array7 as $item)
+                meses2.push("{{ $item['mes'] }}");
+            @endforeach
+            @foreach ($array7 as $item)
+                cantidad4.push("{{ $item['cantidad'] }}");
+            @endforeach
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: meses2,
+                    datasets: [{
+                        label: 'Cantidad de Visitas',
+                        data: cantidad4,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    @endsection
 @endsection

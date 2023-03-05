@@ -29,36 +29,43 @@ class WebpayController extends Controller
         return view('webpay.index');
     }
 
-    public function webpayPagar(Request $request){
+    public function webpayPagar(Request $request)
+    {
 
-        
         //validate envio
         $validator = Validator::make($request->all(), [
-            'envio' => 'required',
+            'envio' => 'required|integer|min:1|max:2',
         ]);
 
         if ($validator->fails()) {
             Alert::error('Error', 'Debe seleccionar un tipo de envío');
-            return redirect()->route('comprar', compact('id', 'carrito_id'));
+            return redirect()->back();
         }
 
         $user = User::find(Session::get('id'));
         $id = $user->id;
-        $carrito = Carrito::where('user_id',Auth::user()->id)->first();
+        $carrito = Carrito::where('user_id', Auth::user()->id)->first();
         $meta = UserMetadata::where('user_id', $id)->first();
 
-        if($request->envio == 2){
-            if($request->direccion_radio == 1){
+        if ($request->envio == 2) {
+            if ($request->direccion_radio != 1 && $request->direccion_radio != 2) {
+                Alert::error('Error', 'Debe seleccionar una dirección');
+                return redirect()->back();
+            }
+        }
+
+        if ($request->envio == 2) {
+            if ($request->direccion_radio == 1) {
                 //validate comuna, direccion, correo, telefono
-               
+
 
                 $reglas = [
-                    'comuna' => 'required',
+                    'comuna' => 'required|integer|min:1|max:346',
                     'direccion' => 'required|min:7|max:100',
                     'correo' => 'required|email:rfc,dns|max:50',
-                    'telefono' => 'required|digits:9'
+                    'telefono' => 'required|numeric|digits:9|regex:/^9[0-9]{8}$/',
                 ];
-                
+
 
                 $mensajes = [
                     'comuna.required' => 'Debe seleccionar una comuna',
@@ -70,6 +77,9 @@ class WebpayController extends Controller
                     'correo.max' => 'El correo debe tener como máximo 50 caracteres',
                     'telefono.required' => 'Debe ingresar un teléfono',
                     'telefono.digits' => 'El teléfono debe tener 9 dígitos',
+                    'telefono.numeric' => 'El teléfono debe ser numérico',
+                    'telefono.regex' => 'El teléfono debe comenzar con 9',
+                    'comuna.*' => 'Comuna no Valida'
                 ];
 
                 $validator = Validator::make($request->all(), $reglas, $mensajes);
@@ -84,17 +94,17 @@ class WebpayController extends Controller
 
 
         $productos = $carrito->productos;
-        foreach($productos as $producto){
-            if($producto->oferta){
+        foreach ($productos as $producto) {
+            if ($producto->oferta) {
                 $producto->precio = $producto->oferta->precio_oferta;
             }
         }
         $total = 0;
-        foreach($carrito->productos as $item){
+        foreach ($carrito->productos as $item) {
             $total += $item->pivot->cantidad_carrito * $item->precio;
         }
 
-        if($request->envio == 1){
+        if ($request->envio == 1) {
             $orden = new OrdenCompra();
             $orden->user_id = $id;
             $orden->total = $total;
@@ -106,11 +116,10 @@ class WebpayController extends Controller
             $orden->comuna_id = $meta->comuna_id;
             $orden->estado_retiro = 0;
             $orden->save();
-            
         }
 
-        if($request->envio == 2){
-            if($request->direccion_radio == 2){
+        if ($request->envio == 2) {
+            if ($request->direccion_radio == 2) {
                 $orden = new OrdenCompra();
                 $orden->user_id = $id;
                 $orden->total = $total;
@@ -123,7 +132,7 @@ class WebpayController extends Controller
                 $orden->estado_retiro = 0;
                 $orden->save();
             }
-            if($request->direccion_radio == 1){
+            if ($request->direccion_radio == 1) {
                 $orden = new OrdenCompra();
                 $orden->user_id = $id;
                 $orden->total = $total;
@@ -137,143 +146,186 @@ class WebpayController extends Controller
                 $orden->save();
             }
         }
-       
-        foreach($carrito->productos as $item){
-            $orden->productos()->attach($item->id, ['cantidad_orden_compra' => $item->pivot->cantidad_carrito, 'precio_orden_compra' => $item->precio]);
 
+        foreach ($carrito->productos as $item) {
+            $orden->productos()->attach($item->id, ['cantidad_orden_compra' => $item->pivot->cantidad_carrito, 'precio_orden_compra' => $item->precio]);
         }
         $session = time();
-        
+
         $response = Http::withHeaders(
             [
                 'Content-Type' => 'application/json',
                 'Tbk-Api-Key-Id' => env('WEBPAY_ID'),
                 'Tbk-Api-Key-Secret' => env('WEBPAY_SECRET')
             ]
-            )->post(env('WEBPAY_URL'),
+        )->post(
+            env('WEBPAY_URL'),
             [
-                "buy_order"=> $orden->id,
-                "session_id"=> $session,
-                "amount"=> $total,
-                "return_url"=> "http://127.0.0.1:8000/webpay/respuesta"
-            ]);
+                "buy_order" => $orden->id,
+                "session_id" => $session,
+                "amount" => $total,
+                // "return_url"=> "https://mysplantaschillan.cl/webpay/respuesta"
+                "return_url" => "http://127.0.0.1:8000/webpay/respuesta"
+            ]
+        );
 
-        if($response->status()!=200){
+        if ($response->status() != 200) {
             Alert::error('Error', 'No se pudo conectar con el servidor de Webpay');
             return redirect()->route('comprar', compact('id', 'carrito_id'));
         }
 
         $datos = json_decode($response);
 
-        if(isset($datos->token)){
-            $carrito = Carrito::where('user_id',Auth::user()->id)->first();
-            $array = [];
-            foreach($carrito->productos as $producto){
-                if($producto->cantidad < $producto->pivot->cantidad_carrito){
-                    $array[] = $producto->nombre_producto;
-                }
-            }
-            if(count($array) > 0){
-                if(Auth::check()){
-                    $user = User::find(Session::get('id'));
-                    $id = $user->id;
-                    $meta = UserMetadata::where('user_id', $id)->first();
-                    $comuna_user = Comuna::where('id', $meta->comuna_id)->first();
-                    $region_user = Region::where('id', $comuna_user->region_id)->first();
-                    $carrito = Carrito::where('user_id',Auth::user()->id)->first();
-                    $carrito_id = $carrito->id;
-                    $productos = implode(", ", $array);
-                    Alert::warning('Compra Cancelada', 'No hay suficientes productos en stock: '.$productos);
-                    return view('compra.show', compact('carrito', 'user', 'meta', 'region_user', 'comuna_user'));
-                }else{
-                    Alert::warning('Compra Cancelada', 'No hay suficientes productos en stock');
-                    return redirect()->route('inicio');
-                }
-            }else{
-                foreach($carrito->productos as $producto){
-                    $producto->cantidad = $producto->cantidad - $producto->pivot->cantidad_carrito;
-                    $producto->save();
-                }
-    
-            }
-        }
+        // if(isset($datos->token)){
+        //     $carrito = Carrito::where('user_id',Auth::user()->id)->first();
+        //     $array = [];
+        //     foreach($carrito->productos as $producto){
+        //         if($producto->cantidad < $producto->pivot->cantidad_carrito){
+        //             $array[] = $producto->nombre_producto;
+        //         }
+        //     }
+        //     if(count($array) > 0){
+        //         if(Auth::check()){
+        //             $user = User::find(Session::get('id'));
+        //             $id = $user->id;
+        //             $meta = UserMetadata::where('user_id', $id)->first();
+        //             $comuna_user = Comuna::where('id', $meta->comuna_id)->first();
+        //             $region_user = Region::where('id', $comuna_user->region_id)->first();
+        //             $carrito = Carrito::where('user_id',Auth::user()->id)->first();
+        //             $carrito_id = $carrito->id;
+        //             $productos = implode(", ", $array);
+        //             Alert::warning('Compra Cancelada', 'No hay suficientes productos en stock: '.$productos.' se ha actualizado tu carrito de compras');
+        //             return view('compra.show', compact('carrito', 'user', 'meta', 'region_user', 'comuna_user'));
+        //         }else{
+        //             Alert::warning('Compra Cancelada', 'No hay suficientes productos en stock');
+        //             return redirect()->route('inicio');
+        //         }
+        //     }else{
+        //         foreach($carrito->productos as $producto){
+        //             $producto->cantidad = $producto->cantidad - $producto->pivot->cantidad_carrito;
+        //             $producto->save();
+        //         }
 
-        return view('webpay.pagar', compact('datos'));
+        //     }
+        // }
+
+        // return view('webpay.pagar', compact('datos'));
+
+        if (isset($datos->token)) {
+            foreach ($carrito->productos as $producto) {
+                $cantidad_carrito = $producto->pivot->cantidad_carrito;
+                $cantidad_disponible = $producto->cantidad;
+
+                if ($cantidad_carrito > $cantidad_disponible && $cantidad_disponible >0) {
+                    // Si no hay suficiente stock, actualiza la cantidad en el carrito
+                    $producto->pivot->cantidad_carrito = $cantidad_disponible;
+                    $producto->pivot->save();
+
+                    // Notifica al usuario sobre el cambio
+                    $producto_nombre = $producto->nombre_producto;
+                    Alert::warning('Compra Cancelada', "No hay suficiente stock para $producto_nombre. La cantidad en tu carrito se ha ajustado a $cantidad_disponible");
+                    return redirect()->route('mostrarCarrito', $carrito->id);
+
+                }
+
+                if ($cantidad_disponible == 0) {
+                    // Si no hay stock disponible, elimina el producto del carrito
+                    $carrito->productos()->detach($producto->id);
+
+                    // Notifica al usuario sobre la eliminación
+                    $producto_nombre = $producto->nombre_producto;
+                    Alert::warning('Producto eliminado', "El producto $producto_nombre se ha eliminado de tu carrito debido a falta de stock");
+                    return redirect()->route('mostrarCarrito', $carrito->id);
+
+                }
+
+                // Si hay suficiente stock, actualiza la cantidad disponible en el inventario
+                $producto->cantidad = $cantidad_disponible - $cantidad_carrito;
+                $producto->save();
+
+            }
+
+            // Si se llega hasta aquí, significa que hay suficiente stock para todos los productos en el carrito
+            return view('webpay.pagar', compact('datos'));
+        }
     }
 
-    public function webpayRespuesta(){
+    public function webpayRespuesta()
+    {
 
-        if(!isset($_GET['token_ws'])){
-            if(Auth::check()){
+        if (!isset($_GET['token_ws'])) {
+            if (Auth::check()) {
                 $user = User::find(Session::get('id'));
                 $id = $user->id;
                 $meta = UserMetadata::where('user_id', $id)->first();
                 $comuna_user = Comuna::where('id', $meta->comuna_id)->first();
                 $region_user = Region::where('id', $comuna_user->region_id)->first();
-                $carrito = Carrito::where('user_id',Auth::user()->id)->first();
+                $carrito = Carrito::where('user_id', Auth::user()->id)->first();
                 $carrito_id = $carrito->id;
                 Alert::warning('Compra Cancelada', 'Intentelo nuevamente');
                 return view('compra.show', compact('carrito', 'user', 'meta', 'region_user', 'comuna_user'));
-            }else{
+            } else {
                 Alert::warning('Compra Cancelada', 'Intentelo nuevamente');
                 return redirect()->route('inicio');
             }
         }
 
-        
 
-       $response = Http::withHeaders(
-           [
-               'Content' => 'application/json',
-               'Tbk-Api-Key-Id' => env('WEBPAY_ID'),
-               'Tbk-Api-Key-Secret' => env('WEBPAY_SECRET')
-           ]
-       )->put(env('WEBPAY_URL').'/'.$_GET['token_ws'], []);
 
-       $datos = json_decode($response);
+        $response = Http::withHeaders(
+            [
+                'Content' => 'application/json',
+                'Tbk-Api-Key-Id' => env('WEBPAY_ID'),
+                'Tbk-Api-Key-Secret' => env('WEBPAY_SECRET')
+            ]
+        )->put(env('WEBPAY_URL') . '/' . $_GET['token_ws'], []);
 
-        if(($datos->vci == 'TSY' && $datos->status == 'AUTHORIZED' && $datos->response_code == 0) || ($datos->vci == 'TSYS' && $datos->status == 'AUTHORIZED' && $datos->response_code == 0)){
-              $orden = OrdenCompra::find($datos->buy_order);
-              $orden->estado = 1;
-              $orden->save();
-              $carrito = Carrito::where('user_id',Auth::user()->id)->first();
-              $carrito->productos()->detach();
-              $productos = $orden->productos;
-              $user = Auth::user();
-              $meta = UserMetadata::where('user_id', $user->id)->first();
-              $total = $orden->total;
-              $comuna = Comuna::findOrFail($orden->comuna_id);
-              $region = Region::findOrFail($comuna->region_id);
-              if($user->email == $orden->correo){
+        $datos = json_decode($response);
+        $orden = OrdenCompra::find($datos->buy_order);
+        $carrito = Carrito::where('user_id', Auth::user()->id)->first();
+        $user = Auth::user();
+        $meta = UserMetadata::where('user_id', $user->id)->first();
+        if (($datos->vci == 'TSY' && $datos->status == 'AUTHORIZED' && $datos->response_code == 0) || ($datos->vci == 'TSYS' && $datos->status == 'AUTHORIZED' && $datos->response_code == 0)) {
+            
+            $orden->estado = 1;
+            $orden->save();
+           
+            $carrito->productos()->detach();
+            $productos = $orden->productos;
+            
+            $total = $orden->total;
+            $comuna = Comuna::findOrFail($orden->comuna_id);
+            $region = Region::findOrFail($comuna->region_id);
+            if ($user->email == $orden->correo) {
                 Mail::to($user->email)->send(new CompraMailUsuario($orden, $user, $productos, $total, $meta, $comuna, $region));
-
-              }else{
+            } else {
                 Mail::to($user->email)->send(new CompraMailUsuario($orden, $user, $productos, $total, $meta, $comuna, $region));
                 Mail::to($orden->correo)->send(new CompraMailUsuario($orden, $user, $productos, $total, $meta, $comuna, $region));
-              }
-              Alert::success('Compra Exitosa', 'Su compra se ha realizado con exito');
-              return redirect()->route('inicio');
-        }else{
-            if(Auth::check()){
+            }
+            Alert::success('Compra Exitosa', 'Su compra se ha realizado con exito');
+
+            return redirect()->route('inicio');
+        } else {
+            if (Auth::check()) {
                 $user = User::find(Session::get('id'));
                 $id = $user->id;
                 $meta = UserMetadata::where('user_id', $id)->first();
                 $comuna_user = Comuna::where('id', $meta->comuna_id)->first();
                 $region_user = Region::where('id', $comuna_user->region_id)->first();
-                $carrito = Carrito::where('user_id',Auth::user()->id)->first();
+                $carrito = Carrito::where('user_id', Auth::user()->id)->first();
                 $carrito_id = $carrito->id;
                 Alert::warning('Compra Cancelada', 'Intentelo nuevamente');
                 //re add the productos
-                foreach($carrito->productos as $producto){
+                foreach ($carrito->productos as $producto) {
                     $producto->cantidad = $producto->cantidad + $producto->pivot->cantidad_carrito;
                     $producto->save();
                 }
+
                 return view('compra.show', compact('carrito', 'user', 'meta', 'region_user', 'comuna_user'));
-            }else{
+            } else {
                 Alert::warning('Compra Cancelada', 'Intentelo nuevamente');
                 return redirect()->route('inicio');
             }
         }
-
     }
 }

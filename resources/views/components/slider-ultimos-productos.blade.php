@@ -1,10 +1,10 @@
-<div>
+<div class="flex-none">
     <div class="flex mb-5 md:ml-5">
         <div class="grid grid-cols-2">
-            <div clas="flex justify-start">
-                <p class="text-xl md:text-2xl font-black">Nuevos</p>
+            <div clas="flex justify-start mr-3">
+                <p class="text-xl  font-black">Nuevos</p>
             </div>
-            <div class="flex justify-end pr-1 md:pr-0">
+            <div class="flex pr-1 md:pr-0">
                 <div id="ultimos-izquierda" class="py-1 mx-1 px-1 bg-gray-200 shadow-sm rounded-md hover:bg-lime-500">
                     <i class="fa fa-chevron-left"></i>
                 </div>
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="swiper ml-5 hidden md:block" id="ultimos-slider">
+    {{-- <div class="swiper ml-5 hidden md:block" id="ultimos-slider">
         <div class="swiper-wrapper">
             @php
                 $contador = 0;
@@ -32,8 +32,8 @@
                                     <ul>
                                         <li>
                                             <p class="ml-3">
-                                                @if(strlen($ultimo->nombre_producto) > 30)
-                                                {{substr($ultimo->nombre_producto, 0, 30)}}...
+                                                @if(strlen($ultimo->nombre_producto) > 10)
+                                                {{substr($ultimo->nombre_producto, 0, 10)}}...
                                                 @else
                                                     {{$ultimo->nombre_producto}}
                                                 @endif
@@ -87,8 +87,8 @@
                 @endforeach
             </div>
         </div>
-    </div>
-    <div class="swiper md:ml-5 md:hidden" id="ultimos-slider">
+    </div> --}}
+    <div class="swiper md:ml-5 " id="ultimos-slider">
         <div class="swiper-wrapper">
             @foreach ($ultimos as $ultimo)
                 <div class="swiper-slide">

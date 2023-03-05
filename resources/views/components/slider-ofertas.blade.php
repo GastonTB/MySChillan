@@ -1,10 +1,10 @@
-<div>
-    <div class="flex mb-5 md:ml-5">
+<div class="flex-none">
+    <div class="flex mb-5">
         <div class="grid grid-cols-2">
-            <div clas="flex justify-start">
-                <p class="text-xl md:text-2xl font-black">Ofertas</p>
+            <div clas="flex justify-start mr-3">
+                <p class="text-xl md:text-xl font-black">Ofertas</p>
             </div>
-            <div class="flex justify-end pr-2 md:pr-0">
+            <div class="flex pr-1 md:pr-0">
                 <div id="oferta-izquierda" class="py-1 mx-1 px-1 bg-gray-200 shadow-sm rounded-md hover:bg-lime-500">
                     <i class="fa fa-chevron-left"></i>
                 </div>
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="swiper ml-5 hidden md:block" id="ofertas-slider">
+    {{-- <div class="swiper ml-5 hidden md:block" id="ofertas-slider">
         <div class="swiper-wrapper">
             @php
                 $contador = 0;
@@ -251,8 +251,8 @@
             @endif
             
         </div>
-    </div>
-    <div class="swiper md:hidden" id="ofertas-slider">
+    </div> --}}
+    <div class="swiper" id="ofertas-slider">
         <div class="swiper-wrapper">
             @foreach ($ofertas as $oferta)
                 <div class="swiper-slide">

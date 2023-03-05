@@ -84,7 +84,7 @@
                             </li>
                             @auth
                                 <li class="border-b-2 pb-1 border-black border-opacity-10">
-                                    <a class="active:text-lime-500" href="#">Perfil</a>
+                                    <a class="active:text-lime-500" href="{{route('perfil', encrypt(Auth::user()->id))}}">Perfil</a>
                                 </li>
                                 {{-- check if is admin --}}
                                 @if (session()->get('rol')== 1)
@@ -118,7 +118,7 @@
                             <i class="fa fa-sm fa-envelope"></i>
                         </div>
                         <div class="text-sm select-auto">
-                            <p>correo@correo.cl</p>
+                            <p>contacto@mysplantaschillan.cl</p>
                         </div>
                     </div>
                     <div class="pl-5 text-gray-700 flex space-x-2 mt-2">
