@@ -6,7 +6,7 @@
                 <div class="grid lg:grid-cols-3 text-gray-700">
                     <div class="col-span-1 px-5 text-justify py-5">
                         <p class="text-lg font-semibold">Quienes Somos:</p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget justo sem. Vestibulum dapibus quis est ut posuere. Donec et mollis orci, aliquam aliquam eros. Nam interdum laoreet ullamcorper. Nam et maximus ligula. Sed quis mi interdum, mattis urna vehicula, lobortis turpis. Donec arcu nisl, mattis et metus non, dapibus efficitur nibh. Nullam molestie nulla nec porta aliquam. Nam at elit et felis iaculis pellentesque. Ut eleifend imperdiet tortor a ultrices. Nullam imperdiet risus nisl, vel sodales risus ultricies ut. Aenean dictum suscipit metus, quis viverra sapien egestas et. Proin mollis tempor est id gravida. Sed volutpat purus vitae urna varius suscipit. Cras vitae euismod dolor, in faucibus nisl. Sed venenatis suscipit rhoncus.
+                        La idea de nuestro emprendimiento surge en los inicios de la pandemia, inspirados por la experiencia de uno de los dueños cuya madre se dedica al cultivo de plantas desde hace más de 15 años. Así, en nuestro domicilio familiar dimos inicio a un negocio de venta de plantas, el cual ha crecido gracias al apoyo de nuestros clientes, permitiéndonos trasladarnos a un nuevo local más grande y amplio para ofrecer un mejor servicio y mayor variedad de productos.
                     </div>
                     <div class="col-span-1 px-5 py-5 text-justify">
                         <p class="text-lg font-semibold">Misión:</p>
@@ -24,14 +24,14 @@
                     
                         <div class="col-span-1 px-5 text-justify py-5">
                             <p class="text-lg font-semibold">Quienes Somos:</p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget justo sem. Vestibulum dapibus quis est ut posuere. Donec et mollis orci, aliquam aliquam eros. Nam interdum laoreet ullamcorper. Nam et maximus ligula. Sed quis mi interdum, mattis urna vehicula, lobortis turpis. Donec arcu nisl, mattis et metus non, dapibus efficitur nibh. Nullam molestie nulla nec porta aliquam. Nam at elit et felis iaculis pellentesque. Ut eleifend imperdiet tortor a ultrices. Nullam imperdiet risus nisl, vel sodales risus ultricies ut. Aenean dictum suscipit metus, quis viverra sapien egestas et. Proin mollis tempor est id gravida. Sed volutpat purus vitae urna varius suscipit. Cras vitae euismod dolor, in faucibus nisl. Sed venenatis suscipit rhoncus.
+                            La idea de nuestro emprendimiento surge en los inicios de la pandemia, inspirados por la experiencia de uno de los dueños cuya madre se dedica al cultivo de plantas desde hace más de 15 años. Así, en nuestro domicilio familiar dimos inicio a un negocio de venta de plantas, el cual ha crecido gracias al apoyo de nuestros clientes, permitiéndonos trasladarnos a un nuevo local más grande y amplio para ofrecer un mejor servicio y mayor variedad de productos.
                         </div>
                         <div class="col-span-1 px-5 py-5 text-justify">
                             <p class="text-lg font-semibold">Misión:</p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget justo sem. Vestibulum dapibus quis est ut posuere. Donec et mollis orci, aliquam aliquam eros. Nam interdum laoreet ullamcorper. Nam et maximus ligula. Sed quis mi interdum, mattis urna vehicula, lobortis turpis. Donec arcu nisl, mattis et metus non, dapibus 
+                            Ofrecer plantas y suculentas de alta calidad y brindar un servicio personalizado a cada uno de nuestros clientes. Nos esforzamos por satisfacer las necesidades de nuestros clientes y promover el cuidado y el bienestar de las plantas en nuestra comunidad.
                             <br>
                             <p class="text-lg font-semibold">Visión</p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget justo sem. Vestibulum dapibus quis est ut posuere. Donec et mollis orci, aliquam aliquam eros. Nam interdum laoreet ullamcorper. Nam et maximus ligula. Sed quis mi interdum, mattis urna vehicula, lobortis turpis. Donec arcu nisl, mattis et metus non, dapibus 
+                            Convertirnos en líderes en el rubro de venta de plantas y suculentas en Chillán y expandir nuestra presencia a nivel nacional. Queremos ser reconocidos por nuestro compromiso con la calidad y el servicio al cliente y contribuir al cuidado del medio ambiente a través de nuestros productos y prácticas empresariales sostenibles.     
                         </div>
                     
                 </div>

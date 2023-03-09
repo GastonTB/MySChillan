@@ -20,8 +20,8 @@ class Kernel extends ConsoleKernel
     
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('revisar:orden')->everyMinute();
-        $schedule->command('revisar:ofertas')->everyMinute();
+        $schedule->command('revisar:orden')->everyFifteenMinutes();
+        $schedule->command('revisar:ofertas')->daily();	
     }
 
     /**

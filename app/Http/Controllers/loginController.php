@@ -13,7 +13,7 @@ use App\Helpers\Helpers;
 
 
 
-class loginController extends Controller
+class LoginController extends Controller
 {
     /**
      * Display a listing of the resource.

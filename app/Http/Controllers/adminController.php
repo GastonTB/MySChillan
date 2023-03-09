@@ -17,7 +17,7 @@ use App\Models\Comuna;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
-class adminController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -250,10 +250,10 @@
                                                     @endfor
                                                 </div>
                                                 @else
-                                                    {{-- <input hidden checked type="radio" name="{{ $producto->id }}"
-                                                        value="0"> --}}
+                                                    <input hidden checked type="radio" name="{{ $producto->id }}"
+                                                        value="0">
                                                     @for ($i = 1; $i <= 5; $i++)
-                                                        <input checked hidden type="radio" name="{{ $producto->id }}"
+                                                        <input hidden type="radio" name="{{ $producto->id }}"
                                                             value="{{ $i }}">
                                                         <i class="fa fa-star text-gray-500 hover:cursor-pointer estrella"
                                                         id="{{ str_replace(' ', '_', $producto->nombre_producto) }}-{{ $i }}"

@@ -43,7 +43,7 @@
                             </div>
                         @endif
                         <li class="">
-                            @if ($producto->oferta_id != 0)
+                            @if ($producto->oferta_id != 0 && $producto->oferta->estado_oferta == 1)
                         <li class="block text-green-700 text-xl font-semibold flex">
                             ${{ number_format($producto->oferta->precio_oferta, 0, ',', '.') }}
                         </li>

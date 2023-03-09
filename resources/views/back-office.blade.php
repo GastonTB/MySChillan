@@ -65,7 +65,7 @@
                                     <a href="{{ route('verComprasRetiro') }}">Compras con Retiro en Tienda</a>
                                 </li>
                                 <li class="pendiente hover:text-lime-500 hover:font-semibold cursor-pointer">
-                                    <a href="{{ route('verComprasEnvio') }}">Compras con Envio a Domicílio</a>
+                                    <a href="{{ route('verComprasEnvio') }}">Compras con Envío a Domicilio</a>
                                 </li>
                             </ul>
                         </div>

@@ -79,22 +79,14 @@
                                     <li><a href="{{route('filtrados', ['id' => 8, 'minimo' => 0, 'maximo' => 100000, 'orden' => 1, 'nombre' => '999'])}}">Accesorios</li>
                                 </ul>
                             </li>
-                            <li class="border-b-2 pb-1 border-black border-opacity-10">
-                                <a class="active:text-lime-500" href="#">Carrito</a>
-                            </li>
                             @auth
                                 <li class="border-b-2 pb-1 border-black border-opacity-10">
-                                    <a class="active:text-lime-500" href="{{route('perfil', encrypt(Auth::user()->id))}}">Perfil</a>
+                                    <a class="active:text-lime-500" href="{{route('perfil', Auth::user()->id)}}">Perfil</a>
                                 </li>
                                 {{-- check if is admin --}}
                                 @if (session()->get('rol')== 1)
                                 <li class="border-b-2 pb-1 border-black border-opacity-10">
-                                    <a id="back-office" class="active:text-lime-500" href="#">Back Office <i id="abajo-bo" class="fa fa-chevron-down fa-sm"></i><i id="arriba-bo" class="fa fa-chevron-up hidden fa-sm"></i></a>
-                                    <ul id="lista-bo" class="pl-10 space-y-2 mt-3 pb-1 hidden">
-                                        <li><a href="{{route('listado-productos')}}">Ver Listado Productos</a></li>
-                                        <li><a href="{{route('mostrarOfertas')}}">Ver Listado Ofertas</a></li>
-                                        <li><a href="{{route('crearproducto')}}">Agregar Producto</a></li>
-                                    </ul>
+                                    <a id="back-office" class="active:text-lime-500" href="{{ route('backoffice') }}">Back Office </a>
                                 </li>
                                 @endif
                             @endauth

@@ -49,7 +49,7 @@ class Helpers
                     $total = 0;
                     foreach ($carrito->productos as $prod) {
                         $contador += $prod->pivot->cantidad_carrito;
-                        if ($prod->oferta_id != 0) {
+                        if ($prod->oferta_id != 0 && $prod->oferta->estado_oferta == 1) {
                             $prod->precio = $prod->oferta->precio_oferta;
                         } else {
                             $prod->precio = $prod->precio;
@@ -74,7 +74,7 @@ class Helpers
                 $total = 0;
                 foreach ($carrito as $prod) {
                     $producto = Producto::findOrFail($prod['producto_id']);
-                    if ($producto->oferta_id != 0) {
+                    if ($producto->oferta_id != 0 && $producto->oferta->estado_oferta == 1) {
 
                         $producto->precio = $producto->oferta->precio_oferta;
 
@@ -112,7 +112,9 @@ class Helpers
                     if ($carritoProductos[$i]['oferta_id'] != 0) {
 
                         $ofer = Oferta::find($carritoProductos[$i]['oferta_id']);
-                        $carritoProductos[$i]['precio'] = $ofer->precio_oferta;
+                        if($ofer->estado_oferta == 1){
+                            $carritoProductos[$i]['precio'] = $ofer->precio_oferta;
+                        }
                     }
                     $cat = Categoria::all();
                     $carritoProductos[$i]['categoria'] = $cat[$carritoProductos[$i]['categoria_id'] - 1]->nombre_categoria;
@@ -135,7 +137,12 @@ class Helpers
                     $carrito[$i]['imagenes'] = $carrito[$i]['imagenes'][0];
                     if ($producto->oferta_id != 0) {
 
-                        $carrito[$i]['precio'] = $producto->oferta->precio_oferta;
+                        if($producto->oferta->estado_oferta == 1){
+                            $carrito[$i]['precio'] = $producto->oferta->precio_oferta;
+                        }else{
+                            $carrito[$i]['precio'] = $producto->precio;
+                        }
+                        
                     } else {
                         $carrito[$i]['precio'] = $producto->precio;
                     }
