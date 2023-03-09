@@ -17,7 +17,7 @@ use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Validator;
 
 
-class carritoController extends Controller
+class CarritoController extends Controller
 {
     /**
      * Display a listing of the resource.

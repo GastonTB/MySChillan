@@ -22,8 +22,9 @@ use Dompdf\Dompdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CompraMailUsuario;
 use App\Mail\EnvioMailUsuario;
+use App\Mail\RetiroMailUsuario;
 
-class compraController extends Controller
+class CompraController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -60,7 +61,7 @@ class compraController extends Controller
             'categoria' => 'integer|max:7|min:1',
         ]);
 
-        
+
         if ($validator->fails()) {
             return redirect()->back();
         }
@@ -188,8 +189,8 @@ class compraController extends Controller
     public function buscar(Request $request)
     {
         $busqueda = $request->buscar;
-        if($busqueda == null) {
-           return redirect()->route('verCompras');
+        if ($busqueda == null) {
+            return redirect()->route('verCompras');
         }
         return redirect()->route('buscarCompras2', ['busqueda' => $busqueda]);
     }
@@ -377,20 +378,25 @@ class compraController extends Controller
     {
         $ordenCompra = OrdenCompra::where('id', $id)->where('estado', 1)->first();
 
+        if ($ordenCompra->estado_retiro == 1) {
+            Alert::error('Error', 'El producto ya se Retiró/Envió');
+            return redirect()->route('backoffice');
+        }
+
         //trycatch
         if ($ordenCompra == null) {
             Alert::error('Error', 'No se encontró la orden de compra');
-            return redirect()->route('inicio');
+            return redirect()->route('backoffice');
         }
-       if($ordenCompra->envio == 2 && $ordenCompra->estado_retiro == 0){
+        if ($ordenCompra->envio == 2 && $ordenCompra->estado_retiro == 0) {
             $validator = Validator::make($request->all(), [
                 'codigo_oculto' => ['required', 'numeric', 'digits:9'],
             ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator);
             }
-            
-            
+
+
 
             $codigoOculto = $request->codigo_oculto;
             $ordenCompra->codigo_seguimiento = $codigoOculto;
@@ -399,12 +405,12 @@ class compraController extends Controller
 
             $productos = $ordenCompra->productos;
             $user = User::find($ordenCompra->user_id);
-            if(!$user){
+            if (!$user) {
                 Alert::error('Error', 'No se encontró al usuario que realizo la compra');
                 return redirect()->back();
             }
             $meta = UserMetadata::where('user_id', $user->id)->first();
-            if(!$meta){
+            if (!$meta) {
                 Alert::error('Error', 'No se encontró al usuario que realizo la compra');
                 return redirect()->back();
             }
@@ -414,22 +420,53 @@ class compraController extends Controller
             // $codigo = $ordenCompra->codigo_seguimiento;
             $codigo = number_format($ordenCompra->codigo_seguimiento, 0, '.', '.');
             $id_compra = $ordenCompra->id;
-            Mail::to($ordenCompra->correo)->send(new EnvioMailUsuario($ordenCompra, $user, $productos, $total, $meta, $comuna, $region, $id_compra, $codigo));
+            $correo = $ordenCompra->correo;
+            $telefono = $ordenCompra->telefono;
+            try {
+                Mail::to($ordenCompra->correo)->send(new EnvioMailUsuario($ordenCompra, $user, $productos, $total, $meta, $comuna, $region, $id_compra, $codigo, $correo, $telefono));
+            } catch (\Exception $e) {
+                Alert::error('Error', 'Ponerse en contacto con este cliente, su correo no existe');
+                return redirect()->route('compra', $ordenCompra->id);
+            }
             Alert::success('Éxito', 'Se ha Enviado esta Compra');
             return redirect()->route('compra', $ordenCompra->id);
-
-       }else{
-        if ($ordenCompra->estado_retiro == 0) {
-            $ordenCompra->estado_retiro = 1;
-            $ordenCompra->save();
-            Alert::success('Éxito', 'Se ha Enviado/Retirado esta Compra');
         } else {
-            $ordenCompra->estado_retiro = 0;
-            $ordenCompra->save();
-            Alert::success('Éxito', 'Se ha Cancelado el Envío/Retiro de esta Compra');
+            if ($ordenCompra->estado_retiro == 0) {
+                $ordenCompra->estado_retiro = 1;
+
+                $ordenCompra->save();
+                $productos = $ordenCompra->productos;
+                $user = User::find($ordenCompra->user_id);
+                if (!$user) {
+                    Alert::error('Error', 'No se encontró al usuario que realizo la compra');
+                    return redirect()->back();
+                }
+                $meta = UserMetadata::where('user_id', $user->id)->first();
+                if (!$meta) {
+                    Alert::error('Error', 'No se encontró al usuario que realizo la compra');
+                    return redirect()->back();
+                }
+                $total = $ordenCompra->total;
+                $id_compra = $ordenCompra->id;
+
+                $comuna = Comuna::findOrFail($ordenCompra->comuna_id);
+                $region = Region::findOrFail($comuna->region_id);
+                $correo = $ordenCompra->correo;
+                $telefono = $ordenCompra->telefono;
+                try {
+                    Mail::to($ordenCompra->correo)->send(new RetiroMailUsuario($ordenCompra, $user, $productos, $total, $meta,  $id_compra, $correo, $telefono));
+                } catch (\Exception $e) {
+
+                    Alert::error('Error', 'Ponerse en contacto con este cliente, su correo no existe');
+                    return redirect()->route('compra', $ordenCompra->id);
+                }
+            } else {
+                $ordenCompra->estado_retiro = 0;
+                $ordenCompra->save();
+                Alert::success('Éxito', 'Se ha Cancelado el Envío/Retiro de esta Compra');
+            }
         }
-       }
-       
+        
         return redirect()->route('compra', $ordenCompra->id);
     }
 
@@ -934,7 +971,8 @@ class compraController extends Controller
     // }
 
     public function evaluar(Request $request, $id)
-    {   
+    {
+
         $ordenCompra = OrdenCompra::find($id);
         if ($ordenCompra == null) {
             Alert::error('Error', 'No se encontró la orden de compra');
@@ -942,7 +980,7 @@ class compraController extends Controller
         }
 
         $calificaciones = Calificacion::where('orden_compra_id', $ordenCompra->id)->get();
-    
+
 
         if ($calificaciones->count() == $ordenCompra->productos->count()) {
             Alert::info('Calificación completada', 'Ya has calificado todos los productos de esta orden de compra');
@@ -956,17 +994,17 @@ class compraController extends Controller
             $reglas[$nombre_campo] = ['required', 'integer', 'min:1', 'max:5'];
         }
         $errores = [];
-        
-        for($i=0;$i<$productos->count();$i++){
-            if($datos[$productos[$i]['id']]==0){
+
+        for ($i = 0; $i < $productos->count(); $i++) {
+            if ($datos[$productos[$i]['id']] == 0) {
                 $errores = $datos;
             }
         }
-        if(count($errores)>0){
+        if (count($errores) > 0) {
             Alert::error('Error', 'No se puede calificar con nota 0');
             return redirect()->back();
         }
-   
+
 
 
         // Verificar la existencia de todos los productos

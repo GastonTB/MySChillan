@@ -81,7 +81,7 @@
                         <div class="mt-5 mb-10 space-y-4">
                             <div class="flex justify-center space-x-2">
                                 <p class="text-gray-900 text-lg font-bold">
-                                    SUBTOTAL: 
+                                    TOTAL: 
                                 </p>
                                 <p class="font-black text-xl text-gray-900">
                                     ${{number_format($carro['total'], 0, ",", ".")}}

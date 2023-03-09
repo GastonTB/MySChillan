@@ -139,7 +139,7 @@
                         @php
                             $original = $producto->precio 
                         @endphp
-                        @if($producto->oferta_id!=0)
+                        @if($producto->oferta_id!=0 && $producto->oferta->estado_oferta == 1)
                             <div class="flex justify-center space-x-3">
                                 <div>
                                     <p class="font-semibold text-xl precio text-lime-700">

@@ -131,37 +131,37 @@
                 <thead class="text-xs text-gray-700 uppercase bg-gray-100 ">
                     <tr>
                         <th id="1" scope="col"
-                            class="py-3 px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
+                            class="py-4  px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
                             <div class="flex space-x-2 items-center">
                                 <p>Nombre Comprador</p>
                             </div>
                         </th>
                         <th id="2" scope="col"
-                            class="py-3 px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
+                            class="py-4  px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
                             <div class="flex space-x-2 items-center">
                                 <p>Total Compra</p>
                             </div>
                         </th>
                         <th id="3" scope="col"
-                            class="py-3 px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
+                            class="py-4  px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
                             <div class="flex space-x-2 items-center">
                                 <p>Fecha</p>
                             </div>
                         </th>
                         <th id="4" scope="col"
-                            class="py-3 px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
+                            class="py-4  px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
                             <div class="flex space-x-2 items-center">
                                 <p>Teléfono</p>
                             </div>
                         </th>
                         <th id="5" scope="col"
-                            class="py-3 px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
+                            class="py-4  px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
 
                             <div class="flex space-x-2 items-center">
                                 <p>Correo Electrónico</p>
                         </th>
                         <th id="7" scope="col"
-                            class="py-3 px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
+                            class="py-4  px-6 hover:cursor-pointer hover:font-black hover:text-lime-500">
                             <div class="flex space-x-2 items-center">
                                 <p>Estado envío</p>
                             </div>
@@ -181,27 +181,27 @@
                 <tbody>
 
                     @foreach ($ordenCompra as $compra)
-                        <tr class="hover:text-lime-500 hover:font-semibold">
+                    <tr class="bg-white border-b  hover:bg-gray-100">
 
-                            <td scope="col" class="py-3 px-6">
-                                <a href="{{ route('compra', $compra->id) }}">
-                                    {{ $compra->user->name }} {{ $compra->user->metauser->apellido_paterno }}
-                                    {{ $compra->user->metauser->apellido_materno }}
-                                </a>
-                            </td>
-                            <td scope="col" class="py-3 px-6">
+                        <td scope="col" class="py-4 px-6">
+                            <a class="text-lime-500 font-semibold" href="{{ route('compra', $compra->id) }}">
+                                {{ $compra->user->name }} {{ $compra->user->metauser->apellido_paterno }}
+                                {{ $compra->user->metauser->apellido_materno }}
+                            </a>
+                        </td>
+                            <td scope="col" class="py-4  px-6">
                                 ${{ number_format($compra->total, 0, ',', '.') }}
                             </td>
-                            <td scope="col" class="py-3 px-6">
+                            <td scope="col" class="py-4  px-6">
                                 {{ date('d-m-Y', strtotime($compra->created_at)) }}
                             </td>
-                            <td scope="col" class="py-3 px-6">
+                            <td scope="col" class="py-4  px-6">
                                 {{ $compra->telefono }}
                             </td>
-                            <td scope="col" class="py-3 px-6">
+                            <td scope="col" class="py-4  px-6">
                                 {{ $compra->correo }}
                             </td>
-                            <td scope="col" class="py-3 px-6">
+                            <td scope="col" class="py-4  px-6">
                                 @if ($compra->envio == 2)
                                     @if ($compra->estado_retiro == 0)
                                         No Enviado

@@ -12,7 +12,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
 
 
-class ofertaController extends Controller
+class OfertaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class ofertaController extends Controller
     public function index()
     {
 
-        $productos = Producto::where('oferta_id', '!=', 0)->with('oferta')->latest()->paginate(10);
+        $productos = Producto::withTrashed()->where('oferta_id', '!=', 0)->with('oferta')->latest()->paginate(10);
         foreach ($productos as $producto) {
             $producto->precio = number_format($producto->precio, 0, ",", ".");
             $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
@@ -60,7 +60,7 @@ class ofertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         $id = $request->id_producto;
         $producto = Producto::find($id);
         if ($producto == null) {
@@ -68,6 +68,7 @@ class ofertaController extends Controller
             return redirect()->back();
         }
         $oferta = Oferta::find($producto->oferta_id);
+
         if ($oferta != null) {
             Alert::error('Error', 'El producto ya tiene una oferta');
             return redirect()->back();
@@ -143,8 +144,8 @@ class ofertaController extends Controller
         $producto->oferta_id = $oferta->id;
         $producto->save();
 
-        Alert::success('La oferta', 'ha sido aplicada correctamente sobre el producto');
-        return redirect()->route('backoffice');
+        Alert::success('La oferta', 'Ha sido aplicada correctamente sobre el producto');
+        return redirect()->route('listado-productos');
     }
 
     /**
@@ -210,7 +211,6 @@ class ofertaController extends Controller
 
 
         $oferta = Oferta::find($oferta_id);
-
         if ($oferta == null) {
             Alert::error('Error', 'No se pudo editar la oferta');
             return redirect()->route('backoffice');
@@ -329,11 +329,18 @@ class ofertaController extends Controller
     public function ofertasActivas()
     {
 
-        $productos = Producto::with(['oferta' => function ($query) {
-            $query->where('estado_oferta', 1);
-        }])
-            ->latest()
-            ->paginate(10);
+        $productos = Producto::where('oferta_id', '!=', 0)->with('oferta')->latest()->paginate(10);
+        foreach ($productos as $producto) {
+            $producto->precio = number_format($producto->precio, 0, ",", ".");
+            $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
+        }
+
+        foreach($productos as $producto) {
+            if($producto->oferta->estado_oferta == 1) {
+                $productos = $producto;
+            }
+        }
+      
 
         $productos = $productos->filter(function ($producto) {
             return $producto->oferta != null;

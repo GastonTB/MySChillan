@@ -8,8 +8,9 @@
     <div class="">
         <div id="modal-oferta">
             <div class="md:grid md:grid-cols-4 px-5 md:px-0">
-                <div class="flex col-span-1 md:justify-end">
-                    <a class="text-lime-500" href="{{ route('backoffice') }}">Back Office</a> /
+                <div class="flex col-span-1 md:justify-end space-x-1">
+                    <a class="text-lime-500" href="{{ route('backoffice') }}">Back Office</a>
+                    <p>/</p>
                     <a class="text-lime-500" href="{{ route('modificar-oferta-mostrar', $producto->id) }}">Modificar
                         Oferta</a>
                 </div>
@@ -162,18 +163,17 @@
                             <button class="btn-tienda" id="crear-oferta">
                                 Modificar Oferta
                             </button>
-                        </form>
-                            <form id="form-eliminar" action="{{ route('borrarOferta', $producto->oferta->id) }}"
-                                method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button id="eliminar" type="button" class="btn-tienda bg-red-500" id="crear-oferta">
-                                    Eliminar Oferta
-                                </button>
-                            </form>
-                        </div>
-                    
-                    {{-- <div class="flex justify-center m-10">
+                    </form>
+                    <form id="form-eliminar" action="{{ route('borrarOferta', $producto->oferta->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button id="eliminar" type="button" class="btn-tienda bg-red-500" id="crear-oferta">
+                            Eliminar Oferta
+                        </button>
+                    </form>
+                </div>
+
+                {{-- <div class="flex justify-center m-10">
                     <div>
                         <form action="{{ route('editarOferta') }}" id="form-editar" method="POST">
                             @csrf
@@ -187,9 +187,9 @@
                         </form>
                     </div>
                 </div> --}}
-                </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
 
@@ -223,7 +223,7 @@
             });
         });
 
-       $(document).ready(function() {
+        $(document).ready(function() {
             $('#eliminar').on('click', function() {
                 id = $(this).attr('id');
                 id = id.replace('boton-borrar-oferta-', '');
@@ -293,6 +293,30 @@
         $(document).ready(function() {
             var date = new Date();
             $('#fecha_ini').datepicker('option', 'minDate', date);
+          
+
+            $('#fecha_ini').on('change', function() {
+                $('#fecha_ter').removeAttr("disabled");
+                var fecha_ini_min = $('#fecha_ini').datepicker('getDate');
+                var fecha_ter_min = new Date();
+                fecha_ter_min.setDate(fecha_ini_min.getDate() + 1);
+                $('#fecha_ter').datepicker('option', 'minDate', fecha_ter_min);
+            });
+            let id;
+
+            $(document).ready(function() {
+                $('#fecha_ini').on('change', function() {
+                    var fecha_ini = $('#fecha_ini').val();
+                    $('#fecha-ini-oculto').val(fecha_ini);
+                });
+            });
+
+            $(document).ready(function() {
+                $('#fecha_ter').on('change', function() {
+                    var fecha_ter = $('#fecha_ter').val();
+                    $('#fecha-ter-oculto').val(fecha_ter);
+                });
+            });
         });
 
         // $('#fecha_ini').on('change', function() {

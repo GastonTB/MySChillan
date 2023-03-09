@@ -26,8 +26,7 @@
 
 <body>
     <h1>MyS Plantas y Suculentas Chillan</h1>
-    <h3>Su compra ya ha sido enviada</h3>
-    <p>El codigo de seguimiento de envio es: {{ $codigo }}<p>
+    <h3>Su compra ha sido retirada</h3>
     <p>Estos son los productos que compró:</p>
     <table>
         <thead>
@@ -58,11 +57,8 @@
         <li><strong>Nombre:</strong> {{ $orden->name }} </li>
         <li><strong>Apellido paterno:</strong> {{ $meta->apellido_paterno }} </li>
         <li><strong>Apellido materno:</strong> {{ $meta->apellido_materno }}</li>
-        <li><strong>Región:</strong> {{ $region->nombre_region }}</li>
-        <li><strong>Comuna:</strong> {{ $comuna->nombre_comuna }}</li>
-        <li><strong>Dirección:</strong> {{ $user->direccion }}</li>
-        <li><strong>Correo electrónico:</strong> {{ $user->correo }}</li>
-        <li><strong>Teléfono:</strong> {{ $user->telefono }}</li>
+        <li><strong>Correo electrónico:</strong> {{ $correo }}</li>
+        <li><strong>Teléfono:</strong> {{ $telefono }}</li>
     </ul>
     <p>Gracias de nuevo por tu compra en MyS Plantas y Suculentas Chillan. Esperamos que disfrutes tus nuevos productos.
         Si tienes alguna pregunta o inquietud, no dudes en contactarnos respondiendo este correo.</p>

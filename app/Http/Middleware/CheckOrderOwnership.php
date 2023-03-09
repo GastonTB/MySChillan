@@ -21,6 +21,6 @@ class CheckOrderOwnership
         }
 
         // Si la orden de compra no pertenece al usuario, se redirecciona al usuario a la página de inicio
-        return redirect('/');
+        return redirect()->route('inicio');
     }
 }

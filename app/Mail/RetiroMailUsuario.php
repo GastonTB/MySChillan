@@ -13,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EnvioMailUsuario extends Mailable
+class RetiroMailUsuario extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -22,11 +22,10 @@ class EnvioMailUsuario extends Mailable
     public $productos;
     public $total;
     public $meta;
-    public $comuna;
-    public $region;
     public $id_compra;
-    public $codigo;
+
     public $correo;
+
     public $telefono;
 
     /**
@@ -34,17 +33,15 @@ class EnvioMailUsuario extends Mailable
      *
      * @return void
      */
-    public function __construct(OrdenCompra $ordenCompra, User $user, $productos, $total, UserMetadata $meta, Comuna $comuna, Region $region, $id_compra, $codigo, $correo, $telefono)
+    public function __construct(OrdenCompra $ordenCompra, User $user, $productos, $total, UserMetadata $meta,$id_compra, $correo, $telefono)
     {
         $this->ordenCompra = $ordenCompra;
         $this->user = $user;
         $this->productos = $productos;
         $this->total = $total;
         $this->meta = $meta;
-        $this->comuna = $comuna;
-        $this->region = $region;
+
         $this->id_compra = $id_compra;
-        $this->codigo = $codigo;
         $this->correo = $correo;
         $this->telefono = $telefono;
     }
@@ -56,21 +53,18 @@ class EnvioMailUsuario extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.compra.envio')
+        return $this->view('emails.compra.retiro')
                     ->to($this->user->email, $this->user->name)
-                    ->subject('Su pedido ha sido enviado')
+                    ->subject('Su pedido ha sido retirado')
                     ->with([
                         'user' => $this->ordenCompra,
                         'orden' => $this->user,
                         'productos' => $this->productos,
                         'total' => $this->total,
                         'meta' => $this->meta,
-                        'comuna' => $this->comuna,
-                        'region' => $this->region,
-                        'id_compra' => $this->id_compra,
-                        'codigo' => $this->codigo,
-                        'correo' => $this->correo,
                         'telefono' => $this->telefono,
+                        'correo' => $this->correo,
+                        'id_compra' => $this->id_compra,
                     ]);
     }
 }
