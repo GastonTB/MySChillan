@@ -44,7 +44,7 @@ class cincodias
         $fechaModificacion = Carbon::createFromFormat('Y-m-d H:i:s', $ordenCompra->updated_at);
         $diferenciaDias = $fechaActual->diffInDays($fechaModificacion);
     
-        if ($diferenciaDias >= 5) {
+        if ($diferenciaDias >= 5 && $ordenCompra->estado_retiro == 0) {
             return $next($request);
         }
     

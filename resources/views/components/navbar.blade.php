@@ -87,7 +87,7 @@
                                         <i class="fa fa-user"></i>
                                     </div>
                                     <p>
-                                        <a id="usuario" href="{{route('perfil', encrypt(Auth::user()->id))}}">{{Auth::user()->name}}</a>
+                                        <a id="usuario" href="{{route('perfil', Auth::user()->id)}}">{{Auth::user()->name}}</a>
                                     </p>
                                 @endauth
                             </div>
@@ -148,25 +148,12 @@
                                     </p>
                                 </a>
                             </div>
-                            <div id="opciones-admin" class="space-y-2 fixed hidden z-10 bg-white">
-                                <ul clas="">
-                                    <li class=" hover:text-black">
-                                       <a href="{{route('listado-productos')}}">PRODUCTOS</a>
-                                    </li>
-                                    <li class=" hover:text-black">
-                                        <a href="{{route('mostrarOfertas')}}">OFERTAS</a>
-                                    </li>
-                                    <li class=" hover:text-black">
-                                        USUARIOS
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                         @endif
                         @auth
                             <div>
                                 <p class=" hover:text-black">
-                                    <a href="{{route('perfil', encrypt(Auth::user()->id))}}">PERFIL</a>
+                                    <a href="{{route('perfil', Auth::user()->id)}}">PERFIL</a>
                                 </p>
                             </div>
                         @endauth

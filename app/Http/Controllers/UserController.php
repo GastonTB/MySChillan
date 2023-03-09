@@ -59,25 +59,21 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $id = decrypt($id);
-        $user = User::findOrFail($id);        
+
+        $user = User::find($id);
+        if (!$user) {
+            return redirect()->route('inicio');
+        }
         $user_meta = $user->userMetadata;
         $comuna = Comuna::findOrFail($user_meta->comuna_id);
         $region_user = Region::findOrFail($comuna->region_id);
-        $ordenes = OrdenCompra::where('user_id', $user->id)->where('estado', 1)->paginate(5);
+        $ordenes = OrdenCompra::where('user_id', $user->id)->where('estado', 1)->latest()->paginate(5);
         $autenticado = Auth::user();
-        if(!$autenticado){
+        if ($autenticado->id != $user->id) {
             return redirect()->route('inicio');
         }
-        
-        if($user_meta->rol_id == 2){
-            if($autenticado->id == $user->id){
-                return view('usuario.show', compact('user', 'user_meta', 'region_user', 'ordenes'));
-            }
-        }else{
-            return view('usuario.show', compact('user', 'user_meta', 'region_user', 'ordenes'));
-        }
-        
+
+        return view('usuario.show', compact('user', 'user_meta', 'region_user', 'ordenes'));
     }
 
     /**
@@ -99,7 +95,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
 
         $usuario = User::findOrFail($id);
         $usuario_meta = UserMetadata::where('user_id', $id)->first();
@@ -107,10 +103,10 @@ class UserController extends Controller
         $reglas = array(
             'nombre' => 'required|alpha|min:3|max:15|',
             'direccion' => 'required|min:7|max:100',
-            'apellido_paterno'=>'required|alpha|min:3|max:15',
-            'apellido_materno'=>'required|alpha|min:3|max:15',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'telefono' => 'required|digits:9|unique:users_metadata,telefono,'.$usuario_meta->id,
+            'apellido_paterno' => 'required|alpha|min:3|max:15',
+            'apellido_materno' => 'required|alpha|min:3|max:15',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'telefono' => 'required|digits:9|unique:users_metadata,telefono,' . $usuario_meta->id,
             'comuna' => 'required|integer|min:1|max:346',
         );
 
@@ -120,46 +116,44 @@ class UserController extends Controller
             'min' => 'El campo :attribute debe contener al menos :min caracteres',
             'max' => 'El campo :attribute debe contener como maximo :max caracteres',
             'email' => 'El correo electronico ingresado no es un email valido',
-            'unique' => 'El campo :attribute ya esta en uso',            
+            'unique' => 'El campo :attribute ya esta en uso',
             'digits' => 'El campo :attribute debe contener :digits digitos',
             'integer' => 'Comuna no valida',
         );
 
         $validador = Validator::make($request->all(), $reglas, $mensaje);
         //if validator fails
-        if($validador->fails()){
+        if ($validador->fails()) {
             return redirect()->back()->withErrors($validador)->withInput();
         }
 
         //check if telefono first digit is not 9
-        if($request->telefono[0] != 9){
+        if ($request->telefono[0] != 9) {
             Alert::error('Error', 'El numero de telefono debe comenzar con 9');
             return redirect()->back()->withInput();
         }
 
-         //make rquest nombre, apellido_paterno, apellido_materno uppercase and the rest lowercase
-         $request->nombre = ucwords(strtolower($request->nombre));
-         $request->apellido_paterno = ucwords(strtolower($request->apellido_paterno));
-         $request->apellido_materno = ucwords(strtolower($request->apellido_materno));
-         $request->direccion = ucwords(strtolower($request->direccion));
- 
-         //update $user with request nombre, email $user meta with direccion, apellido paterno , apellido materno, direccion, comuna
-         $usuario->update([
-             'name' => $request->nombre,
-             'email' => $request->email,
-         ]);
- 
-         $usuario_meta->update([
-             'apellido_paterno' => $request->apellido_paterno,
-             'apellido_materno' => $request->apellido_materno,
-             'direccion' => $request->direccion,
-             'comuna_id' => $request->comuna,
-         ]);
- 
-         Alert::success('Perfil actualizado', 'Perfil actualizado con éxito');
-         return redirect()->route('perfil', encrypt($id));
- 
+        //make rquest nombre, apellido_paterno, apellido_materno uppercase and the rest lowercase
+        $request->nombre = ucwords(strtolower($request->nombre));
+        $request->apellido_paterno = ucwords(strtolower($request->apellido_paterno));
+        $request->apellido_materno = ucwords(strtolower($request->apellido_materno));
+        $request->direccion = ucwords(strtolower($request->direccion));
 
+        //update $user with request nombre, email $user meta with direccion, apellido paterno , apellido materno, direccion, comuna
+        $usuario->update([
+            'name' => $request->nombre,
+            'email' => $request->email,
+        ]);
+
+        $usuario_meta->update([
+            'apellido_paterno' => $request->apellido_paterno,
+            'apellido_materno' => $request->apellido_materno,
+            'direccion' => $request->direccion,
+            'comuna_id' => $request->comuna,
+        ]);
+
+        Alert::success('Perfil actualizado', 'Perfil actualizado con éxito');
+        return redirect()->route('perfil', encrypt($id));
     }
 
     /**
@@ -173,7 +167,8 @@ class UserController extends Controller
         //
     }
 
-    public function cambiarContraseña(Request $request, $id){
+    public function cambiarContraseña(Request $request, $id)
+    {
         // Verifica si el usuario autenticado tiene el mismo ID que el ID en la URL
         if (Auth::id() != $id) {
             // Si no son iguales, muestra una alerta con SweetAlert
@@ -195,16 +190,16 @@ class UserController extends Controller
         $validator->setAttributeNames([
             'contraseña_antigua' => 'contraseña actual'
         ]);
-    
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
-    
+
         // Actualiza la contraseña del usuario
-        
+
         $user->password = Hash::make($request->contraseña);
         $user->save();
-    
+
         // Muestra una alerta con SweetAlert
         Alert::success('¡Actualización exitosa!', 'La contraseña ha sido actualizada correctamente');
         return redirect()->back();

@@ -374,7 +374,7 @@
         @if (count($productos) == 0)
             <div class="bg-white border-b flex justify-center">
                 <div class=" text-gray-900 text-xl font-bold md:text-2xl">
-                    No hay productos con ese nombre
+                    No se han encontrado productos
                 </div>
             </div>
         @endif

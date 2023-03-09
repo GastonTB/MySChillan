@@ -70,6 +70,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use App\Models\Oferta;
+use App\Models\Producto;
 
 class RevisarOfertas extends Command
 {
@@ -84,13 +85,14 @@ class RevisarOfertas extends Command
         Log::info("Se encontraron $totalOfertas ofertas");
 
         foreach ($ofertas as $oferta) {
-            $productos = $oferta->producto()->withTrashed()->get();
-            $totalProductos = $productos->count();
-            Log::info("La oferta {$oferta->id} está aplicada a $totalProductos productos");
+            $producto = Producto::withTrashed()->where('oferta_id', $oferta->id)->first();
+            $nombre = $producto->nombre_producto;
+            Log::info("La oferta {$oferta->id} está aplicada a $nombre productos");
 
             // Actualizar el estado de la oferta si ya expiró
             $hoy = now();
-            if ($oferta->fecha_inicio > $hoy || $oferta->fecha_fin < $hoy) {
+
+            if ($oferta->fecha_inicio >= $hoy && $oferta->fecha_fin > $hoy) {
                 if ($oferta->estado_oferta !== 1) {
                     $oferta->estado_oferta = 1;
                     $oferta->save();
@@ -98,19 +100,19 @@ class RevisarOfertas extends Command
                 }
             }
 
-            // Eliminar la oferta si no está aplicada a ningún producto
-            if ($productos->isEmpty()) {
+            if ($oferta->fecha_fin <= $hoy) {
+                // La oferta ya no es válida
+                $producto->oferta_id = null;
+                Log::info("La oferta {$oferta->id} ya no es válida y se removerá del producto {$nombre}");
+                $producto->oferta_id = null;
+                $producto->save();
                 $oferta->delete();
-                Log::info("Se eliminó la oferta {$oferta->id} porque no está asociada a ningún producto");
-            } else {
-                // Actualizar la oferta_id del producto a null antes de eliminar la oferta
-                foreach ($productos as $producto) {
-                    $producto->oferta_id = null;
-                    $producto->save();
-                }
-                $oferta->delete();
-                Log::info("Se eliminó la oferta {$oferta->id} y se actualizó la oferta_id de los productos asociados a null");
             }
+
+            if ($oferta->fecha_fin < $hoy && !$producto) {
+                $oferta->delete();
+                Log::info("Se eliminó la oferta {$oferta->id} porque ya expiró y no está asociada a ningún producto");
+            }           
         }
     }
 }

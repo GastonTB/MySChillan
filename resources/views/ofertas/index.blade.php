@@ -277,7 +277,8 @@
                                         @csrf
                                         @method('DELETE')
                                         <button id="boton-borrar-oferta-{{ $producto->id }}" type="button"
-                                            class="borrar btn-tienda bg-red-500 px-10">
+                                            class="borrar btn-tienda bg-red-500">
+                                            Eliminar
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </form>

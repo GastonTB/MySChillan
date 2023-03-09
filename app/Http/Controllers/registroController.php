@@ -16,7 +16,7 @@ use App\Mail\RegistroMail;
 
 
 
-class registroController extends Controller
+class RegistroController extends Controller
 {
     /**
      * Display a listing of the resource.

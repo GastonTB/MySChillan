@@ -24,7 +24,7 @@ use App\Helpers\Helpers;
 
 
 
-class productoController extends Controller
+class ProductoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -514,7 +514,7 @@ class productoController extends Controller
                 $ruta_archivo_actual = public_path('storage/imagenes/' . $nombre_imagen);
                 $imagenes[$i] = $nombre_imagen;
                 $request->file('imagen_' . ($i + 1))->storeAs('public/imagenes', $nombre_imagen);
-                $img = Image::make($request->file('imagen_' . $i+1))->rotate(270);
+                $img = Image::make($request->file('imagen_' . $i+1));
                 $img->resize(300, 400);
                 $img->save($ruta_archivo_actual);
             }
@@ -756,23 +756,141 @@ class productoController extends Controller
 
     }
 
+    public function sinStock()
+    {
+        $productos = Producto::where('cantidad', 0)->paginate(5);
+        foreach ($productos as $producto) {
+            $producto->precio = number_format($producto->precio, 0, ",", ".");
+            if ($producto->oferta_id != 0) {
+                $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
+            }
+        }
+        return view('productos.sinstock', compact('productos'));
+    }
+
+
     public function buscarSinStock(Request $request)
     {
         //if request is empty
         if ($request->buscar == null) {
-            return redirect()->route('listado-productos');
+            return redirect()->route('sin-stock');
         }
-        return redirect()->route('buscadosProductosAdminSinStock', $request->buscar);
+        $busqueda = $request->buscar;
+
+
+        return redirect()->route('buscadosProductosAdminSinStock', ['busqueda' => $busqueda]);
     }
 
 
     public function buscadosSinStock($producto)
     {
-        $productos = Producto::where('nombre_producto', 'like', '%' . $producto . '%')->paginate(10);
-        if (count($productos) == 0) {
-            Alert::error('No se encontraron resultados', 'No se encontraron productos con el nombre ');
+        $productos = Producto::where('nombre_producto', 'like', '%' . $producto . '%')->where('cantidad',0)->orderBy('nombre_producto','desc')->paginate(10);
+        $search = $producto;
+        return view('productos.sinstock', compact('productos', 'search'));
+    }
+
+    public function filtrarAdminSinStock(Request $request)
+    {
+        $busqueda = $request->busqueda;
+        if ($busqueda == null) {
+            $busqueda = 'todo';
         }
-        return view('productos.sinstock', compact('productos'));
+
+        $validator = Validator::make($request->all(), [
+            'orden' => 'integer|max:2',
+            'categoria' => 'integer|max:7|min:1',
+        ]);
+
+        
+        if ($validator->fails()) {
+            return redirect()->back();
+        }
+
+
+        $categoria = $request->categoria;
+        $orden = $request->orden;
+
+        return redirect()->route('filtrarProductosAdminSinStock2',  array('busqueda' => $busqueda, 'categoria' => $categoria, 'orden' => $orden));
+    }
+
+    public function filtradosAdminSinStock($busqueda, $categoria, $orden){
+        
+        $ordenar = $orden;
+
+        switch ($orden) {
+            case 1:
+                $order = 'desc'; 
+                $odernar = 1;
+                break;
+            case 2:
+                $order = 'asc';
+                $ordernar = 2;
+                break;
+            default:
+                $order = 'desc';
+                $odernar = 1;
+
+                break;
+        }
+
+        if($busqueda == 'todo'){
+            $productos = Producto::withTrashed()
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->latest();
+        }else{
+            $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
+            ->with('calificaciones')
+            ->withAvg('calificaciones', 'puntuacion')
+            ->latest();
+
+        }
+
+
+        switch ($categoria) {
+            case 1:
+                $productos = $productos->orderBy('nombre_producto', $order)->paginate(10);
+                break;
+            case 2:
+                $productos = $productos->orderBy('precio', $order)->paginate(10);
+                break;
+            case 3:
+                $productos = $productos->orderBy('cantidad', $order)->paginate(10);
+
+                break;
+            case 4:
+                $productos = $productos->orderBy('categoria_id', $order)->paginate(10);
+                break;
+            case 5:
+                $productos = $productos->with('calificaciones')
+                    ->withAvg('calificaciones', 'puntuacion')
+                    ->orderBy('calificaciones_avg_puntuacion', $order)
+                    ->paginate(10);
+                    break;
+            case 6:
+                $productos = $productos->orderBy('tipo_envio', $order)->paginate(10);
+                break;
+            case 7:
+                $productos = $productos->orderBy('envio', $order)->paginate(10);
+                break;
+            default:
+                $productos = $productos->orderBy('nombre_producto', 'desc')->paginate(10);
+                $categoria = 1;
+                break;
+        }
+
+        
+        foreach ($productos as $producto) {
+            $producto->precio = number_format($producto->precio, 0, ",", ".");
+            if ($producto->oferta_id != 0) {
+                $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
+            }
+        }
+
+        $search = $busqueda;
+
+        return view('productos.sinstock', compact('busqueda', 'categoria','ordenar','productos', 'search'));
+
     }
 
     public function stock(Request $request)
@@ -848,17 +966,7 @@ class productoController extends Controller
         return view('productos.index', compact('productos', 'titulo'));
     }
 
-    public function sinStock()
-    {
-        $productos = Producto::where('cantidad', 0)->paginate(5);
-        foreach ($productos as $producto) {
-            $producto->precio = number_format($producto->precio, 0, ",", ".");
-            if ($producto->oferta_id != 0) {
-                $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
-            }
-        }
-        return view('productos.sinstock', compact('productos'));
-    }
+  
 
 
     public function recover($id)

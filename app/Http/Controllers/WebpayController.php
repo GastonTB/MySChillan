@@ -281,26 +281,35 @@ class WebpayController extends Controller
         )->put(env('WEBPAY_URL') . '/' . $_GET['token_ws'], []);
 
         $datos = json_decode($response);
-        $orden = OrdenCompra::find($datos->buy_order);
-        $carrito = Carrito::where('user_id', Auth::user()->id)->first();
-        $user = Auth::user();
-        $meta = UserMetadata::where('user_id', $user->id)->first();
+
         if (($datos->vci == 'TSY' && $datos->status == 'AUTHORIZED' && $datos->response_code == 0) || ($datos->vci == 'TSYS' && $datos->status == 'AUTHORIZED' && $datos->response_code == 0)) {
-            
+            $orden = OrdenCompra::find($datos->buy_order);
             $orden->estado = 1;
             $orden->save();
-           
+            $user = User::findOrFail($orden->user_id);
+            $carrito = Carrito::where('user_id', $user->id)->first();
             $carrito->productos()->detach();
             $productos = $orden->productos;
-            
+            $meta = UserMetadata::where('user_id', $user->id)->first();
             $total = $orden->total;
             $comuna = Comuna::findOrFail($orden->comuna_id);
             $region = Region::findOrFail($comuna->region_id);
             if ($user->email == $orden->correo) {
-                Mail::to($user->email)->send(new CompraMailUsuario($orden, $user, $productos, $total, $meta, $comuna, $region));
+                try {
+                    Mail::to($user->email)->send(new CompraMailUsuario($orden, $user, $productos, $total, $meta, $comuna, $region));
+                } catch (\Exception $e) {
+                    Alert::error('Error', 'Su compra ha sido ingresada, pero su dirección de correo electronico no es valida, por favor comunicarse con la tienda a brevedad');
+                    return redirect()->route('inicio');
+                }            
             } else {
-                Mail::to($user->email)->send(new CompraMailUsuario($orden, $user, $productos, $total, $meta, $comuna, $region));
-                Mail::to($orden->correo)->send(new CompraMailUsuario($orden, $user, $productos, $total, $meta, $comuna, $region));
+                try {
+                    
+                    Mail::to($orden->correo)->send(new CompraMailUsuario($orden, $user, $productos, $total, $meta, $comuna, $region));
+                } catch (\Exception $e) {
+                    Alert::error('Error', 'Su compra ha sido ingresada, pero su dirección de correo electronico no es valida, por favor comunicarse con la tienda a brevedad');
+                    return redirect()->route('inicio');
+                }  
+                
             }
             Alert::success('Compra Exitosa', 'Su compra se ha realizado con exito');
 

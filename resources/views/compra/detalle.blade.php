@@ -48,6 +48,13 @@
 @endsection
 
 @section('content')
+    @if(session()->get('rol') == 1)
+    <div class="md:grid md:grid-cols-14 lg:grid-cols-4 mt-10 text-gray-700 px-1">
+        <div class="lg:col-start-2 md:col-start-2 md:col-span-12 lg:col-span-2 px-5 flex space-x-1">
+           <a class="text-lime-500" href="{{ route('backoffice') }}">Back Office</a> <p>/</p> <a class="text-lime-500" href="{{ route('compra', $ordenCompra->id) }}">Detalles Compra</a>
+        </div>
+    </div>
+    @endif
     <div class="md:grid md:grid-cols-14 lg:grid-cols-4 mt-10 text-gray-700 px-1">
         <div class="lg:col-start-2 md:col-start-2 md:col-span-12 lg:col-span-2 px-5">
             <div class="md:grid grid-cols-2 bg-gray-100 mb-10 p-5 rounded-md">
@@ -260,6 +267,7 @@
                 <div class="col-span-2">
                     <div class="flex justify-center mt-10">
                         @if (session('rol') == 1)
+                            @if($ordenCompra->estado_retiro == 0)
                             <form id="formulario" method="POST" action="{{ route('editarCompra', $ordenCompra->id) }}">
                                 <input id="codigo_oculto" type="hidden" name="codigo_oculto" value="">
                                 @csrf
@@ -289,6 +297,7 @@
                                     @endif
                                 @endif
                             </form>
+                            @endif
                         @endif
                     </div>
                 </div>
@@ -331,7 +340,7 @@
             @if ($ordenCompra->estado_retiro == 0 && $ordenCompra->envio == 1)
                 Swal.fire({
                     title: '¿Estas Seguro?',
-                    text: "Marcarás este pedido como Enviado/Retirado",
+                    text: "Marcarás este pedido como Retirado",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

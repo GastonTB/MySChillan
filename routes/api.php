@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InicioController;
-use App\Http\Controllers\tiendaController;
-use App\Http\Controllers\loginController;
+use App\Http\Controllers\TiendaController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
