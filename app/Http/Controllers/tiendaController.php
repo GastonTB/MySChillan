@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
 
 
 
-class tiendaController extends Controller
+class TiendaController extends Controller
 {
     /**
      * Display a listing of the resource.

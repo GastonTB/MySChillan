@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class listaCategorias extends Component
+class lista-categorias extends Component
 {
     /**
      * Create a new component instance.

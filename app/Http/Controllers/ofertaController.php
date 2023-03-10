@@ -306,6 +306,7 @@ class OfertaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //elimina las ofertas
     public function destroy($id)
     {
         $oferta = Oferta::find($id);
@@ -325,7 +326,7 @@ class OfertaController extends Controller
         return redirect()->route('backoffice');
     }
 
-
+    //retorna listado de ofertas activas
     public function ofertasActivas()
     {
 
