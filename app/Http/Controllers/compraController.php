@@ -1090,7 +1090,7 @@ class CompraController extends Controller
         }
 
         // Convierte la imagen a base64
-        $path_to_image = base_path('public/img/logos/logo.png');
+        $path_to_image = asset('img/logos/logo.png');
         $image_data = file_get_contents($path_to_image);
         $base64_image = base64_encode($image_data);
 
