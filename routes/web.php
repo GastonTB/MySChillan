@@ -30,7 +30,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 */
 
 
-Route::get('/', [InicioController::class, 'index'])->middleware('visita')->name('inicio');
+Route::get('/', [InicioController::class, 'index'])->name('inicio');
 Route::get('/tienda', [TiendaController::class, 'index'])->middleware('visita')->name('tienda');
 Route::post('/registro', [RegistroController::class, 'store'])->middleware('visita')->name('registro');
 Route::post('/login', [LoginController::class, 'login'])->middleware('visita')->name('ingresar');

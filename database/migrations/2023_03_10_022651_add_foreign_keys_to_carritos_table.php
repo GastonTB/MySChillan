@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('datos_negocio', function (Blueprint $table) {
-            $table->id();
-            $table->string('correo');
-            $table->string('direccion');
-            $table->string('telefono');
-            $table->timestamps();
+        Schema::table('carritos', function (Blueprint $table) {
+            $table->foreign(['user_id'])->references(['id'])->on('users')->onDelete('CASCADE');
         });
     }
 
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('datos_negocio');
+        Schema::table('carritos', function (Blueprint $table) {
+            $table->dropForeign('carritos_user_id_foreign');
+        });
     }
 };

@@ -21,10 +21,7 @@ class InicioController extends Controller
      */
     public function index()
     {   
-        // $regiones = new Region;
-        // $regiones = Region::all();
-        $comunas = new Comuna;
-        $comunas = Comuna::all();
+
         $ultimos = Helpers::getUltimos();
  
         // $ofertas = Producto::where('oferta_id', '!=','0')->latest()->take(7)->get();
