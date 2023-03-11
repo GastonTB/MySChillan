@@ -19,13 +19,25 @@
                 @endif
             </p>
         </div>
+        @php
+            $contador = 0;
+            if (count($ofertas) > 0) {
+                $contador++;
+            }
+            if (count($calificados) > 1) {
+                $contador++;
+            }
+            if (count($ultimos) > 1) {
+                $contador++;
+            }
+        @endphp
         <div class="md:grid md:grid-cols-7 gap-1">
             <div class="md:col-span-3">
                 <div class="mb-5 px-5 md:pt-4">
                     <x-filtro-categorias-movil :orden="$orden" :minimo="$minimo" :maximo="$maximo" :categoria="$categoria" />
                 </div>
                 @if (count($ofertas) > 0)
-                    <div class="mb-5 hidden md:block ml-5">
+                    <div class="mb-5 hidden md:block">
                         <x-slider-ofertas :ofertas="$ofertas" />
                     </div>
                 @endif
@@ -37,29 +49,40 @@
                         <x-slider-mejor-calificados :calificados="$calificados" />
                     </div>
                 @endif
-                <div class="md:hidden grid grid-cols-2 pl-5">
-                    @if(count($ofertas) > 0)
-                    <div class="columns-1">
-                       
-                        <div class="mt-10">
+                <div class="md:hidden grid grid-cols-2 px-5 gap-3">
+                    @if ($contador == 2)
+                        @if (count($ofertas) > 0)
+                            <div class="">
+                                <x-slider-ofertas :ofertas="$ofertas" />
+                            </div>
+                        @endif
+                        @if (count($calificados) > 0)
+                            <div class="">
+                                <x-slider-mejor-calificados :calificados="$calificados" />
+                            </div>
+                        @endif
+                        <div class="">
                             <x-slider-ultimos-productos :ultimos="$ultimos" />
                         </div>
-                       
-                    </div>
                     @endif
-                    <div class="columns-1">
-                        <div class="mb-5">
-                            <x-slider-ultimos-productos :ultimos="$ultimos" />
+                    @if ($contador == 3)
+                        @if (count($ofertas) > 0)
+                            <div class="">
+                                <x-slider-ofertas :ofertas="$ofertas" />
+                            </div>
+                        @endif
+                        @if (count($calificados) > 0)
+                            <div class="">
+                                <x-slider-mejor-calificados :calificados="$calificados" />
+                            </div>
+                        @endif
+                        <div class="col-span-2 mt-5">
+                            <div class="w-full">
+                                <div class="block mx-auto w-1/2">
+                                    <x-slider-ultimos-productos :ultimos="$ultimos" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    @if(count($calificados) > 0)
-                    <div class="columns-1">
-                        
-                        <div class="mb-5">
-                            <x-slider-mejor-calificados :calificados="$calificados" />
-                        </div>
-                       
-                    </div>
                     @endif
                 </div>
             </div>
@@ -117,20 +140,22 @@
                 <div class="hidden lg:block">
                     <x-filtro-categorias :orden="$orden" :minimo="$minimo" :maximo="$maximo" :categoria="$categoria" />
                 </div>
-                @if (count($ofertas) > 0)
-                    <div class="mt-10 ml-5">
-                        <x-slider-ofertas :ofertas="$ofertas" />
+                <div class="-ml-20">
+                    @if (count($ofertas) > 0)
+                        <div class="mt-10">
+                            <x-slider-ofertas :ofertas="$ofertas" />
+                        </div>
+                    @endif
+                    <div class="mt-10">
+                        <x-slider-ultimos-productos :ultimos="$ultimos" />
                     </div>
-                @endif
-                <div class="mt-10">
-                    <x-slider-ultimos-productos :ultimos="$ultimos" />
+
+                    @if (count($calificados) > 0)
+                        <div class="mt-10">
+                            <x-slider-mejor-calificados :calificados="$calificados" />
+                        </div>
+                    @endif
                 </div>
-                
-                @if(count($calificados) >0)
-                <div class="mt-10">
-                    <x-slider-mejor-calificados :calificados="$calificados" />
-                </div>
-                @endif
             </div>
             <div class="lg:col-span-4 xl:col-span-2 lg:px-3">
                 <div class="grid xl:grid-cols-3 p-5 lg:grid-cols-3 gap-4 lg:px-5">

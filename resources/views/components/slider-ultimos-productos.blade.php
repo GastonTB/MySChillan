@@ -1,8 +1,8 @@
 <div class="flex-none">
-    <div class="flex mb-5 md:ml-5">
-        <div class="grid grid-cols-2">
-            <div clas="flex justify-start mr-3">
-                <p class="text-xl  font-black">Nuevos</p>
+    <div class="flex mb-5 md:ml-5 justify-center">
+        <div class="flex ">
+            <div clas="">
+                <p class="text-xl font-black">Nuevos</p>
             </div>
             <div class="flex pr-1 md:pr-0">
                 <div id="ultimos-izquierda" class="py-1 mx-1 px-1 bg-gray-200 shadow-sm rounded-md hover:bg-lime-500">
@@ -14,84 +14,10 @@
             </div>
         </div>
     </div>
-    {{-- <div class="swiper ml-5 hidden md:block" id="ultimos-slider">
-        <div class="swiper-wrapper">
-            @php
-                $contador = 0;
-                $contador2 = 0;
-            @endphp
-            <div class="swiper-slide space-y-3">  
-                @foreach ($ultimos as $ultimo) 
-                        @if($contador == 3)
-                            @break
-                        @endif
-                        <div>
-                            <a href="{{route('detalles', $ultimo->id)}}">
-                                <div class="flex">
-                                    <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}"  alt="">
-                                    <ul>
-                                        <li>
-                                            <p class="ml-3">
-                                                @if(strlen($ultimo->nombre_producto) > 10)
-                                                {{substr($ultimo->nombre_producto, 0, 10)}}...
-                                                @else
-                                                    {{$ultimo->nombre_producto}}
-                                                @endif
-                                            </p>
-                                        </li>
-                                        <li>
-                                            <p class="ml-3 font-semibold">
-                                                ${{ number_format($ultimo->precio, 0, ",", ".")}}
-                                            </p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </a>
-                        </div>
-                        @php
-                            $contador++;
-                        @endphp
-                @endforeach
-            </div>
-            <div class="swiper-slide space-y-3">  
-                @foreach ($ultimos as $ultimo) 
-                        @if($contador2 > 3)
-                        <div>
-                            <a href="{{route('detalles', $ultimo->id)}}">
-                                <div class="flex">
-                                    <img class="h-32 rounded-sm" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}"  alt="">
-                                    <ul>
-                                        <li>
-                                            <p class="ml-3">
-                                                @if(strlen($ultimo->nombre_producto) > 10)
-                                                {{substr($ultimo->nombre_producto, 0, 10)}}...
-                                                @else
-                                                    {{$ultimo->nombre_producto}}
-                                                @endif
-                                            </p>
-                                        </li>
-                                        <li>
-                                            <p class="ml-3 font-semibold">
-                                                ${{ number_format($ultimo->precio, 0, ",", ".")}}
-                                            </p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </a>
-                        </div>
-                        @endif
-                        
-                        @php
-                            $contador2++;
-                        @endphp
-                @endforeach
-            </div>
-        </div>
-    </div> --}}
     <div class="swiper md:ml-5 " id="ultimos-slider">
         <div class="swiper-wrapper">
             @foreach ($ultimos as $ultimo)
-                <div class="swiper-slide">
+                <div class="swiper-slide flex justify-center">
                     <a href="{{route('detalles', $ultimo->id)}}">
                         <div class="">
                             <img class="h-52" src="{{asset('storage/imagenes/'.$ultimo->imagenes)}}" alt="">
