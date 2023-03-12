@@ -322,7 +322,6 @@ class AdminController extends Controller
     public function ventasMensualesMostrar($id)
     {
         $productos = Producto::select('nombre_producto', 'cantidad')->get();
-        //count productos by categoria_id
         $categorias = Categoria::all();
         $array = [];
         foreach ($categorias as $categoria) {
@@ -330,7 +329,6 @@ class AdminController extends Controller
             $array[] = $categoria;
         }
         $ofertas = Helpers::getOfertas();
-        //count productos by cantidad order by categoria
         $array2 = [];
         $categorias2 = Categoria::all();
         foreach ($categorias2 as $categoria2) {
@@ -341,7 +339,6 @@ class AdminController extends Controller
         $orden = OrdenCompra::where('estado', 1)->orderBy('created_at', 'desc');
 
         $vendidos = OrdenCompra::where('estado', 1)->get();
-        //calcula las cantidades vendidas de cada producto siendo vendidas que aparezcan en la relacion entre orden compra y producto, orden compra con estado 1
         $array3 = [];
         foreach ($productos as $producto) {
             $producto->cantidad = 0;
@@ -355,7 +352,6 @@ class AdminController extends Controller
             $array3[] = $producto;
         }
 
-        //filtrar de array 3 los productos con cantidad 0
         $array4 = [];
         foreach ($array3 as $producto) {
             if ($producto->cantidad != 0) {
@@ -363,7 +359,6 @@ class AdminController extends Controller
             }
         }
 
-        //ordenar de mayor a menor por cantidad y solo dame 5
         $array5 = [];
         $i = 0;
         foreach ($array4 as $producto) {
@@ -378,17 +373,7 @@ class AdminController extends Controller
         $ofertas_activas = Oferta::all();
 
         $comprasMensuales = OrdenCompra::where('estado', 1)->get();
-        // $array6=[];
 
-
-        // for($i=1; $i<=12; $i++){
-        //     $array6[] = array("mes" => $i, "cantidad" => 0);
-        //     foreach($comprasMensuales as $compraMensual){
-        //         if($compraMensual->created_at->month == $i){
-        //             $array6["cantidad"] = $array6["cantidad"] ++;
-        //         }
-        //     }
-        // }
 
         $array6 = [];
 
@@ -416,7 +401,6 @@ class AdminController extends Controller
                 }
             }
         }
-        //replace mes by name of the month in spanish with a for
         for ($i = 0; $i < count($array6); $i++) {
             switch ($array6[$i]["mes"]) {
                 case 1:
@@ -460,7 +444,6 @@ class AdminController extends Controller
 
 
         $visitas = Visitante::all();
-        //make count of visitas with the same month in updated at
         $añoactualvisita = date('Y');
 
         $array7 = [];
@@ -482,7 +465,6 @@ class AdminController extends Controller
                 }
             }
         }
-        //replace mes by name of the month in spanish with a for
         for ($i = 0; $i < count($array7); $i++) {
             switch ($array7[$i]["mes"]) {
                 case 1:
@@ -540,14 +522,6 @@ class AdminController extends Controller
 
         $porEnviar = OrdenCompra::all();
         $porEnviar = OrdenCompra::where('estado', 1)->where('envio', 2)->where('estado_retiro', 0)->simplePaginate(4);
-        //get the user of this compra and add name in porEnviar
-        //         foreach($porEnviar as $orden){
-        //             $orden->user = User::find($orden->user_id);
-        //             $orden->user->metauser = UserMetadata::find($orden->user->id);
-
-        //             $orden->user->metauser->comuna = Comuna::find($orden->user->metauser->comuna_id);
-        // $orden->user->metauser->comuna_nombre = $orden->user->metauser->comuna->nombre_comuna;
-        //         }
 
         foreach ($porEnviar as $orden) {
             $user = User::find($orden->user_id);

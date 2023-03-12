@@ -76,10 +76,10 @@
                 <div class="lg:col-span-3 md:col-span-1">
                     <div class="flex justify-center">
                         <p class="text-lg font-black">
-                            Ultimos Pedidos Por Enviar
+                            Últimos Pedidos Por Enviar
                         </p>
                     </div>
-                    <div class="md:flex md:justify-center mt-5 px-5 md:px-0">
+                    <div class="flex justify-center mt-5 px-5 md:px-0">
                         <table class="overflow-x-auto">
                             <thead>
                                 <tr class="bg-lime-500 text-white uppercase font-semibold">
@@ -128,7 +128,7 @@
                 <div class="md:col-span-1 lg:col-span-3 mt-10 md:mt-0">
                     <div class="flex justify-center mb-5">
                         <p class="text-lg font-black">
-                            Ultimos Pedidos Para Retirar
+                            Últimos Pedidos Para Retirar
                         </p>
                     </div>
                     <div class="flex justify-center overflow-x-auto">

@@ -87,13 +87,6 @@
                                 <option @if ($categoria == 5) selected @endif value="5">
                                     Calificación
                                 </option>
-                                <option @if ($categoria == 6) selected @endif value="6" class="tipo_envio">
-                                    Tipo Envío
-                                </option>
-                                <option @if ($categoria == 7) selected @endif value="7"
-                                    class="estado_envio">
-                                    Estado Envío
-                                </option>
                             @else
                                 <option value="1">
                                     Nombre
@@ -109,12 +102,6 @@
                                 </option>
                                 <option value="5">
                                     Calificación
-                                </option>
-                                <option value="6" class="tipo_envio">
-                                    Tipo Envío
-                                </option>
-                                <option value="7" class="estado_envio">
-                                    Estado Envío
                                 </option>
                             @endif
                         </select>

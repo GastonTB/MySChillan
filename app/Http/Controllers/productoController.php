@@ -37,7 +37,7 @@ class ProductoController extends Controller
         $productos = Producto::withTrashed()
             ->with('calificaciones')
             ->withAvg('calificaciones', 'puntuacion')
-            ->orderBy('nombre_producto','desc')
+            ->orderBy('nombre_producto', 'desc')
             ->paginate(10);
 
         $titulo = 'Listado de Productos';
@@ -100,17 +100,17 @@ class ProductoController extends Controller
                 'temporada_text.*' => ['required', 'integer', 'min:1', 'max:4'],
                 'temporada_text' => 'required_without_all:temporada_text.*',
                 'cuidados_text' => 'required|min:10|max:999',
-                'imagen_0' => 'required|image|mimes:jpeg,png,jpg|dimensions:ratio=3/4,min_width=300,min_height=400',
-                'imagen_1' => 'image|mimes:jpeg,png,jpg|dimensions:ratio=3/4,min_width=300,min_height=400',
-                'imagen_2' => 'image|mimes:jpeg,png,jpg|dimensions:ratio=3/4,min_width=300,min_height=400',
-                'imagen_3' => 'image|mimes:jpeg,png,jpg|dimensions:ratio=3/4,min_width=300,min_height=400',
+                'imagen_0' => 'required|image|mimes:jpeg,png,jpg',
+                'imagen_1' => 'image|mimes:jpeg,png,jpg',
+                'imagen_2' => 'image|mimes:jpeg,png,jpg',
+                'imagen_3' => 'image|mimes:jpeg,png,jpg',
             );
 
             $mensaje = array(
                 'required' => 'El campo :attribute es obligatorio',
                 'alpha' => 'El campo :attribute solo puede contener letras',
-                'min' => 'El campo :attribute debe tener al menos :min caracteres',
-                'max' => 'El campo :attribute debe tener como máximo :max caracteres',
+                'min' => 'El campo :attribute debe tener al menos :min ',
+                'max' => 'El campo :attribute debe tener como máximo :max ',
                 'integer' => 'El campo :attribute debe ser un número entero',
                 'regex:/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/u' => 'El nombre debe ser una palabra',
                 'dimensions' => 'La imagen debe tener una proporción de 3:4 y un tamaño mínimo de 300px x 400px.',
@@ -122,21 +122,26 @@ class ProductoController extends Controller
             $reglas = array(
                 'nombre' => 'required|regex:/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/u|min:3|max:50',
                 'precio' => 'required|integer|min:990|max:100000',
-                'cantidad' => 'required|integer|min:1|max:999',
+                'cantidad' => 'required|integer|min:1|max:1000',
                 'descripcion_text' => 'required|min:10|max:999',
                 'caracteristicas_text' => 'required|min:10|max:999',
                 'categorias' => 'required',
-                'imagen_0' => 'required|image|mimes:jpeg,png,jpg|dimensions:ratio=3/4,min_width=300,min_height=400',
-                'imagen_1' => 'image|mimes:jpeg,png,jpg|dimensions:ratio=3/4,min_width=300,min_height=400',
-                'imagen_2' => 'image|mimes:jpeg,png,jpg|dimensions:ratio=3/4,min_width=300,min_height=400',
-                'imagen_3' => 'image|mimes:jpeg,png,jpg|dimensions:ratio=3/4,min_width=300,min_height=400',
+                'imagen_0' => 'required|image|mimes:jpeg,png,jpg',
+                'imagen_1' => 'image|mimes:jpeg,png,jpg',
+                'imagen_2' => 'image|mimes:jpeg,png,jpg',
+                'imagen_3' => 'image|mimes:jpeg,png,jpg',
             );
+
+            //|dimensions:ratio=3/4,min_width=300,min_height=400
+            // |dimensions:ratio=3/4,min_width=300,min_height=400
+            // |dimensions:ratio=3/4,min_width=300,min_height=400
+            // |dimensions:ratio=3/4,min_width=300,min_height=400
 
             $mensaje = array(
                 'required' => 'El campo :attribute es obligatorio',
                 'alpha' => 'El campo :attribute solo puede contener letras',
-                'min' => 'El campo :attribute debe tener al menos :min caracteres',
-                'max' => 'El campo :attribute debe tener como máximo :max caracteres',
+                'min' => 'El campo :attribute debe tener al menos :min',
+                'max' => 'El campo :attribute debe tener como máximo :max',
                 'integer' => 'El campo :attribute debe ser un número entero',
                 'imagen_0.required_without_all' => 'Debe subir al menos una imagen',
                 'categorias.required_without_all' => 'Debe seleccionar una categoria',
@@ -236,15 +241,33 @@ class ProductoController extends Controller
 
 
         for ($i = 0; $i < 4; $i++) {
-            if ($request->hasFile('imagen_' . $i) != null) {
-                $filename = strrev($request->file('imagen_' . $i)->getClientOriginalName());
+            if ($request->hasFile('imagen_' . $i)) {
+                $image = $request->file('imagen_' . $i);
+                $filename = strrev($image->getClientOriginalName());
                 $pos = strpos($filename, '.');
                 $extension = strrev(substr($filename, 0, $pos));
-                $nombre = $producto->id . '-' . $i+1 . '.' . $extension;
+                $nombre = $producto->id . '-' . ($i + 1) . '.' . $extension;
                 $nombre_array[] = $nombre;
-                $ruta = storage_path() . '/app/public/imagenes/' . $nombre;
-                $img = Image::make($request->file('imagen_' . $i));
-                $img->resize(300, 400);
+                $ruta = public_path('storage/imagenes/' . $nombre);
+
+                // Cargar la imagen con Intervention Image
+                $img = Image::make($image);
+
+                // Obtener las dimensiones de la imagen
+                $width = $img->width();
+                $height = $img->height();
+
+                // Comprobar si la imagen tiene una proporción de 3:4 o 4:3
+                if (($width / $height) == 0.75) {
+                    // La imagen tiene una proporción de 3:4, simplemente redimensionar
+                    $img->resize(300, 400);
+                } elseif (($width / $height) == 4 / 3) {
+                    // La imagen tiene una proporción de 4:3, rotar y redimensionar
+                    $img->rotate(-90); // rotar la imagen 270 grados
+                    $img->resize(300, 400); // redimensionar la imagen
+                }
+
+                // Guardar la imagen
                 $img->save($ruta);
             }
         }
@@ -339,7 +362,7 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
 
         $producto = Producto::withTrashed()->find($id);
         if ($producto == null) {
@@ -500,7 +523,7 @@ class ProductoController extends Controller
                     $imagenes[$i] = $nombre_imagen;
                     $array = $ruta_archivo_actual;
                     // $request->file('imagen_' . ($i + 1))->storeAs('public/imagenes', $nombre_imagen);
-                    $img = Image::make($request->file('imagen_' . $i+1))->rotate(270);
+                    $img = Image::make($request->file('imagen_' . $i + 1))->rotate(270);
                     $img->resize(300, 400);
                     $img->save($ruta_archivo_actual);
                 }
@@ -514,7 +537,7 @@ class ProductoController extends Controller
                 $ruta_archivo_actual = public_path('storage/imagenes/' . $nombre_imagen);
                 $imagenes[$i] = $nombre_imagen;
                 $request->file('imagen_' . ($i + 1))->storeAs('public/imagenes', $nombre_imagen);
-                $img = Image::make($request->file('imagen_' . $i+1));
+                $img = Image::make($request->file('imagen_' . $i + 1));
                 $img->resize(300, 400);
                 $img->save($ruta_archivo_actual);
             }
@@ -576,7 +599,7 @@ class ProductoController extends Controller
         $producto->categoria_id = $request->categorias;
 
         $producto->imagenes = $imagenes;
-        
+
         $producto->save();
         $id = $producto->id;
 
@@ -638,16 +661,16 @@ class ProductoController extends Controller
     public function buscar(Request $request)
     {
         $busqueda = $request->buscar;
-        if($busqueda==null){
+        if ($busqueda == null) {
             return redirect()->route('listado-productos');
         }
         return redirect()->route('buscadosProductosAdmin', ['busqueda' => $busqueda]);
     }
 
-   
+
     public function buscados($producto)
-    {   
-        $productos = Producto::where('nombre_producto', 'like', '%' . $producto . '%')->orderBy('nombre_producto','desc')->paginate(10);
+    {
+        $productos = Producto::where('nombre_producto', 'like', '%' . $producto . '%')->orderBy('nombre_producto', 'desc')->paginate(10);
         $search = $producto;
         return view('productos.index', compact('productos', 'search'));
     }
@@ -661,10 +684,10 @@ class ProductoController extends Controller
 
         $validator = Validator::make($request->all(), [
             'orden' => 'integer|max:2',
-            'categoria' => 'integer|max:7|min:1',
+            'categoria' => 'integer|max:5|min:1',
         ]);
 
-        
+
         if ($validator->fails()) {
             return redirect()->back();
         }
@@ -676,13 +699,14 @@ class ProductoController extends Controller
         return redirect()->route('filtrarProductosAdmin2',  array('busqueda' => $busqueda, 'categoria' => $categoria, 'orden' => $orden));
     }
 
-    public function filtradosAdmin($busqueda, $categoria, $orden){
-        
+    public function filtradosAdmin($busqueda, $categoria, $orden)
+    {
+
         $ordenar = $orden;
 
         switch ($orden) {
             case 1:
-                $order = 'desc'; 
+                $order = 'desc';
                 $odernar = 1;
                 break;
             case 2:
@@ -696,17 +720,16 @@ class ProductoController extends Controller
                 break;
         }
 
-        if($busqueda == 'todo'){
+        if ($busqueda == 'todo') {
             $productos = Producto::withTrashed()
-                        ->with('calificaciones')
-                        ->withAvg('calificaciones', 'puntuacion')
-                        ->latest();
-        }else{
+                ->with('calificaciones')
+                ->withAvg('calificaciones', 'puntuacion')
+                ->latest();
+        } else {
             $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
-            ->with('calificaciones')
-            ->withAvg('calificaciones', 'puntuacion')
-            ->latest();
-
+                ->with('calificaciones')
+                ->withAvg('calificaciones', 'puntuacion')
+                ->latest();
         }
 
 
@@ -729,12 +752,6 @@ class ProductoController extends Controller
                     ->withAvg('calificaciones', 'puntuacion')
                     ->orderBy('calificaciones_avg_puntuacion', $order)
                     ->paginate(10);
-                    break;
-            case 6:
-                $productos = $productos->orderBy('tipo_envio', $order)->paginate(10);
-                break;
-            case 7:
-                $productos = $productos->orderBy('envio', $order)->paginate(10);
                 break;
             default:
                 $productos = $productos->orderBy('nombre_producto', 'desc')->paginate(10);
@@ -742,7 +759,7 @@ class ProductoController extends Controller
                 break;
         }
 
-        
+
         foreach ($productos as $producto) {
             $producto->precio = number_format($producto->precio, 0, ",", ".");
             if ($producto->oferta_id != 0) {
@@ -752,8 +769,7 @@ class ProductoController extends Controller
 
         $search = $busqueda;
 
-        return view('productos.index', compact('busqueda', 'categoria','ordenar','productos', 'search'));
-
+        return view('productos.index', compact('busqueda', 'categoria', 'ordenar', 'productos', 'search'));
     }
 
     public function sinStock()
@@ -784,7 +800,7 @@ class ProductoController extends Controller
 
     public function buscadosSinStock($producto)
     {
-        $productos = Producto::where('nombre_producto', 'like', '%' . $producto . '%')->where('cantidad',0)->orderBy('nombre_producto','desc')->paginate(10);
+        $productos = Producto::where('nombre_producto', 'like', '%' . $producto . '%')->where('cantidad', 0)->orderBy('nombre_producto', 'desc')->paginate(10);
         $search = $producto;
         return view('productos.sinstock', compact('productos', 'search'));
     }
@@ -798,10 +814,10 @@ class ProductoController extends Controller
 
         $validator = Validator::make($request->all(), [
             'orden' => 'integer|max:2',
-            'categoria' => 'integer|max:7|min:1',
+            'categoria' => 'integer|max:5|min:1',
         ]);
 
-        
+
         if ($validator->fails()) {
             return redirect()->back();
         }
@@ -813,13 +829,14 @@ class ProductoController extends Controller
         return redirect()->route('filtrarProductosAdminSinStock2',  array('busqueda' => $busqueda, 'categoria' => $categoria, 'orden' => $orden));
     }
 
-    public function filtradosAdminSinStock($busqueda, $categoria, $orden){
-        
+    public function filtradosAdminSinStock($busqueda, $categoria, $orden)
+    {
+
         $ordenar = $orden;
 
         switch ($orden) {
             case 1:
-                $order = 'desc'; 
+                $order = 'desc';
                 $odernar = 1;
                 break;
             case 2:
@@ -833,17 +850,16 @@ class ProductoController extends Controller
                 break;
         }
 
-        if($busqueda == 'todo'){
-            $productos = Producto::withTrashed()
-                        ->with('calificaciones')
-                        ->withAvg('calificaciones', 'puntuacion')
-                        ->latest();
-        }else{
-            $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
-            ->with('calificaciones')
-            ->withAvg('calificaciones', 'puntuacion')
-            ->latest();
-
+        if ($busqueda == 'todo') {
+            $productos = Producto::withTrashed()->where('cantidad', 0)
+                ->with('calificaciones')
+                ->withAvg('calificaciones', 'puntuacion')
+                ->latest();
+        } else {
+            $productos = Producto::withTrashed()->where('cantidad', 0)->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
+                ->with('calificaciones')
+                ->withAvg('calificaciones', 'puntuacion')
+                ->latest();
         }
 
 
@@ -866,12 +882,6 @@ class ProductoController extends Controller
                     ->withAvg('calificaciones', 'puntuacion')
                     ->orderBy('calificaciones_avg_puntuacion', $order)
                     ->paginate(10);
-                    break;
-            case 6:
-                $productos = $productos->orderBy('tipo_envio', $order)->paginate(10);
-                break;
-            case 7:
-                $productos = $productos->orderBy('envio', $order)->paginate(10);
                 break;
             default:
                 $productos = $productos->orderBy('nombre_producto', 'desc')->paginate(10);
@@ -879,7 +889,7 @@ class ProductoController extends Controller
                 break;
         }
 
-        
+
         foreach ($productos as $producto) {
             $producto->precio = number_format($producto->precio, 0, ",", ".");
             if ($producto->oferta_id != 0) {
@@ -889,8 +899,7 @@ class ProductoController extends Controller
 
         $search = $busqueda;
 
-        return view('productos.sinstock', compact('busqueda', 'categoria','ordenar','productos', 'search'));
-
+        return view('productos.sinstock', compact('busqueda', 'categoria', 'ordenar', 'productos', 'search'));
     }
 
     public function stock(Request $request)
@@ -966,7 +975,7 @@ class ProductoController extends Controller
         return view('productos.index', compact('productos', 'titulo'));
     }
 
-  
+
 
 
     public function recover($id)
@@ -988,52 +997,51 @@ class ProductoController extends Controller
     }
 
     public function reordenar($id)
-{
-    $producto = Producto::withTrashed()->find($id);
+    {
+        $producto = Producto::withTrashed()->find($id);
 
-    $imagenes = explode('|', $producto->imagenes);
+        $imagenes = explode('|', $producto->imagenes);
 
-    // Recorrer el array y cambiar la X de cada imagen
-    for ($i = 0; $i < count($imagenes); $i++) {
-        // Obtener la X del nombre de la imagen actual
-        $extension = pathinfo($imagenes[$i], PATHINFO_EXTENSION);
-        $nombre_imagen = pathinfo($imagenes[$i], PATHINFO_FILENAME);
-        $x = intval(substr($nombre_imagen, strrpos($nombre_imagen, '-') + 1));
+        // Recorrer el array y cambiar la X de cada imagen
+        for ($i = 0; $i < count($imagenes); $i++) {
+            // Obtener la X del nombre de la imagen actual
+            $extension = pathinfo($imagenes[$i], PATHINFO_EXTENSION);
+            $nombre_imagen = pathinfo($imagenes[$i], PATHINFO_FILENAME);
+            $x = intval(substr($nombre_imagen, strrpos($nombre_imagen, '-') + 1));
 
-        // Cambiar la X por el índice + 1
-        $nuevo_nombre = $producto->id . '-' . ($i + 1) . '.' . $extension;
+            // Cambiar la X por el índice + 1
+            $nuevo_nombre = $producto->id . '-' . ($i + 1) . '.' . $extension;
 
-        // Buscar si la imagen actual existe en la carpeta de imágenes
-        $ruta_actual = storage_path('app/public/imagenes/' . $imagenes[$i]);
-        if (file_exists($ruta_actual)) {
-            // Verificar si la nueva imagen ya existe en la carpeta
-            $ruta_nueva = storage_path('app/public/imagenes/' . $nuevo_nombre);
-            $imagenes_nuevas = [];
-            for ($j = 0; $j < count($imagenes); $j++) {
-                $extension_nueva = pathinfo($imagenes[$j], PATHINFO_EXTENSION);
-                $nombre_imagen_nueva = pathinfo($imagenes[$j], PATHINFO_FILENAME);
-                $x_nueva = intval(substr($nombre_imagen_nueva, strrpos($nombre_imagen_nueva, '-') + 1));
-                $nuevo_nombre_imagen = $producto->id . '-' . ($j + 1) . '.' . $extension_nueva;
-                $imagenes_nuevas[] = $nuevo_nombre_imagen;
+            // Buscar si la imagen actual existe en la carpeta de imágenes
+            $ruta_actual = storage_path('app/public/imagenes/' . $imagenes[$i]);
+            if (file_exists($ruta_actual)) {
+                // Verificar si la nueva imagen ya existe en la carpeta
+                $ruta_nueva = storage_path('app/public/imagenes/' . $nuevo_nombre);
+                $imagenes_nuevas = [];
+                for ($j = 0; $j < count($imagenes); $j++) {
+                    $extension_nueva = pathinfo($imagenes[$j], PATHINFO_EXTENSION);
+                    $nombre_imagen_nueva = pathinfo($imagenes[$j], PATHINFO_FILENAME);
+                    $x_nueva = intval(substr($nombre_imagen_nueva, strrpos($nombre_imagen_nueva, '-') + 1));
+                    $nuevo_nombre_imagen = $producto->id . '-' . ($j + 1) . '.' . $extension_nueva;
+                    $imagenes_nuevas[] = $nuevo_nombre_imagen;
+                }
+                if (file_exists($ruta_nueva) && $imagenes[$i] != $imagenes_nuevas[$i]) {
+                    // Cambiar el nombre del archivo existente por uno temporal
+                    $temp = $producto->id . '-temp-' . $i . '.' . $extension;
+                    Storage::move('public/imagenes/' . $nuevo_nombre, 'public/imagenes/' . $temp);
+                }
+                // Renombrar el archivo actual con el nuevo nombre
+                Storage::move('public/imagenes/' . $imagenes[$i], 'public/imagenes/' . $nuevo_nombre);
             }
-            if (file_exists($ruta_nueva) && $imagenes[$i] != $imagenes_nuevas[$i]) {
-                // Cambiar el nombre del archivo existente por uno temporal
-                $temp = $producto->id . '-temp-' . $i . '.' . $extension;
-                Storage::move('public/imagenes/' . $nuevo_nombre, 'public/imagenes/' . $temp);
-            }
-            // Renombrar el archivo actual con el nuevo nombre
-            Storage::move('public/imagenes/' . $imagenes[$i], 'public/imagenes/' . $nuevo_nombre);
+
+            // Actualizar el nombre de la imagen en el array de imágenes
+            $imagenes[$i] = $nuevo_nombre;
         }
 
-        // Actualizar el nombre de la imagen en el array de imágenes
-        $imagenes[$i] = $nuevo_nombre;
+        // Actualizar la lista de imágenes en la base de datos
+        $producto->imagenes = implode('|', $imagenes);
+        $producto->save();
     }
-
-    // Actualizar la lista de imágenes en la base de datos
-    $producto->imagenes = implode('|', $imagenes);
-    $producto->save();
-
-}
 
     public function borrarImagen(Request $request, $id)
     {

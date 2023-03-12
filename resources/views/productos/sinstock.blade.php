@@ -110,12 +110,6 @@
                                 <option value="5">
                                     Calificación
                                 </option>
-                                <option value="6" class="tipo_envio">
-                                    Tipo Envío
-                                </option>
-                                <option value="7" class="estado_envio">
-                                    Estado Envío
-                                </option>
                             @endif
                         </select>
                         <select id="select_orden"

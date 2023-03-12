@@ -59,19 +59,19 @@
                         </li>
                     </ul>
                 </div>
-                <div class="px-5">
+                <div class="px-5 lg:pr-20">
                     @for ($i = 0; $i < $cantidad; $i++)
                         <div class="mt-5">
                             <div>
                                 <p class="font-semibold cursor-pointer titulo mb-2" id="titulo-{{ $i }}">
                                     @switch($i)
                                         @case(0)
-                                            Descripcion: <i id="fl-ar-0" class="fa fa-chevron-up hidden"></i><i id="fl-ab-0"
+                                            Descripción: <i id="fl-ar-0" class="fa fa-chevron-up hidden"></i><i id="fl-ab-0"
                                                 class="fa fa-chevron-down"></i>
                                         @break
 
                                         @case(1)
-                                            Caracteristicas: <i id="fl-ar-1" class="fa fa-chevron-up"></i><i id="fl-ab-1"
+                                            Características: <i id="fl-ar-1" class="fa fa-chevron-up"></i><i id="fl-ab-1"
                                                 class="fa fa-chevron-down hidden"></i>
                                         @break
 

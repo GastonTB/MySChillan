@@ -25,7 +25,7 @@
                                     <div>
                                         <div>
                                             <label class="relative">
-                                                <input name="email" value="{{old('email')}}" type="email" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder=" " @error('email') is-invalid @enderror" name="email" required autocomplete="email" autofocus>
+                                                <input name="email" value="{{old('email')}}" type="email" class="border-2 rounded-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200" placeholder="Correo Electrónico" @error('email') is-invalid @enderror" name="email" required autocomplete="email" autofocus>
                                                 
                                             </label>
                                         </div>
