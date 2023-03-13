@@ -19,14 +19,14 @@
                 Listado de Compras con Retiro en Tienda
             </p>
         </div>
-        <div class="mb-3 flex">
-            <div class="w-1/2 pl-0">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 mb-3">
+            <div class="order-2 lg:order-1 mt-5 lg:mt-0">
                 <form method="POST" id="formulario_ordenar" action="{{ route('filtrarComprasRetiro') }}">
                     @csrf
                     <div class="flex space-x-1">
-                        <select name="categoria"
-                            class="border-2 rounded-md px-5 border-black border-opacity-20 outline-none focus:border-lime-500 py-2 transition duration-200"
-                            name="orden" id="">
+                        <select name="categoria" id="select_categoria"
+                            class="border-2 rounded-md px-5 border-black border-opacity-20 outline-none focus:border-lime-500 py-2 transition duration-200">
                             @if (isset($categoria))
                                 <option @if ($categoria == 1) selected @endif value="1">
                                     Fecha
@@ -67,65 +67,72 @@
                                 </option>
                             @endif
                         </select>
-                        <select
+                        <select id="select_orden"
                             class="border-2 rounded-md px-5 border-black border-opacity-20 outline-none focus:border-lime-500 py-2 transition duration-200"
-                            name="orden" id="">
+                            name="orden">
                             @if (isset($ordenar))
-                                <option @if ($ordenar == 1) selected @endif value="1">
+                                <option class="desc" @if ($ordenar == 1) selected @endif value="1">
                                     Descendiente
                                 </option>
-                                <option @if ($ordenar == 2) selected @endif value="2">
+                                <option class="asc" @if ($ordenar == 2) selected @endif value="2">
                                     Ascendente
                                 </option>
                             @else
-                                <option value="1">
+                                <option value="1" class="desc">
                                     Descendiente
                                 </option>
-                                <option value="2">
+                                <option class="asc" value="2">
                                     Ascendente
                                 </option>
                             @endif
                         </select>
-                        <div>
+                        <div class="hidden md:block">
                             <button class="btn-tienda">
                                 Ordenar
                             </button>
                         </div>
                     </div>
+                    <div class="md:hidden mt-1 md:mt-0">
+                        <button class="btn-tienda">
+                            Ordenar
+                        </button>
+                    </div>
                     @if (isset($search))
-                        <div class="mt-1 flex items-center">
-                            <p class="text-gray-500 p-1 border-2 rounded-md border-opacity-60 border-lime-500">
-                                Resultados para la busqueda: {{ $search }} <a href="{{ route('verComprasRetiro') }}"
-                                    class="fa fa-x fa-xs ml-3 mr-2 hover:text-lime-500 active:text-lime-500"></a>
-                            </p>
-                        </div>
+                        @if ($search != 'todo')
+                            <div class="mt-1 flex items-center">
+                                <p class="text-gray-500 p-1 border-2 rounded-md border-opacity-60 border-lime-500">
+                                    Resultados para la busqueda: {{ $search }} <a
+                                        href="{{ route('verComprasRetiro') }}"
+                                        class="fa fa-x fa-xs ml-3 mr-2 hover:text-lime-500 active:text-lime-500"></a>
+                                </p>
+                            </div>
+                        @endif
                     @endif
                     <input type="hidden" name="busqueda"
                         @if (isset($search)) value="{{ $search }}" @endif>
                 </form>
             </div>
-            <div class="w-1/2 pr-0">
-                <div class="flex justify-end">
-                    <form action="{{ route('buscarComprasRetiro') }}" method="POST">
-                        <div class="flex justify-end">
-                            @csrf
-                            <label class="relative">
-                                <input name="buscar" type="text"
-                                    class=" border-2 rounded-l-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200"
-                                    placeholder=" ">
-                                <span
-                                    class="text-opacity-30 text-gray-700 absolute text-xs md:text-sm left-0 top-3 mx-3 px-2 transition duration-200 input-text">
-                                    Buscar
-                                </span>
-                            </label>
-                            <button class="btn-tienda rounded-r-md">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+            <div class="flex lg:justify-end order-1 lg:order-2">
+                <form action="{{ route('buscarComprasRetiro') }}" method="POST">
+                    <div class="flex justify-end">
+                        @csrf
+                        <label class="relative">
+                            <input name="buscar" type="text"
+                                class=" border-2 rounded-l-md border-black border-opacity-20 outline-none focus:border-lime-500 w-full py-1.5 px-5 transition duration-200"
+                                placeholder=" ">
+                            <span
+                                class="text-opacity-30 text-gray-700 absolute text-xs md:text-sm left-0 top-3 mx-3 px-2 transition duration-200 input-text">
+                                Buscar
+                            </span>
+                        </label>
+                        <button class="btn-tienda rounded-r-md">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
+
         <div class="overflow-x-auto shadow-md sm:rounded-lg">
             <table id="tabla" class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-100 ">

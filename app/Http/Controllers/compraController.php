@@ -635,10 +635,9 @@ class CompraController extends Controller
                 ->paginate(10);
 
             if ($ordenCompra->isEmpty()) {
-                // Remover espacios de la cadena de búsqueda
                 $busquedaSinEspacios = str_replace(' ', '', $busqueda);
 
-                // Buscar ordenes de compra por nombre completo del usuario
+
                 $ordenCompra = OrdenCompra::where('estado', 1)->where('envio', 1)
                     ->join('users', 'users.id', '=', 'ordenes_compra.user_id')
                     ->leftJoin('users_metadata', 'users_metadata.user_id', '=', 'users.id')
@@ -648,9 +647,6 @@ class CompraController extends Controller
             }
         }
         foreach ($ordenCompra as $orden) {
-            // $orden->user = User::find($orden->user_id);
-            // //metauser
-            // $orden->user->metauser = UserMetadata::find($orden->user->id);
             $user = User::find($orden->user_id);
             $metadata = UserMetadata::where('user_id', $orden->user_id)->first();
             if ($user && $metadata) {
@@ -667,9 +663,6 @@ class CompraController extends Controller
     {
         $ordenCompra = OrdenCompra::where('estado', 1)->where('envio', 2)->latest()->paginate(10);
         foreach ($ordenCompra as $orden) {
-            // $orden->user = User::find($orden->user_id);
-            // //metauser
-            // $orden->user->metauser = UserMetadata::find($orden->user->id);
             $user = User::find($orden->user_id);
             $metadata = UserMetadata::where('user_id', $orden->user_id)->first();
             if ($user && $metadata) {
@@ -712,8 +705,7 @@ class CompraController extends Controller
             // Remover espacios de la cadena de búsqueda
             $busquedaSinEspacios = str_replace(' ', '', $busqueda);
 
-            // Buscar ordenes de compra por nombre completo del usuario
-            $ordenCompra = OrdenCompra::where('estado', 1)
+            $ordenCompra = OrdenCompra::where('estado', 1)->where('envio', 2)
                 ->join('users', 'users.id', '=', 'ordenes_compra.user_id')
                 ->leftJoin('users_metadata', 'users_metadata.user_id', '=', 'users.id')
                 ->selectRaw('ordenes_compra.*, CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno) as full_name')
@@ -722,9 +714,7 @@ class CompraController extends Controller
         }
 
         foreach ($ordenCompra as $orden) {
-            // $orden->user = User::find($orden->user_id);
-            // //metauser
-            // $orden->user->metauser = UserMetadata::find($orden->user->id);
+
             $user = User::find($orden->user_id);
             $metadata = UserMetadata::where('user_id', $orden->user_id)->first();
             if ($user && $metadata) {
@@ -752,9 +742,6 @@ class CompraController extends Controller
     public function filtradosEnvio($busqueda, $categoria, $orden)
     {
         $ordenar = $orden;
-
-
-
         switch ($categoria) {
             case 1:
                 $column = 'ordenes_compra.updated_at';
@@ -798,9 +785,6 @@ class CompraController extends Controller
                 ->orderBy($column, $order)
                 ->paginate(10);
             foreach ($ordenCompra as $orden) {
-                // $orden->user = User::find($orden->user_id);
-                // //metauser
-                // $orden->user->metauser = UserMetadata::find($orden->user->id);
                 $user = User::find($orden->user_id);
                 $metadata = UserMetadata::where('user_id', $orden->user_id)->first();
                 if ($user && $metadata) {
@@ -831,10 +815,8 @@ class CompraController extends Controller
                 ->paginate(10);
 
             if ($ordenCompra->isEmpty()) {
-                // Remover espacios de la cadena de búsqueda
-                $busquedaSinEspacios = str_replace(' ', '', $busqueda);
 
-                // Buscar ordenes de compra por nombre completo del usuario
+                $busquedaSinEspacios = str_replace(' ', '', $busqueda);
                 $ordenCompra = OrdenCompra::where('estado', 1)->where('envio', 2)
                     ->join('users', 'users.id', '=', 'ordenes_compra.user_id')
                     ->leftJoin('users_metadata', 'users_metadata.user_id', '=', 'users.id')
@@ -844,9 +826,6 @@ class CompraController extends Controller
             }
         }
         foreach ($ordenCompra as $orden) {
-            // $orden->user = User::find($orden->user_id);
-            // //metauser
-            // $orden->user->metauser = UserMetadata::find($orden->user->id);
             $user = User::find($orden->user_id);
             $metadata = UserMetadata::where('user_id', $orden->user_id)->first();
             if ($user && $metadata) {
@@ -854,7 +833,6 @@ class CompraController extends Controller
                 $orden->user = $user;
             }
         }
-
         $search = $busqueda;
         return view('compra.envio', compact('ordenCompra', 'categoria', 'ordenar', 'search'));
     }
@@ -862,13 +840,6 @@ class CompraController extends Controller
     public function evaluarMostrar($id)
     {
 
-        // $ordenCompra = OrdenCompra::where('id', $id)->where('estado',1)->first();
-        // $ordenCompra = OrdenCompra::where('id', $id)
-        //     ->where('estado', 1)
-        //     ->with(['productos' => function ($query) {
-        //         $query->withTrashed();
-        //     }])
-        //     ->first();
 
 
         $ordenCompra = OrdenCompra::where('id', $id)
