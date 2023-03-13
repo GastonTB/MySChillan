@@ -109,6 +109,12 @@ class RegistroController extends Controller
             ]
         );
 
+        $rol = 2;
+
+        if(User::count()==0){
+            $rol = 1;
+        }
+
         $metauser = UserMetadata::create(
             [
                 'user_id' => $user->id,
@@ -117,7 +123,7 @@ class RegistroController extends Controller
                 'telefono' => $request->input('telefono'),
                 'direccion' => $request->input('direccion'),
                 'comuna_id' => $comuna->id,
-                'rol_id' => 2
+                'rol_id' => $rol,
             ]
         );
 

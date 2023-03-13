@@ -88,9 +88,9 @@
         <div class="lg:col-start-2 xl:col-start-2 lg:col-span-5 xl:col-span-3">
             <div class="grid lg:grid-cols-2 gap-10 pb-5">
                 <div class="col-span-1  md:px-10 lg:px-5">
-                    <p class="text-xl font-black mb-5">Mis Compras</p>
+                    <p class="text-xl font-black mb-5 ml-5">Mis Compras</p>
                     <div class="md:pl-5">
-                        <div class="overflow-x-auto">
+                        <div class="flex justify-center">
                             <table class="text-sm text-left text-gray-500 -px-5">
                                 @if (count($ordenes) != 0)
                                     <thead class="text-xs border-2 text-white uppercase bg-lime-500 font-semibold">
@@ -155,7 +155,17 @@
                                                             {{-- if today is 5 days more than $orden_updated at --}}
                                                             @if (Carbon\Carbon::now()->diffInDays(Carbon\Carbon::parse($orden->updated_at)) >= 5 && $orden->estado_retiro !=0)
                                                                 <a class="btn-tienda"
-                                                                    href="{{ route('mostrarEvaluar', $orden->id) }}">Calificar</a>
+                                                                    href="{{ route('mostrarEvaluar', $orden->id) }}">
+                                                                    @if($orden->calificaciones)
+                                                                    Detalles
+                                                                    @else
+                                                                    Calificar
+                                                                    @endif
+                                                                </a>
+                                                                    
+                                                            @elseif(Carbon\Carbon::now()->diffInDays(Carbon\Carbon::parse($orden->updated_at)) >= 5 && $orden->estado_retiro ==1 && $orden->calificaciones)
+                                                                <a class="btn-tienda"
+                                                                href="{{ route('mostrarEvaluar', $orden->id) }}">Detalles</a>
                                                             @else
                                                                 <div class="flex items-center space-x-2">
                                                                     <a href="{{ route('compra', $orden->id) }}" class="btn-tienda text-sm">

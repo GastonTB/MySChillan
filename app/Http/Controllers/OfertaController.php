@@ -39,7 +39,7 @@ class OfertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create($id)
-    {   
+    {
         $producto = Producto::find($id);
         if ($producto == null) {
             Alert::error('Error', 'El producto ingresado no existe');
@@ -60,7 +60,7 @@ class OfertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $id = $request->id_producto;
         $producto = Producto::find($id);
         if ($producto == null) {
@@ -166,8 +166,8 @@ class OfertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
-        
+    {
+
         $producto = Producto::find($id);
         if ($producto == null) {
             Alert::error('Error', 'El producto ingresado no existe');
@@ -180,7 +180,6 @@ class OfertaController extends Controller
         }
 
         return view('ofertas.edit', compact('producto'));
-
     }
 
     /**
@@ -191,10 +190,10 @@ class OfertaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {  
-        
+    {
+
         $id = $request->id_producto;
-       
+
         if ($id == null) {
             Alert::error('Error', 'No se pudo editar la oferta');
             return redirect()->route('backoffice');
@@ -284,7 +283,7 @@ class OfertaController extends Controller
         }
 
         $ofer = Oferta::find($producto->oferta_id);
-        if($ofer == null){
+        if ($ofer == null) {
             Alert::error('Error', 'El producto no tiene una oferta');
             return redirect()->route('backoffice');
         }
@@ -294,10 +293,9 @@ class OfertaController extends Controller
         $ofer->fecha_fin = $request->fecha_ter;
         $ofer->estado_oferta = $activa;
         $ofer->save();
-        
+
         Alert::success('La Oferta', 'Ha sido modificada con exito');
         return redirect()->back();
-
     }
 
     /**
@@ -310,12 +308,12 @@ class OfertaController extends Controller
     public function destroy($id)
     {
         $oferta = Oferta::find($id);
-        if($oferta == null){
+        if ($oferta == null) {
             Alert::errror('Error', 'No se pudo borrar la oferta');
             return redirect()->route('backoffice');
         }
         $producto = Producto::where('oferta_id', $id)->first();
-        if($producto == null){
+        if ($producto == null) {
             Alert::errror('Error', 'No se pudo borrar la oferta');
             return redirect()->route('backoffice');
         }
@@ -330,27 +328,19 @@ class OfertaController extends Controller
     public function ofertasActivas()
     {
 
-        $productos = Producto::where('oferta_id', '!=', 0)->with('oferta')->latest()->paginate(10);
-        foreach ($productos as $producto) {
-            $producto->precio = number_format($producto->precio, 0, ",", ".");
-            $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
-        }
-
-        foreach($productos as $producto) {
-            if($producto->oferta->estado_oferta == 1) {
-                $productos = $producto;
-            }
-        }
-      
-
-        $productos = $productos->filter(function ($producto) {
-            return $producto->oferta != null;
-        });
+        $productos = Producto::where('oferta_id', '!=', 0)
+            ->whereHas('oferta', function ($query) {
+                $query->where('estado_oferta', '=', 1);
+            })
+            ->with('oferta')
+            ->latest()
+            ->paginate(10);
 
         foreach ($productos as $producto) {
             $producto->precio = number_format($producto->precio, 0, ",", ".");
             $producto->oferta->precio_oferta = number_format($producto->oferta->precio_oferta, 0, ",", ".");
         }
+
 
         return view('ofertas.activas', compact('productos'));
     }

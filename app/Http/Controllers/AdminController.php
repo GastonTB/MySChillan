@@ -699,6 +699,26 @@ class AdminController extends Controller
             }
         }
 
+        $array7 = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $array7[] = array("mes" => $i, "cantidad" => 0);
+            foreach ($visitas as $visita) {
+                if ($visita->updated_at->month == $i && $visita->updated_at->year == $añoactualvisita) {
+                    $array7[count($array7) - 1]["cantidad"]++;
+                }
+            }
+        }
+
+        $totalvisitasanual = 0;
+        $anio_actual = date('Y');
+        for ($i = 1; $i <= 12; $i++) {
+            foreach ($visitas as $visita) {
+                if ($visita->updated_at->month == $i && $visita->updated_at->year == $anio_actual) {
+                    $totalvisitasanual++;
+                }
+            }
+        }
+
         for ($i = 0; $i < count($array7); $i++) {
             switch ($array7[$i]["mes"]) {
                 case 1:

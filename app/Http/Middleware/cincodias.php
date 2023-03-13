@@ -43,8 +43,13 @@ class cincodias
         $fechaActual = Carbon::now();
         $fechaModificacion = Carbon::createFromFormat('Y-m-d H:i:s', $ordenCompra->updated_at);
         $diferenciaDias = $fechaActual->diffInDays($fechaModificacion);
+
+        // if($ordenCompra->calificaciones){
+        //     Alert::error('Error', 'Ya se calificó esta compra');
+        //     return redirect()->route('inicio');
+        // }
     
-        if ($diferenciaDias >= 5 && $ordenCompra->estado_retiro == 0) {
+        if ($diferenciaDias >= 5 && $ordenCompra->estado_retiro == 1) {
             return $next($request);
         }
     

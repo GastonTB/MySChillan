@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        
     }
 
     /**
@@ -32,13 +32,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {   
-        //$regiones = Helpers::getRegiones();
+        $regiones = Helpers::getRegiones();
    
-        //View::share('regiones', $regiones );
+        View::share('regiones', $regiones );
 
-        //$comunas = Helpers::getComunas();
+        $comunas = Helpers::getComunas();
 
-        //View::share('comunas', $comunas );
+        View::share('comunas', $comunas );
 
         $carro = Helpers::getCarro();
 
