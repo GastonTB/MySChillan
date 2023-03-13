@@ -105,7 +105,7 @@
                                                     Total
                                                 </div>
                                             </th>
-                                            <th scope="col" class="md:px-6 md:py-3 px-2 py-2 whitespace-nowrap">
+                                            <th scope="col" class="md:px-6 md:py-3 px-2 py-2 whitespace-nowrap hidden md:flex">
                                                 <div class="flex justify-center whitespace-nowrap">
                                                     Tipo de envío
                                                 </div>
@@ -137,7 +137,7 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="px-2 py-4 whitespace-nowrap">
+                                                <td class="px-2 py-4 whitespace-nowrap hidden md:block">
                                                     <div class="flex justify-center">
                                                         <div class="text-sm text-gray-900">
                                                             @if ($orden->tipo_envio == 1)

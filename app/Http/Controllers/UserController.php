@@ -69,6 +69,10 @@ class UserController extends Controller
         $region_user = Region::findOrFail($comuna->region_id);
         $ordenes = OrdenCompra::where('user_id', $user->id)->where('estado', 1)->latest()->paginate(5);
         $autenticado = Auth::user();
+        if(!$autenticado){
+            return redirect()->route('inicio');
+
+        }
         if ($autenticado->id != $user->id) {
             return redirect()->route('inicio');
         }

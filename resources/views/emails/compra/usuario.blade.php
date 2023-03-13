@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Confirmación de compra</title>
+    <title>Confirmación de compra.</title>
     <style>
         table th {
             background-color: #48bb78;
@@ -34,8 +34,9 @@
         <thead>
             <tr>
                 <th>Producto</th>
-                <th>Cantidad</th>
                 <th>Precio</th>
+                <th>Cantidad</th>
+
             </tr>
         </thead>
         <tbody>
@@ -65,9 +66,15 @@
         <li><strong>Correo electrónico:</strong> {{ $user->correo }}</li>
         <li><strong>Teléfono:</strong> {{ $user->telefono }}</li>
     </ul>
+
+    @if($user->envio == 1)
+    <p>Favor de retirar su pedido en Pasaje Ñiquen 2795, Chillán.</p>
+    @else
+    <p>Su pedido será enviado a la dirección que nos proporcionó.</p>
+
     <p>Gracias de nuevo por tu compra en MyS Plantas y Suculentas Chillan. Esperamos que disfrutes tus nuevos productos.
         Si tienes alguna pregunta o inquietud, no dudes en contactarnos respondiendo este correo.</p>
-    <p>Atentamente,<br />El equipo de MyS Plantas y Suculentas Chillan</p>
+    <p>Atentamente,<br />El equipo de MyS Plantas y Suculentas Chillan.</p>
 </body>
 
 </html>

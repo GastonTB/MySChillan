@@ -118,7 +118,7 @@
                             <i class="fa fa-sm fa-phone"></i>
                         </div>
                         <div class="text-sm select-auto">
-                            <a href="https://walink.co/ae415b"><p>+569 66 419 506</p></a>
+                            <p>+569 78 389 813</p></a>
                         </div>
                     </div>
                     <div class="pl-5 text-gray-700 flex space-x-2 mt-2">

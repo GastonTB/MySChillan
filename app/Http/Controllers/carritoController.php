@@ -56,7 +56,7 @@ class CarritoController extends Controller
         }
         if(Auth::check())
         {
-            $id = Session::get('id');
+            $id = Auth::user()->id;
             $carrito = Carrito::where('user_id',$id)->get();
             $contador = $carrito->count();
             if($contador!=0){
