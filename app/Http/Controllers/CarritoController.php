@@ -128,7 +128,7 @@ class CarritoController extends Controller
     public function show($id)
     {
         if(Auth::check()){
-            $id_user = Session::get('id');
+            $id_user = Auth::user()->id;
             $carrito = Carrito::where('user_id',$id_user)->first();
             $carrito = $carrito->productos;
             $usuario = Auth::user();
@@ -191,7 +191,7 @@ class CarritoController extends Controller
         }
 
         if(Auth::check()){
-            $id_user = Session::get('id');
+            $id_user = Auth::user()->id;
             $carrito = Carrito::where('user_id',$id_user)->first();
             $contador = count($carrito->productos);
             foreach($carrito->productos as $prod){
@@ -249,7 +249,7 @@ class CarritoController extends Controller
     public function destroy($id)
     {
         if(Auth::check()){
-            $carrito = Carrito::where('user_id',Session::get('id'))->first();
+            $carrito = Carrito::where('user_id', Auth::user()->id)->first();
             $carrito->productos()->detach($id);
             return redirect()->back();
         }else{
@@ -271,7 +271,7 @@ class CarritoController extends Controller
         }
 
         if(Auth::check()){
-            $carritos = Carrito::where('user_id',Session::get('id'))->first();
+            $carritos = Carrito::where('user_id',Auth::user()->id)->first();
             $carritos = Carrito::findOrFail($carritos->id);
         }else{
             if(!Session::has('carrito')){
@@ -327,7 +327,7 @@ class CarritoController extends Controller
 
     public function miCarrito(){
         if(Auth::check()){
-            $id_user = Session::get('id');
+            $id_user = Auth::user()->id;
             $carrito = Carrito::where('user_id',$id_user)->first();
             //if carrito is empty return route inicio
             if($carrito->productos->isEmpty()){

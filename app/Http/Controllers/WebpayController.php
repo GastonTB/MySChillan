@@ -42,7 +42,7 @@ class WebpayController extends Controller
             return redirect()->back();
         }
 
-        $user = User::find(Session::get('id'));
+        $user = User::find(Auth::user()->id);
         $id = $user->id;
         $carrito = Carrito::where('user_id', Auth::user()->id)->first();
         $meta = UserMetadata::where('user_id', $id)->first();
@@ -164,8 +164,7 @@ class WebpayController extends Controller
                 "buy_order" => $orden->id,
                 "session_id" => $session,
                 "amount" => $total,
-                // "return_url"=> "https://mysplantaschillan.cl/webpay/respuesta"
-                "return_url" => "http://127.0.0.1:8000/webpay/respuesta"
+                "return_url" => env('WEBPAY_RESPUESTA')
             ]
         );
 
@@ -176,40 +175,6 @@ class WebpayController extends Controller
 
         $datos = json_decode($response);
 
-        // if(isset($datos->token)){
-        //     $carrito = Carrito::where('user_id',Auth::user()->id)->first();
-        //     $array = [];
-        //     foreach($carrito->productos as $producto){
-        //         if($producto->cantidad < $producto->pivot->cantidad_carrito){
-        //             $array[] = $producto->nombre_producto;
-        //         }
-        //     }
-        //     if(count($array) > 0){
-        //         if(Auth::check()){
-        //             $user = User::find(Session::get('id'));
-        //             $id = $user->id;
-        //             $meta = UserMetadata::where('user_id', $id)->first();
-        //             $comuna_user = Comuna::where('id', $meta->comuna_id)->first();
-        //             $region_user = Region::where('id', $comuna_user->region_id)->first();
-        //             $carrito = Carrito::where('user_id',Auth::user()->id)->first();
-        //             $carrito_id = $carrito->id;
-        //             $productos = implode(", ", $array);
-        //             Alert::warning('Compra Cancelada', 'No hay suficientes productos en stock: '.$productos.' se ha actualizado tu carrito de compras');
-        //             return view('compra.show', compact('carrito', 'user', 'meta', 'region_user', 'comuna_user'));
-        //         }else{
-        //             Alert::warning('Compra Cancelada', 'No hay suficientes productos en stock');
-        //             return redirect()->route('inicio');
-        //         }
-        //     }else{
-        //         foreach($carrito->productos as $producto){
-        //             $producto->cantidad = $producto->cantidad - $producto->pivot->cantidad_carrito;
-        //             $producto->save();
-        //         }
-
-        //     }
-        // }
-
-        // return view('webpay.pagar', compact('datos'));
 
         if (isset($datos->token)) {
             foreach ($carrito->productos as $producto) {
@@ -255,7 +220,7 @@ class WebpayController extends Controller
 
         if (!isset($_GET['token_ws'])) {
             if (Auth::check()) {
-                $user = User::find(Session::get('id'));
+                $user = User::find(Auth::user()->id);
                 $id = $user->id;
                 $meta = UserMetadata::where('user_id', $id)->first();
                 $comuna_user = Comuna::where('id', $meta->comuna_id)->first();
@@ -316,7 +281,7 @@ class WebpayController extends Controller
             return redirect()->route('inicio');
         } else {
             if (Auth::check()) {
-                $user = User::find(Session::get('id'));
+                $user = User::find(Auth::user()->id);
                 $id = $user->id;
                 $meta = UserMetadata::where('user_id', $id)->first();
                 $comuna_user = Comuna::where('id', $meta->comuna_id)->first();
@@ -324,11 +289,7 @@ class WebpayController extends Controller
                 $carrito = Carrito::where('user_id', Auth::user()->id)->first();
                 $carrito_id = $carrito->id;
                 Alert::warning('Compra Cancelada', 'Intentelo nuevamente');
-                //re add the productos
-                foreach ($carrito->productos as $producto) {
-                    $producto->cantidad = $producto->cantidad + $producto->pivot->cantidad_carrito;
-                    $producto->save();
-                }
+
 
                 return view('compra.show', compact('carrito', 'user', 'meta', 'region_user', 'comuna_user'));
             } else {
