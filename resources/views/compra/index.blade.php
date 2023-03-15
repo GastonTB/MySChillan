@@ -45,6 +45,9 @@
                                 <option @if ($categoria == 6) selected @endif value="6">
                                     Estado Envío
                                 </option>
+                                <option @if ($categoria == 7) selected @endif value="7">
+                                    Tipo Envío
+                                </option>
                             @else
                                 <option value="1">
                                     Fecha
@@ -63,6 +66,9 @@
                                 </option>
                                 <option value="6">
                                     Estado Envío
+                                </option>
+                                <option value="7">
+                                    Tipo Envío
                                 </option>
                             @endif
                         </select>

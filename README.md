@@ -1,68 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Tienda Online MyS Plantas y Suculentas Chillán
 
-## About Laravel
+El siguiente proyecto es una tienda online desarrollada en Laravel. La tienda permite a los usuarios navegar por una lista de productos, agregarlos al carrito de compras y completar el proceso de pago utilizando diferentes métodos de pago. Además, los usuarios pueden crear una cuenta, ver su historial de compras y actualizar su información personal.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+El proyecto utiliza una arquitectura de controlador de modelo de vista (MVC) y cuenta con características de seguridad implementadas, como autenticación de usuarios y protección contra ataques de falsificación de solicitudes en sitios cruzados (CSRF).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+El sistema de pago se integra con API de Webpay. El panel de administración permite a los administradores agregar, editar y eliminar productos, así como ver información de ventas.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Este proyecto es altamente personalizable y puede ser utilizado como base para desarrollar cualquier tipo de tienda en línea.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Requisitos e Instalación
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Antes de comenzar, asegúrese de cumplir con los siguientes requisitos:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+PHP 8.1
+Servidor web como Apache o Nginx
+MySQL o MariaDB
+Extensiones de PHP:
+php8.1-fpm
+php8.1-cli
+php8.1-curl
+php8.1-zip
+php8.1-mysql
+php8.1-mbstring
+php8.1-xml
+php8.1-bcmath
+php8.1-gd
 
-## Laravel Sponsors
+Clonar el repositorio:
+```bash
+    git clone https://github.com/GastonTB/MySChillan.git
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Moverse a la carpeta e instalar composer:
+```bash
+    cd MySChillan
+    composer install
+```
 
-### Premium Partners
+Crear un archivo .env a partir del archivo .env.example y configurar las variables de entorno para la base de datos:
+```bash
+    cp .env.example .env
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Generar una nueva clave de aplicación:
+```bash
+    php artisan key:generate
+```
 
-## Contributing
+Instalar npm:
+```bash
+    npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Ejecutar el comando npm run build para compilar los assets de la aplicación (si es necesario):
+```bash
+    npm run build
+```
+Crear base de datos con los parametros del archivo .env.
 
-## Code of Conduct
+Instalar MailHog.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Ejecutar las migraciones de la base de datos y los seeders:
+```bash
+    php artisan migrate --seed
+```
 
-## Security Vulnerabilities
+Copiar y reemplazar el archivo:
+```bash
+    cp app/Providers/AppServiceProvider\ copy.php app/Providers/AppServiceProvider.php
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Ejecutar el servidor de desarrollo de Laravel:
 
-## License
+```bash
+   php artisan serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# MySChillan
-Tienda Online Para MyS Plantas y Suculentas Chillan
+Dejar corriendo las tareas programadas: 
+```bash
+   php artisan schedule:work
+```
+
+La aplicación estará disponible en http://localhost:8000.
+
+
+
+
+
+
+## Autor
+
+- [@Gastón Damián Toledo Becerra](https://github.com/GastonTB)
+

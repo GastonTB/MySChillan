@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 
@@ -171,7 +172,7 @@ class TiendaController extends Controller
 
         if (!$nombre || $nombre == '') {
             if ($categoria != 9) {
-                $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->latest()->where('precio', '<=', $maximo)->latest();
+                $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->latest();
             } else {
                 $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->latest();
             }
@@ -194,104 +195,195 @@ class TiendaController extends Controller
         
         switch ($orden) {
             case 1:
-                $productos = $productos->orderBy('created_at', 'desc')->paginate(12);
+
+
+                if (!$nombre || $nombre == '') {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('created_at', 'desc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('created_at', 'desc')->paginate(12);
+                    }
+                } else {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('created_at', 'desc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('created_at', 'desc')->paginate(12);
+                    }
+                }
+
+                // $productos = $productos->
                 break;
             case 2:
-                $productos = $productos->orderBy('created_at', 'asc')->paginate(12);
+
+                if (!$nombre || $nombre == '') {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('created_at', 'asc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('created_at', 'asc')->paginate(12);
+                    }
+                } else {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('created_at', 'asc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('created_at', 'asc')->paginate(12);
+                    }
+                }
+                // $productos = $productos->orderBy('created_at', 'asc')->paginate(12);
+ 
                 break;
             case 3:
-                $productos = $productos->orderBy('precio', 'desc')->paginate(12);
+                if (!$nombre || $nombre == '') {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('precio', 'desc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('precio', 'desc')->paginate(12);
+                    }
+                } else {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('precio', 'desc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('precio', 'desc')->paginate(12);
+                    }
+                }
+                
+                // $productos = $productos->orderBy('precio', 'desc')->paginate(12);
                 break;
             case 4:
-                $productos = $productos->orderBy('precio', 'asc')->paginate(12);
+                if (!$nombre || $nombre == '') {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('precio', 'asc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('precio', 'asc')->paginate(12);
+                    }
+                } else {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('precio', 'asc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('precio', 'asc')->paginate(12);
+                    }
+                }                
                 break;
             case 5:
-                $productos = $productos->orderBy('nombre_producto', 'asc')->paginate(12);
+
+                if (!$nombre || $nombre == '') {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('nombre_producto', 'asc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('nombre_producto', 'asc')->paginate(12);
+                    }
+                } else {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('nombre_producto', 'asc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('nombre_producto', 'asc')->paginate(12);
+                    }
+                }       
+                // $productos = $productos->orderBy('nombre_producto', 'asc')->paginate(12);
                 break;
             case 6:
-                $productos = $productos->orderBy('nombre_producto', 'desc')->paginate(12);
+                if (!$nombre || $nombre == '') {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('nombre_producto', 'desc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('nombre_producto', 'desc')->paginate(12);
+                    }
+                } else {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('nombre_producto', 'desc')->paginate(12);
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('nombre_producto', 'desc')->paginate(12);
+                    }
+                }     
+                // $productos = $productos->orderBy('nombre_producto', 'desc')->paginate(12);
                 break;
             case 7:
-                $productos = Producto::leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
+                
+                if (!$nombre || $nombre == '') {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
                       ->selectRaw('productos.*, AVG(calificaciones.puntuacion) AS promedio_calificaciones')
                       ->groupBy('productos.id', 'productos.nombre_producto', 'productos.cantidad', 'productos.precio','productos.descripcion','productos.imagenes','productos.created_at' , 'productos.updated_at','categoria_id','oferta_id','deleted_at')
                       ->orderBy('promedio_calificaciones', 'desc')
-                      ->paginate(12);
+                      ->paginate(12);;
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
+                      ->selectRaw('productos.*, AVG(calificaciones.puntuacion) AS promedio_calificaciones')
+                      ->groupBy('productos.id', 'productos.nombre_producto', 'productos.cantidad', 'productos.precio','productos.descripcion','productos.imagenes','productos.created_at' , 'productos.updated_at','categoria_id','oferta_id','deleted_at')
+                      ->orderBy('promedio_calificaciones', 'desc')
+                      ->paginate(12);;
+                    }
+                } else {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
+                      ->selectRaw('productos.*, AVG(calificaciones.puntuacion) AS promedio_calificaciones')
+                      ->groupBy('productos.id', 'productos.nombre_producto', 'productos.cantidad', 'productos.precio','productos.descripcion','productos.imagenes','productos.created_at' , 'productos.updated_at','categoria_id','oferta_id','deleted_at')
+                      ->orderBy('promedio_calificaciones', 'desc')
+                      ->paginate(12);;
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
+                      ->selectRaw('productos.*, AVG(calificaciones.puntuacion) AS promedio_calificaciones')
+                      ->groupBy('productos.id', 'productos.nombre_producto', 'productos.cantidad', 'productos.precio','productos.descripcion','productos.imagenes','productos.created_at' , 'productos.updated_at','categoria_id','oferta_id','deleted_at')
+                      ->orderBy('promedio_calificaciones', 'desc')
+                      ->paginate(12);;
+                    }
+                }
+                
+                
+        
+                // $productos = $productos->leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
+                //       ->selectRaw('productos.*, AVG(calificaciones.puntuacion) AS promedio_calificaciones')
+                //       ->groupBy('productos.id', 'productos.nombre_producto', 'productos.cantidad', 'productos.precio','productos.descripcion','productos.imagenes','productos.created_at' , 'productos.updated_at','categoria_id','oferta_id','deleted_at')
+                //       ->orderBy('promedio_calificaciones', 'desc')
+                //       ->paginate(12);
                 break;
             case 8:
-                $productos = Producto::leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
+                if (!$nombre || $nombre == '') {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
                       ->selectRaw('productos.*, AVG(calificaciones.puntuacion) AS promedio_calificaciones')
                       ->groupBy('productos.id', 'productos.nombre_producto', 'productos.cantidad', 'productos.precio','productos.descripcion','productos.imagenes','productos.created_at' , 'productos.updated_at','categoria_id','oferta_id','deleted_at')
                       ->orderBy('promedio_calificaciones', 'asc')
-                      ->paginate(12);
-                      break;
+                      ->paginate(12);;
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
+                      ->selectRaw('productos.*, AVG(calificaciones.puntuacion) AS promedio_calificaciones')
+                      ->groupBy('productos.id', 'productos.nombre_producto', 'productos.cantidad', 'productos.precio','productos.descripcion','productos.imagenes','productos.created_at' , 'productos.updated_at','categoria_id','oferta_id','deleted_at')
+                      ->orderBy('promedio_calificaciones', 'asc')
+                      ->paginate(12);;
+                    }
+                } else {
+                    if ($categoria != 9) {
+                        $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
+                      ->selectRaw('productos.*, AVG(calificaciones.puntuacion) AS promedio_calificaciones')
+                      ->groupBy('productos.id', 'productos.nombre_producto', 'productos.cantidad', 'productos.precio','productos.descripcion','productos.imagenes','productos.created_at' , 'productos.updated_at','categoria_id','oferta_id','deleted_at')
+                      ->orderBy('promedio_calificaciones', 'asc')
+                      ->paginate(12);;
+                    } else {
+                        $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->leftJoin('calificaciones', 'productos.id', '=', 'calificaciones.producto_id')
+                      ->selectRaw('productos.*, AVG(calificaciones.puntuacion) AS promedio_calificaciones')
+                      ->groupBy('productos.id', 'productos.nombre_producto', 'productos.cantidad', 'productos.precio','productos.descripcion','productos.imagenes','productos.created_at' , 'productos.updated_at','categoria_id','oferta_id','deleted_at')
+                      ->orderBy('promedio_calificaciones', 'asc')
+                      ->paginate(12);;
+                    }
+                }
             default:
-                $productos = $productos->orderBy('created_at', 'desc')->paginate(12);
+            if (!$nombre || $nombre == '') {
+                if ($categoria != 9) {
+                    $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('created_at', 'desc')->paginate(12);
+                } else {
+                    $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->orderBy('created_at', 'desc')->paginate(12);
+                }
+            } else {
+                if ($categoria != 9) {
+                    $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('created_at', 'desc')->paginate(12);
+                } else {
+                    $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->orderBy('created_at', 'desc')->paginate(12);
+                }
+            }
+
                 break;
         }   
        
-        // switch ($orden) {
-        //     case 1:
-        //         $ordenar1 = 'created_at';
-        //         $ordenar2 = 'desc';
-        //         break;
-        //     case 2:
-        //         $ordenar1 = 'created_at';
-        //         $ordenar2 = 'asc';
-        //         break;
-        //     case 3:
-        //         $ordenar1 = 'precio';
-        //         $ordenar2 = 'desc';
-        //         break;
-        //     case 4:
-        //         $ordenar1 = 'precio';
-        //         $ordenar2 = 'asc';
-        //         break;
-        //     case 5:
-        //         $ordenar1 = 'nombre_producto';
-        //         $ordenar2 = 'asc';
-        //         break;
-        //     case 6:
-        //         $ordenar1 = 'nombre_producto';
-        //         $ordenar2 = 'desc';
-        //         break;
-        //     case 7:
-        //         $ordenar1 = 'promedio_califiaciones';
-        //         $ordenar2 = 'desc';
-        //         break;
-        //     case 8:
-        //         $ordenar1 = 'promedio_califiaciones';
-        //         $ordenar2 = 'desc';
-        //         break;
-        //     default:
-        //         $ordenar1 = 'created_at';
-        //         $ordenar2 = 'desc';
-        //         break;
-        // }
-
-        
-
-        // if (!$nombre || $nombre == '') {
-        //     if ($categoria != 9) {
-        //         $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->latest()->where('precio', '<=', $maximo)->latest()->paginate(12);
-        //     } else {
-        //         $productos = Producto::all();
-        //         $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->latest()->paginate(12);
-        //     }
-        // } else {
-        //     if ($categoria != 9) {
-        //         $productos = Producto::where('categoria_id', $categoria)->where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->latest()->paginate(12);
-        //     } else {
-        //         $productos = Producto::where('precio', '>=', $minimo)->where('precio', '<=', $maximo)->where('nombre_producto', 'like', '%' . $nombre . '%')->latest()->paginate(12);
-        //     }
-        // }
-        
-        
-        // foreach ($productos as $producto) {
-        //     $promedio = $producto->getPromedio();
-        //     $producto->promedio_calificaciones = $promedio;
-        // }
-        
 
 
         $buscar = $nombre;
@@ -307,18 +399,27 @@ class TiendaController extends Controller
     }
 
     public function buscar(Request $request)
-    {
-
+    {   
         $buscar = $request->buscar;
+
+        $buscar = preg_replace('/[^a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]+/', '', $buscar);
+
+
         if ($buscar == NULL) {
             return redirect()->route('tienda');
         }
+
 
         return redirect()->route('buscados', array('nombre' => $buscar));
     }
 
     public function buscados($buscar)
     {
+
+        if(strlen($buscar)>50){
+            Alert::error('Error', 'Lo siento, la búsqueda que has ingresado es demasiado larga. Por favor, limita tu búsqueda a 50 caracteres o menos');
+            return redirect()->back();
+        }
 
         $productos = Producto::where('nombre_producto', 'like', '%' . $buscar . '%')->paginate(12);
         $minimo = 0;

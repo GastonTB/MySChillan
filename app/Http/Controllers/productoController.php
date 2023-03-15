@@ -58,7 +58,7 @@ class ProductoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {   
         $categorias = new Categoria;
         $categorias = Categoria::all();
         return view('productos.create', compact('categorias'));
@@ -398,17 +398,17 @@ class ProductoController extends Controller
                 'temporada_text.*' => ['required', 'integer', 'min:1', 'max:8'],
                 'temporada_text' => 'required_without_all:temporada_text.*',
                 'cuidados_text' => 'required|min:10|max:999',
-                'imagen_1' =>  ['image', 'mimes:jpeg,png,jpg', new AspectRatio()],
-                'imagen_2' => ['image', 'mimes:jpeg,png,jpg', new AspectRatio()],
-                'imagen_3' => ['image', 'mimes:jpeg,png,jpg', new AspectRatio()],
-                'imagen_4' => ['image', 'mimes:jpeg,png,jpg', new AspectRatio()],
+                'imagen_1' =>  ['image', 'mimes:jpeg,png,jpg', 'max:20480'],
+                'imagen_2' => ['image', 'mimes:jpeg,png,jpg', 'max:20480'],
+                'imagen_3' => ['image', 'mimes:jpeg,png,jpg', 'max:20480'],
+                'imagen_4' => ['image', 'mimes:jpeg,png,jpg', 'max:20480'],
             );
 
             $mensaje = array(
                 'required' => 'El campo :attribute es obligatorio',
                 'alpha' => 'El campo :attribute solo puede contener letras',
-                'min' => 'El campo :attribute debe tener al menos :min caracteres',
-                'max' => 'El campo :attribute debe tener como máximo :max caracteres',
+                'min' => 'El campo :attribute debe tener al menos :min',
+                'max' => 'El campo :attribute debe tener como máximo :max',
                 'integer' => 'El campo :attribute debe ser un número entero',
                 'required_without_all' => 'Debe seleccionar al menos una temporada',
                 'regex:/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/u' => 'El nombre debe ser una palabra',
@@ -423,17 +423,17 @@ class ProductoController extends Controller
                 'descripcion_text' => 'required|min:10|max:999',
                 'caracteristicas_text' => 'required|min:10|max:999',
                 'categorias' => 'required',
-                'imagen_0' => ['image', 'mimes:jpeg,png,jpg', new AspectRatio()],
-                'imagen_1' => ['image', 'mimes:jpeg,png,jpg', new AspectRatio()],
-                'imagen_2' => ['image', 'mimes:jpeg,png,jpg', new AspectRatio()],
-                'imagen_3' => ['image', 'mimes:jpeg,png,jpg', new AspectRatio()],
+                'imagen_0' => ['image', 'mimes:jpeg,png,jpg', 'max:20480'],
+                'imagen_1' => ['image', 'mimes:jpeg,png,jpg', 'max:20480'],
+                'imagen_2' => ['image', 'mimes:jpeg,png,jpg', 'max:20480'],
+                'imagen_3' => ['image', 'mimes:jpeg,png,jpg', 'max:20480'],
             );
 
             $mensaje = array(
                 'required' => 'El campo :attribute es obligatorio',
                 'alpha' => 'El campo :attribute solo puede contener letras',
-                'min' => 'El campo :attribute debe tener al menos :min caracteres',
-                'max' => 'El campo :attribute debe tener como máximo :max caracteres',
+                'min' => 'El campo :attribute debe tener al menos :min',
+                'max' => 'El campo :attribute debe tener como máximo :max',
                 'integer' => 'El campo :attribute debe ser un número entero',
                 'required_without_all' => 'Debe subir al menos una imagen',
                 'dimensions' => 'La imagen debe tener una proporción de 3:4 y un tamaño mínimo de 300px x 400px.',
@@ -500,44 +500,110 @@ class ProductoController extends Controller
         $i = 0;
         for ($i; $i < 4; $i++) {
 
-            if ($imagenes[$i] != null && $imagenes_ocultas[$i] == 'nueva') {
-                $ruta_archivo_actual = public_path('storage/imagenes/' . $imagenes[$i]);
-                if (file_exists($ruta_archivo_actual)) {
-                    if ($request->hasFile('imagen_' . ($i + 1))) {
-                        $extension = $request->file('imagen_' . ($i + 1))->getClientOriginalExtension();
-                        $nombre_imagen = $imagenes[$i];
-                        $nombre_imagen = explode('.', $imagenes[$i])[0];
-                        $nombre_archivo = $nombre_imagen . '.' . $extension;
-                        unlink($ruta_archivo_actual);
-                        $request->file('imagen_' . ($i + 1))->storeAs('public/imagenes', $nombre_archivo);
+            // if ($imagenes[$i] != null && $imagenes_ocultas[$i] == 'nueva') {
+            //     $ruta_archivo_actual = public_path('storage/imagenes/' . $imagenes[$i]);
+            //     if (file_exists($ruta_archivo_actual)) {
+            //         if ($request->hasFile('imagen_' . ($i + 1))) {
+            //             $extension = $request->file('imagen_' . ($i + 1))->getClientOriginalExtension();
+            //             $nombre_imagen = $imagenes[$i];
+            //             $nombre_imagen = explode('.', $imagenes[$i])[0];
+            //             $nombre_archivo = $nombre_imagen . '.' . $extension;
+            //             unlink($ruta_archivo_actual);
+            //             $request->file('imagen_' . ($i + 1))->storeAs('public/imagenes', $nombre_archivo);
+            //         }
+            //     }
+            // }
+            // if ($imagenes[$i] != null && $imagenes_ocultas[$i] == 'nueva') {
+            //     $ruta_archivo_actual = public_path('storage/imagenes/' . $imagenes[$i]);
+            //     if (file_exists($ruta_archivo_actual)) {
+            //         if ($request->hasFile('imagen_' . ($i + 1))) {
+            //             $extension = $request->file('imagen_' . ($i + 1))->getClientOriginalExtension();
+            //             $nombre_imagen = $imagenes[$i];
+            //             $nombre_imagen = explode('.', $imagenes[$i])[0];
+            //             $nombre_archivo = $nombre_imagen . '.' . $extension;
+            //             unlink($ruta_archivo_actual);
+            //             $img = Image::make($request->file('imagen_' . $i + 1));
+            //             $img->resize(300, 400);
+            //             $img->save($ruta_archivo_actual);
+            //         }
+            //     }
+            // }
+    
+            if (($imagenes[$i] != null && $imagenes_ocultas[$i] == 'nueva')) {
+                
+                if ($request->hasFile('imagen_' . ($i + 1))) {
+                    $extension = $request->file('imagen_' . ($i + 1))->getClientOriginalExtension();
+                    $nombre_imagen = $producto->id . '-' . ($i + 1) . '.' . $extension;
+                    $ruta_archivo_actual = public_path('storage/imagenes/' . $nombre_imagen);
+                    $imagenes[$i] = $nombre_imagen;
+                    $img = Image::make($request->file('imagen_' . ($i + 1)));
+            
+                    // Si la imagen es vertical, la rotamos
+                    if ($img->height() > $img->width()) {
+                        $img->rotate(270);
                     }
+            
+                    
+                        $img->resize(300, 400);
+                    
+            
+                    $img->save($ruta_archivo_actual);
                 }
             }
             $array = [];
-            if (($imagenes[$i] == null && $imagenes_ocultas[$i] == 'nueva')) {
+            // if (($imagenes[$i] == null && $imagenes_ocultas[$i] == 'nueva')) {
 
+            //     if ($request->hasFile('imagen_' . ($i + 1))) {
+            //         $extension = $request->file('imagen_' . ($i + 1))->getClientOriginalExtension();
+            //         $nombre_imagen = $producto->id . '-' . ($i + 1) . '.' . $extension;
+            //         $ruta_archivo_actual = public_path('storage/imagenes/' . $nombre_imagen);
+            //         $imagenes[$i] = $nombre_imagen;
+            //         $array = $ruta_archivo_actual;
+            //         $img = Image::make($request->file('imagen_' . $i + 1))->rotate(270);
+            //         $img->resize(300, 400);
+            //         $img->save($ruta_archivo_actual);
+            //     }
+            // }
+
+            if (($imagenes[$i] == null && $imagenes_ocultas[$i] == 'nueva')) {
+        
                 if ($request->hasFile('imagen_' . ($i + 1))) {
                     $extension = $request->file('imagen_' . ($i + 1))->getClientOriginalExtension();
                     $nombre_imagen = $producto->id . '-' . ($i + 1) . '.' . $extension;
                     $ruta_archivo_actual = public_path('storage/imagenes/' . $nombre_imagen);
                     $imagenes[$i] = $nombre_imagen;
                     $array = $ruta_archivo_actual;
-                    // $request->file('imagen_' . ($i + 1))->storeAs('public/imagenes', $nombre_imagen);
-                    $img = Image::make($request->file('imagen_' . $i + 1))->rotate(270);
+                    $img = Image::make($request->file('imagen_' . $i + 1));
+                    $ancho = $img->getWidth();
+                    $alto = $img->getHeight();
+                    if ($ancho / $alto == 4 / 3) {
+                        $img->rotate(270);
+                    }
                     $img->resize(300, 400);
                     $img->save($ruta_archivo_actual);
                 }
             }
 
 
-
+            // if ($request->hasFile('imagen_' . ($i + 1))) {
+            //     $extension = $request->file('imagen_' . ($i + 1))->getClientOriginalExtension();
+            //     $nombre_imagen = $producto->id . '-' . ($i + 1) . '.' . $extension;
+            //     $ruta_archivo_actual = public_path('storage/imagenes/' . $nombre_imagen);
+            //     $imagenes[$i] = $nombre_imagen;
+            //     $img = Image::make($request->file('imagen_' . $i + 1));
+            //     $img->resize(300, 400);
+            //     $img->save($ruta_archivo_actual);
+            // }
             if ($request->hasFile('imagen_' . ($i + 1))) {
+                
                 $extension = $request->file('imagen_' . ($i + 1))->getClientOriginalExtension();
                 $nombre_imagen = $producto->id . '-' . ($i + 1) . '.' . $extension;
                 $ruta_archivo_actual = public_path('storage/imagenes/' . $nombre_imagen);
                 $imagenes[$i] = $nombre_imagen;
-                $request->file('imagen_' . ($i + 1))->storeAs('public/imagenes', $nombre_imagen);
                 $img = Image::make($request->file('imagen_' . $i + 1));
+                if ($img->width() / $img->height() == 4 / 3) {
+                    $img->rotate(270);
+                }
                 $img->resize(300, 400);
                 $img->save($ruta_archivo_actual);
             }
@@ -720,42 +786,108 @@ class ProductoController extends Controller
                 break;
         }
 
-        if ($busqueda == 'todo') {
-            $productos = Producto::withTrashed()
-                ->with('calificaciones')
-                ->withAvg('calificaciones', 'puntuacion')
-                ->latest();
-        } else {
-            $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
-                ->with('calificaciones')
-                ->withAvg('calificaciones', 'puntuacion')
-                ->latest();
-        }
+        // if ($busqueda == 'todo') {
+        //     $productos = Producto::withTrashed()
+        //         ->with('calificaciones')
+        //         ->withAvg('calificaciones', 'puntuacion')
+        //         ->latest();
+        // } else {
+        //     $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
+        //         ->with('calificaciones')
+        //         ->withAvg('calificaciones', 'puntuacion')
+        //         ->latest();
+        // }
 
 
         switch ($categoria) {
             case 1:
-                $productos = $productos->orderBy('nombre_producto', $order)->paginate(10);
+                if ($busqueda == 'todo') {
+                    $productos = Producto::withTrashed()
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('nombre_producto', $order)->paginate(10);
+                } else {
+                    $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('nombre_producto', $order)->paginate(10);
+                }
+
+                // $productos = $productos->orderBy('nombre_producto', $order)->paginate(10);
                 break;
             case 2:
-                $productos = $productos->orderBy('precio', $order)->paginate(10);
+                if ($busqueda == 'todo') {
+                    $productos = Producto::withTrashed()
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('precio', $order)->paginate(10);
+                } else {
+                    $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('precio', $order)->paginate(10);
+                }
+                // $productos = $productos->orderBy('precio', $order)->paginate(10);
                 break;
             case 3:
-                $productos = $productos->orderBy('cantidad', $order)->paginate(10);
+                if ($busqueda == 'todo') {
+                    $productos = Producto::withTrashed()
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('cantidad', $order)->paginate(10);
+                } else {
+                    $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('cantidad', $order)->paginate(10);
+                }
+                // $productos = $productos->orderBy('cantidad', $order)->paginate(10);
 
                 break;
             case 4:
-                $productos = $productos->orderBy('categoria_id', $order)->paginate(10);
+                if ($busqueda == 'todo') {
+                    $productos = Producto::withTrashed()
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('categoria_id', $order)->paginate(10);
+                } else {
+                    $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('categoria_id', $order)->paginate(10);
+                }
                 break;
             case 5:
-                $productos = $productos->with('calificaciones')
-                    ->withAvg('calificaciones', 'puntuacion')
-                    ->orderBy('calificaciones_avg_puntuacion', $order)
+
+                if ($busqueda == 'todo') {
+                    $productos = Producto::withTrashed()
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('calificaciones_avg_puntuacion', $order)
                     ->paginate(10);
+                } else {
+                    $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
+                        ->with('calificaciones')
+                        ->withAvg('calificaciones', 'puntuacion')
+                        ->orderBy('calificaciones_avg_puntuacion', $order)
+                    ->paginate(10);
+                }
+
                 break;
             default:
-                $productos = $productos->orderBy('nombre_producto', 'desc')->paginate(10);
+            if ($busqueda == 'todo') {
+                $productos = Producto::withTrashed()
+                    ->with('calificaciones')
+                    ->withAvg('calificaciones', 'puntuacion')
+                    ->orderBy('nombre_producto', $order)->paginate(10);
+            } else {
+                $productos = Producto::withTrashed()->where('nombre_producto', 'LIKE', '%' . $busqueda . '%')
+                    ->with('calificaciones')
+                    ->withAvg('calificaciones', 'puntuacion')
+                    ->orderBy('nombre_producto', $order)->paginate(10);
+            }
                 $categoria = 1;
+                $orden = 1;
                 break;
         }
 
@@ -785,6 +917,7 @@ class ProductoController extends Controller
     }
 
 
+
     public function buscarSinStock(Request $request)
     {
         //if request is empty
@@ -800,7 +933,7 @@ class ProductoController extends Controller
 
     public function buscadosSinStock($producto)
     {
-        $productos = Producto::where('nombre_producto', 'like', '%' . $producto . '%')->where('cantidad', 0)->orderBy('nombre_producto', 'desc')->paginate(10);
+        $productos = Producto::where('nombre_producto', 'like', '%' . $producto . '%')->where('cantidad',0)->orderBy('nombre_producto','desc')->paginate(10);
         $search = $producto;
         return view('productos.sinstock', compact('productos', 'search'));
     }
@@ -882,6 +1015,12 @@ class ProductoController extends Controller
                     ->withAvg('calificaciones', 'puntuacion')
                     ->orderBy('calificaciones_avg_puntuacion', $order)
                     ->paginate(10);
+                    break;
+            case 6:
+                $productos = $productos->orderBy('tipo_envio', $order)->paginate(10);
+                break;
+            case 7:
+                $productos = $productos->orderBy('envio', $order)->paginate(10);
                 break;
             default:
                 $productos = $productos->orderBy('nombre_producto', 'desc')->paginate(10);
@@ -1084,6 +1223,6 @@ class ProductoController extends Controller
 
         // Mostrar mensaje de éxito y redirigir a la página anterior
         Alert::success('Imagen eliminada', 'La imagen se ha eliminado exitosamente');
-        return redirect()->back();
+        return redirect()->route('editarProducto', $producto->id);
     }
 }

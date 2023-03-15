@@ -228,7 +228,7 @@ input[type=number] {
                 var cantidad = $('#cantidad'+id).val();
                 cantidad = parseInt(cantidad);
                 if(tipo == 'mas'){
-                    if(cantidad < 21){
+                    if(cantidad < 20){
                         cantidad = cantidad + 1;
                         $('#cantidad'+id).val(cantidad);
                     }else{

@@ -96,13 +96,15 @@ class CompraController extends Controller
                 $column = 'ordenes_compra.correo';
                 break;
             case 6:
-                $column = 'ordenes_compra.envio';
+                $column = 'ordenes_compra.estado';
+
                 break;
             case 7:
-                $column = 'ordenes_compra.estado';
+                $column = 'ordenes_compra.envio';
+
                 break;
             default:
-                $column = 'ordenes_compra.updated_at';
+                $column = 'ordenes_compra.created';
                 break;
         }
 
@@ -117,6 +119,8 @@ class CompraController extends Controller
                 $order = 'desc';
                 break;
         }
+
+
 
         if ($busqueda == 'todo') {
             $ordenCompra = OrdenCompra::where('estado', 1)
@@ -155,6 +159,7 @@ class CompraController extends Controller
                         ->orWhere('users_metadata.apellido_materno', 'like', '%' . $busqueda . '%')
                         ->orWhere('users_metadata.telefono', 'like', '%' . $busqueda . '%');
                 })
+                ->orderBy($column, $order)
                 ->paginate(10);
 
             if ($ordenCompra->isEmpty()) {
@@ -167,6 +172,7 @@ class CompraController extends Controller
                     ->leftJoin('users_metadata', 'users_metadata.user_id', '=', 'users.id')
                     ->selectRaw('ordenes_compra.*, CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno) as full_name')
                     ->whereRaw('REPLACE(CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno), " ", "") like ?', ['%' . $busquedaSinEspacios . '%'])
+                    ->orderBy($column, $order)
                     ->paginate(10);
             }
         }
@@ -213,7 +219,7 @@ class CompraController extends Controller
                     ->orWhere('users_metadata.apellido_materno', 'like', '%' . $busqueda . '%')
                     ->orWhere('users_metadata.telefono', 'like', '%' . $busqueda . '%');
             })
-            ->paginate(10);
+            ->orderBy('created_at','desc')->paginate(10);
 
         if ($ordenCompra->isEmpty()) {
             $busquedaSinEspacios = str_replace(' ', '', $busqueda);
@@ -223,7 +229,7 @@ class CompraController extends Controller
                 ->leftJoin('users_metadata', 'users_metadata.user_id', '=', 'users.id')
                 ->selectRaw('ordenes_compra.*, CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno) as full_name')
                 ->whereRaw('REPLACE(CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno), " ", "") like ?', ['%' . $busquedaSinEspacios . '%'])
-                ->paginate(10);
+                ->orderBy('created_at','desc')->paginate(10);
         }
 
         foreach ($ordenCompra as $orden) {
@@ -513,7 +519,7 @@ class CompraController extends Controller
                     ->orWhere('users_metadata.apellido_materno', 'like', '%' . $busqueda . '%')
                     ->orWhere('users_metadata.telefono', 'like', '%' . $busqueda . '%');
             })
-            ->paginate(10);
+            ->orderBy('created_at', 'desc')->paginate(10);
 
         if ($ordenCompra->isEmpty()) {
             // Remover espacios de la cadena de búsqueda
@@ -525,7 +531,7 @@ class CompraController extends Controller
                 ->leftJoin('users_metadata', 'users_metadata.user_id', '=', 'users.id')
                 ->selectRaw('ordenes_compra.*, CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno) as full_name')
                 ->whereRaw('REPLACE(CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno), " ", "") like ?', ['%' . $busquedaSinEspacios . '%'])
-                ->paginate(10);
+                ->orderBy('created_at', 'desc')->paginate(10);
         }
 
         foreach ($ordenCompra as $orden) {
@@ -632,6 +638,7 @@ class CompraController extends Controller
                         ->orWhere('users_metadata.apellido_materno', 'like', '%' . $busqueda . '%')
                         ->orWhere('users_metadata.telefono', 'like', '%' . $busqueda . '%');
                 })
+                ->orderBy($column, $order)
                 ->paginate(10);
 
             if ($ordenCompra->isEmpty()) {
@@ -643,6 +650,7 @@ class CompraController extends Controller
                     ->leftJoin('users_metadata', 'users_metadata.user_id', '=', 'users.id')
                     ->selectRaw('ordenes_compra.*, CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno) as full_name')
                     ->whereRaw('REPLACE(CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno), " ", "") like ?', ['%' . $busquedaSinEspacios . '%'])
+                    ->orderBy($column, $order)
                     ->paginate(10);
             }
         }
@@ -812,6 +820,7 @@ class CompraController extends Controller
                         ->orWhere('users_metadata.apellido_materno', 'like', '%' . $busqueda . '%')
                         ->orWhere('users_metadata.telefono', 'like', '%' . $busqueda . '%');
                 })
+                ->orderBy($column, $order)
                 ->paginate(10);
 
             if ($ordenCompra->isEmpty()) {
@@ -822,6 +831,7 @@ class CompraController extends Controller
                     ->leftJoin('users_metadata', 'users_metadata.user_id', '=', 'users.id')
                     ->selectRaw('ordenes_compra.*, CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno) as full_name')
                     ->whereRaw('REPLACE(CONCAT(users.name, users_metadata.apellido_paterno, users_metadata.apellido_materno), " ", "") like ?', ['%' . $busquedaSinEspacios . '%'])
+                    ->orderBy($column, $order)
                     ->paginate(10);
             }
         }
@@ -1022,7 +1032,17 @@ class CompraController extends Controller
                 $query->withTrashed();
             }])
             ->first();
-
+        
+        $user = User::find($ordenCompra->user_id);
+        $autenticado = Auth::user();
+        $autenticado_meta = $autenticado->userMetadata->rol_id;
+        
+        if(($user->id != $autenticado->id && $autenticado_meta == 2))
+        {
+            Alert::error('Error', 'No puede ver esto');
+            return redirect()->route('inicio');
+        }
+        
         //trycatch
         if ($ordenCompra == null) {
             Alert::error('Error', 'No se encontró la orden de compra');

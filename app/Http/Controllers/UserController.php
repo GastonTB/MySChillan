@@ -103,13 +103,12 @@ class UserController extends Controller
 
         $usuario = User::findOrFail($id);
         $usuario_meta = UserMetadata::where('user_id', $id)->first();
-
         $reglas = array(
             'nombre' => 'required|alpha|min:3|max:15|',
             'direccion' => 'required|min:7|max:100',
             'apellido_paterno' => 'required|alpha|min:3|max:15',
             'apellido_materno' => 'required|alpha|min:3|max:15',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $usuario->id,
             'telefono' => 'required|digits:9|unique:users_metadata,telefono,' . $usuario_meta->id,
             'comuna' => 'required|integer|min:1|max:346',
         );
@@ -130,7 +129,7 @@ class UserController extends Controller
         if ($validador->fails()) {
             return redirect()->back()->withErrors($validador)->withInput();
         }
-
+        
         //check if telefono first digit is not 9
         if ($request->telefono[0] != 9) {
             Alert::error('Error', 'El numero de telefono debe comenzar con 9');
@@ -157,7 +156,7 @@ class UserController extends Controller
         ]);
 
         Alert::success('Perfil actualizado', 'Perfil actualizado con éxito');
-        return redirect()->route('perfil', encrypt($id));
+        return redirect()->route('perfil', $id);
     }
 
     /**
